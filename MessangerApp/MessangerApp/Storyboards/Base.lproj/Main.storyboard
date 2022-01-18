@@ -310,6 +310,27 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8yS-u4-6Rc">
+                                <rect key="frame" x="324" y="752" width="60" height="60"/>
+                                <color key="backgroundColor" red="0.1333333333" green="0.64313725489999995" blue="0.36470588240000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="9VH-ae-OOf"/>
+                                    <constraint firstAttribute="width" constant="60" id="vOA-EW-vJc"/>
+                                </constraints>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" image="plus" catalog="system">
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="35"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <integer key="value" value="30"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="addChat:" destination="9Bz-F3-WOZ" eventType="touchUpInside" id="rA9-mu-Ae3"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="9zY-Z4-gsi"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -317,6 +338,8 @@
                             <constraint firstItem="UUt-ej-kfj" firstAttribute="leading" secondItem="9zY-Z4-gsi" secondAttribute="leading" id="AFP-Cx-9Fg"/>
                             <constraint firstItem="UUt-ej-kfj" firstAttribute="top" secondItem="9zY-Z4-gsi" secondAttribute="top" id="Dp3-wJ-jUK"/>
                             <constraint firstItem="UUt-ej-kfj" firstAttribute="bottom" secondItem="f1x-Sg-ccc" secondAttribute="bottom" id="MX5-b9-7jx"/>
+                            <constraint firstItem="9zY-Z4-gsi" firstAttribute="bottom" secondItem="8yS-u4-6Rc" secondAttribute="bottom" constant="50" id="Nmd-TP-nuO"/>
+                            <constraint firstItem="9zY-Z4-gsi" firstAttribute="trailing" secondItem="8yS-u4-6Rc" secondAttribute="trailing" constant="30" id="bep-Tp-VkT"/>
                             <constraint firstItem="9zY-Z4-gsi" firstAttribute="trailing" secondItem="UUt-ej-kfj" secondAttribute="trailing" id="cgf-tc-xah"/>
                         </constraints>
                     </view>
@@ -326,6 +349,7 @@
                         </connections>
                     </navigationItem>
                     <connections>
+                        <outlet property="tableView" destination="UUt-ej-kfj" id="TkH-1Z-Ayx"/>
                         <outlet property="updatingLabel" destination="gIe-GW-m7M" id="Ipr-Qk-ob9"/>
                     </connections>
                 </viewController>
@@ -335,6 +359,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="plus" catalog="system" width="128" height="113"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
