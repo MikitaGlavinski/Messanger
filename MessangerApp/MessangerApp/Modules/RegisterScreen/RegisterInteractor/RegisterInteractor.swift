@@ -7,10 +7,12 @@
 
 import Foundation
 import RxSwift
+import UIKit
 
 class RegisterInteractor {
     var authService: AuthServiceProtocol!
     var secureStorage: SecureStorageService!
+    var firebaseService: FirebaseServiceProtocol!
 }
 
 extension RegisterInteractor: RegisterInteractorInput {
@@ -22,5 +24,15 @@ extension RegisterInteractor: RegisterInteractorInput {
     
     func saveToken(token: String) {
         secureStorage.saveToken(token: token)
+    }
+    
+    func uploadImage(image: UIImage) -> Single<String>? {
+        firebaseService.uploadImage(path: "avatars/\(UUID().uuidString)", image: image)
+            .subscribe(on: SerialDispatchQueueScheduler(qos: .background))
+    }
+    
+    func addUser(user: UserModel) -> Single<String>? {
+        firebaseService.createUser(user: user)
+            .subscribe(on: SerialDispatchQueueScheduler(qos: .background))
     }
 }

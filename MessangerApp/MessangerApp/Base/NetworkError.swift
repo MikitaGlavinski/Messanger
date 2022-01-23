@@ -10,5 +10,6 @@ import Foundation
 enum NetworkError: String, Error {
     case noData = "No data"
     case requestError = "Request Error"
+    case decodeError = "Can't decode"
     case unrecognized = "UNRECOGNIZED"
 }

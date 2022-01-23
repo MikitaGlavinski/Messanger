@@ -19,6 +19,7 @@ class RegisterAssembly {
         
         let authService: AuthService? = ServiceLocator.shared.getService()
         let secureStorage: SecureStorageService? = ServiceLocator.shared.getService()
+        let firebaseService: FirebaseService? = ServiceLocator.shared.getService()
         
         view.presenter = presenter
         presenter.view = view
@@ -26,6 +27,7 @@ class RegisterAssembly {
         presenter.router = router
         interactor.authService = authService
         interactor.secureStorage = secureStorage
+        interactor.firebaseService = firebaseService
         router.view = view
         
         return view

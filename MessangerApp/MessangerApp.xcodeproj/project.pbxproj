@@ -31,6 +31,11 @@
 		FA0494352795AE5E003C3050 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0494342795AE5E003C3050 /* AuthService.swift */; };
 		FA0494382795AFB7003C3050 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0494372795AFB7003C3050 /* NetworkError.swift */; };
 		FA04943A2795B593003C3050 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0494392795B593003C3050 /* BaseViewController.swift */; };
+		FA7D253227982F82004F29D4 /* DictionaryHelpper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7D253127982F82004F29D4 /* DictionaryHelpper.swift */; };
+		FA7D253527983357004F29D4 /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7D253427983357004F29D4 /* ChatViewModel.swift */; };
+		FA7D2537279833E6004F29D4 /* MessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7D2536279833E6004F29D4 /* MessageModel.swift */; };
+		FA7D253927983A7C004F29D4 /* DateFormatterService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7D253827983A7C004F29D4 /* DateFormatterService.swift */; };
+		FA7D253B27983FC2004F29D4 /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7D253A27983FC2004F29D4 /* FirebaseService.swift */; };
 		FA8BDA892796A5840095EB5B /* ChatListViewInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8BDA882796A5840095EB5B /* ChatListViewInput.swift */; };
 		FA8BDA8B2796A5B00095EB5B /* ChatListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8BDA8A2796A5B00095EB5B /* ChatListViewController.swift */; };
 		FA8BDA8D2796A5D10095EB5B /* ChatListPresenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8BDA8C2796A5D10095EB5B /* ChatListPresenterProtocol.swift */; };
@@ -76,6 +81,11 @@
 		FA0494342795AE5E003C3050 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		FA0494372795AFB7003C3050 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		FA0494392795B593003C3050 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		FA7D253127982F82004F29D4 /* DictionaryHelpper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryHelpper.swift; sourceTree = "<group>"; };
+		FA7D253427983357004F29D4 /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
+		FA7D2536279833E6004F29D4 /* MessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageModel.swift; sourceTree = "<group>"; };
+		FA7D253827983A7C004F29D4 /* DateFormatterService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatterService.swift; sourceTree = "<group>"; };
+		FA7D253A27983FC2004F29D4 /* FirebaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseService.swift; sourceTree = "<group>"; };
 		FA8BDA882796A5840095EB5B /* ChatListViewInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListViewInput.swift; sourceTree = "<group>"; };
 		FA8BDA8A2796A5B00095EB5B /* ChatListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListViewController.swift; sourceTree = "<group>"; };
 		FA8BDA8C2796A5D10095EB5B /* ChatListPresenterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListPresenterProtocol.swift; sourceTree = "<group>"; };
@@ -252,6 +262,8 @@
 				FA04942E2795A1F8003C3050 /* ServiceLocator.swift */,
 				FA0494322795AD4B003C3050 /* SecureStorageService.swift */,
 				FA0494342795AE5E003C3050 /* AuthService.swift */,
+				FA7D253827983A7C004F29D4 /* DateFormatterService.swift */,
+				FA7D253A27983FC2004F29D4 /* FirebaseService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -262,13 +274,23 @@
 				FA8BDAB12796D32E0095EB5B /* Extansions */,
 				FA0494372795AFB7003C3050 /* NetworkError.swift */,
 				FA0494392795B593003C3050 /* BaseViewController.swift */,
+				FA7D253127982F82004F29D4 /* DictionaryHelpper.swift */,
 			);
 			path = Base;
+			sourceTree = "<group>";
+		};
+		FA7D253327983340004F29D4 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				FA7D253427983357004F29D4 /* ChatViewModel.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		FA8BDA822796A1930095EB5B /* ChatListScreen */ = {
 			isa = PBXGroup;
 			children = (
+				FA7D253327983340004F29D4 /* Models */,
 				FA8BDA872796A5590095EB5B /* ChatListAssembly */,
 				FA8BDA862796A5490095EB5B /* ChatListRouter */,
 				FA8BDA852796A53E0095EB5B /* ChatListInteractor */,
@@ -398,6 +420,7 @@
 			children = (
 				FA8BDAB52796F8B20095EB5B /* ChatModel.swift */,
 				FA8BDAB72796FB010095EB5B /* UserModel.swift */,
+				FA7D2536279833E6004F29D4 /* MessageModel.swift */,
 			);
 			path = ApiModels;
 			sourceTree = "<group>";
@@ -501,9 +524,11 @@
 				FA8BDA972796A6A00095EB5B /* ChatListAssembly.swift in Sources */,
 				FA04942F2795A1F8003C3050 /* ServiceLocator.swift in Sources */,
 				FA8BDAAB2796A8F70095EB5B /* RegisterRouter.swift in Sources */,
+				FA7D253927983A7C004F29D4 /* DateFormatterService.swift in Sources */,
 				FA0493F42795970C003C3050 /* SceneDelegate.swift in Sources */,
 				FA8BDAA92796A8DA0095EB5B /* RegisterInteractor.swift in Sources */,
 				FA0494352795AE5E003C3050 /* AuthService.swift in Sources */,
+				FA7D253527983357004F29D4 /* ChatViewModel.swift in Sources */,
 				FA8BDA912796A6030095EB5B /* ChatListInteractor.swift in Sources */,
 				FA8BDAAD2796A9400095EB5B /* RegisterAssembly.swift in Sources */,
 				FA8BDA892796A5840095EB5B /* ChatListViewInput.swift in Sources */,
@@ -511,11 +536,14 @@
 				FA8BDAA72796A8C70095EB5B /* RegisterInteractorInput.swift in Sources */,
 				FA8BDAB62796F8B20095EB5B /* ChatModel.swift in Sources */,
 				FA8BDA932796A61E0095EB5B /* ChatListInteractorInput.swift in Sources */,
+				FA7D253B27983FC2004F29D4 /* FirebaseService.swift in Sources */,
 				FA8BDAB02796CF440095EB5B /* ChatListTableViewCell.swift in Sources */,
 				FA0494242795A0CF003C3050 /* AuthPresenter.swift in Sources */,
 				FA8BDAA12796A8690095EB5B /* RegisterViewController.swift in Sources */,
 				FA8BDA8B2796A5B00095EB5B /* ChatListViewController.swift in Sources */,
+				FA7D253227982F82004F29D4 /* DictionaryHelpper.swift in Sources */,
 				FA04941E2795A061003C3050 /* AuthViewInput.swift in Sources */,
+				FA7D2537279833E6004F29D4 /* MessageModel.swift in Sources */,
 				FA8BDA9F2796A8530095EB5B /* RegisterViewInput.swift in Sources */,
 				FA04942A2795A121003C3050 /* AuthRouter.swift in Sources */,
 				FA8BDA952796A6430095EB5B /* ChatListRouter.swift in Sources */,

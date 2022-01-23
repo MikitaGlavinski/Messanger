@@ -9,4 +9,5 @@ import Foundation
 
 protocol RegisterPresenterProtocol {
     func register(with email: String, password: String)
+    func chooseImage()
 }

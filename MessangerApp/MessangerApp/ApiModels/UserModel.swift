@@ -10,5 +10,5 @@ import Foundation
 struct UserModel: Codable {
     var id: String
     var email: String
-    var imageURL: String
+    var imageURL: String?
 }

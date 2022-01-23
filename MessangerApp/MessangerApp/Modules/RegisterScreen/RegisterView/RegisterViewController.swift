@@ -6,17 +6,38 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class RegisterViewController: BaseViewController {
     
     var presenter: RegisterPresenterProtocol!
+    private let disposeBag = DisposeBag()
 
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var confirmPasswordTextField: UITextField!
+    @IBOutlet weak var imageBackView: UIView!
+    @IBOutlet weak var avatarImageView: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupUI()
+        setupGestures()
+    }
+    
+    private func setupUI() {
+        imageBackView.layer.cornerRadius = 75
+        imageBackView.layer.borderWidth = 1
+        imageBackView.layer.borderColor = UIColor.black.cgColor
+    }
+    
+    private func setupGestures() {
+        let tap = UITapGestureRecognizer()
+        tap.rx.event.bind { [weak self] _ in
+            self?.presenter.chooseImage()
+        }.disposed(by: disposeBag)
+        imageBackView.addGestureRecognizer(tap)
     }
     
     private func checkCredentials() {
@@ -55,4 +76,7 @@ class RegisterViewController: BaseViewController {
 
 extension RegisterViewController: RegisterViewInput {
     
+    func setAvatar(image: UIImage) {
+        self.avatarImageView.image = image
+    }
 }
