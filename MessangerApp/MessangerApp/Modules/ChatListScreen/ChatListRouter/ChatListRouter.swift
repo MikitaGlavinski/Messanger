@@ -9,4 +9,9 @@ import UIKit
 
 class ChatListRouter {
     weak var view: UIViewController!
+    
+    func routeToAddChat() {
+        let createChatView = CreateChatAssembly.assemble()
+        view.navigationController?.pushViewController(createChatView, animated: true)
+    }
 }

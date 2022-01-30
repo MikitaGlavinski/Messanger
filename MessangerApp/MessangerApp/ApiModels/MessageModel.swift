@@ -11,6 +11,7 @@ struct MessageModel: Codable {
     var id: String
     var text: String?
     var peerId: String
+    var senderId: String
     var chatId: String
     var type: Int
     var fileURL: String?

@@ -29,7 +29,7 @@ class BaseViewController: UIViewController {
     func showError(error: Error) {
         var alert = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
         if let netError = error as? NetworkError {
-            alert = UIAlertController(title: "Ok", message: netError.rawValue, preferredStyle: .alert)
+            alert = UIAlertController(title: "Error", message: netError.rawValue, preferredStyle: .alert)
         }
         let action = UIAlertAction(title: "Ok", style: .default, handler: nil)
         alert.addAction(action)

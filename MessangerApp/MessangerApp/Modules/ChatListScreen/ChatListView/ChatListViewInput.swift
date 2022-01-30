@@ -8,5 +8,10 @@
 import Foundation
 
 protocol ChatListViewInput: AnyObject {
-    
+    func showError(error: Error)
+    func showLoader()
+    func hideLoader()
+    func updateChatList(chatModels: [ChatViewModel])
+    func showUpdating()
+    func hideUpdating()
 }

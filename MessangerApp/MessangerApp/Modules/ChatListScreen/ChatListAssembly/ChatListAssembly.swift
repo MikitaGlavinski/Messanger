@@ -10,17 +10,24 @@ import UIKit
 class ChatListAssembly {
     
     static func assemble() -> UIViewController {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let firebaseService: FirebaseService? = ServiceLocator.shared.getService()
+        let secureStorage: SecureStorageService? = ServiceLocator.shared.getService()
+        let chatSignalService: ChatSignalService? = ServiceLocator.shared.getService()
+        let storageService: StorageService? = ServiceLocator.shared.getService()
         
-        let view = storyboard.instantiateViewController(withIdentifier: "ChatList") as! ChatListViewController
+        let view = ChatListViewController.instantiateWith(storyboard: UIStoryboard.main) as! ChatListViewController
         let presenter = ChatListPresenter()
-        let interactor = ChatListInteractor()
+        let interactor = ChatListInteractor(chatSignalService: chatSignalService!)
         let router = ChatListRouter()
         
         view.presenter = presenter
         presenter.view = view
         presenter.interactor = interactor
         presenter.router = router
+        interactor.firebaseService = firebaseService
+        interactor.secureStorage = secureStorage
+        interactor.presenter = presenter
+        interactor.storageService = storageService
         router.view = view
         
         return view

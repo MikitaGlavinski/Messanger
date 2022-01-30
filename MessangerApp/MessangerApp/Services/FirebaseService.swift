@@ -12,6 +12,10 @@ import Firebase
 protocol FirebaseServiceProtocol {
     func uploadImage(path: String, image: UIImage) -> Single<String>
     func createUser(user: UserModel) -> Single<String>
+    func getUserBy(email: String) -> Single<[UserModel]>
+    func getUserBy(token: String) -> Single<UserModel>
+    func createChat(chat: ChatModel) -> Single<String>
+    func getChats(userId: String) -> Single<[ChatModel]>
 }
 
 class FirebaseService {
@@ -74,6 +78,44 @@ class FirebaseService {
             return Disposables.create()
         }
     }
+    
+    private func getListWithFilterEqual<T: Decodable>(at path: String, field: String, filter: Any, decodeType: T.Type) -> Single<[T]> {
+        Single<[T]>.create { [weak self] observer -> Disposable in
+            self?.db.collection(path).whereField(field, isEqualTo: filter).getDocuments(completion: { snapshot, error in
+                if let error = error {
+                    observer(.failure(error))
+                    return
+                }
+                guard
+                    let models = snapshot?.documents.compactMap({try? DictionaryDecoder().decode(dictionary: $0.data(), decodeType: decodeType)})
+                else {
+                        observer(.failure(NetworkError.decodeError))
+                        return
+                    }
+                observer(.success(models))
+            })
+            return Disposables.create()
+        }
+    }
+    
+    private func getListWithFilterContains<T: Decodable>(at path: String, field: String, filter: Any, decodeType: T.Type) -> Single<[T]> {
+        Single<[T]>.create { [weak self] observer -> Disposable in
+            self?.db.collection(path).whereField(field, arrayContains: filter).getDocuments(completion: { snapshot, error in
+                if let error = error {
+                    observer(.failure(error))
+                    return
+                }
+                guard
+                    let models = snapshot?.documents.compactMap({try? DictionaryDecoder().decode(dictionary: $0.data(), decodeType: decodeType)})
+                else {
+                        observer(.failure(NetworkError.decodeError))
+                        return
+                    }
+                observer(.success(models))
+            })
+            return Disposables.create()
+        }
+    }
 }
 
 extension FirebaseService: FirebaseServiceProtocol {
@@ -110,5 +152,21 @@ extension FirebaseService: FirebaseServiceProtocol {
     
     func createUser(user: UserModel) -> Single<String> {
         setData(at: "users/\(user.id)", model: user)
+    }
+    
+    func getUserBy(email: String) -> Single<[UserModel]> {
+        getListWithFilterEqual(at: "users", field: "email", filter: email, decodeType: UserModel.self)
+    }
+    
+    func getUserBy(token: String) -> Single<UserModel> {
+        getData(at: "users/\(token)", decodeType: UserModel.self)
+    }
+    
+    func createChat(chat: ChatModel) -> Single<String> {
+        setData(at: "chats/\(chat.id)", model: chat)
+    }
+    
+    func getChats(userId: String) -> Single<[ChatModel]> {
+        getListWithFilterContains(at: "chats", field: "membersIds", filter: userId, decodeType: ChatModel.self)
     }
 }

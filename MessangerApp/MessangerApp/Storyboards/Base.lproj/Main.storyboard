@@ -29,7 +29,7 @@
         <!--Sign In-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController storyboardIdentifier="Auth" id="BYZ-38-t0r" customClass="AuthViewController" customModule="MessangerApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AuthViewController" id="BYZ-38-t0r" customClass="AuthViewController" customModule="MessangerApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -118,7 +118,7 @@
         <!--Register-->
         <scene sceneID="jZJ-Kh-wvT">
             <objects>
-                <viewController storyboardIdentifier="Register" id="TCy-Mi-h1F" customClass="RegisterViewController" customModule="MessangerApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="RegisterViewController" id="TCy-Mi-h1F" customClass="RegisterViewController" customModule="MessangerApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="sCe-qu-dot">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -232,7 +232,7 @@
         <!--Chat List View Controller-->
         <scene sceneID="bou-uD-LXx">
             <objects>
-                <viewController storyboardIdentifier="ChatList" id="9Bz-F3-WOZ" customClass="ChatListViewController" customModule="MessangerApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ChatListViewController" id="9Bz-F3-WOZ" customClass="ChatListViewController" customModule="MessangerApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="f1x-Sg-ccc">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -241,7 +241,7 @@
                                 <rect key="frame" x="0.0" y="88" width="414" height="808"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ChatList" rowHeight="79" id="Rzn-QS-Oqh" customClass="ChatListTableViewCell" customModule="MessangerApp" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ChatListTableViewCell" rowHeight="79" id="Rzn-QS-Oqh" customClass="ChatListTableViewCell" customModule="MessangerApp" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="44.5" width="414" height="79"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Rzn-QS-Oqh" id="Bjf-8c-cI3">
@@ -278,7 +278,7 @@
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SSv-x4-WeK">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SSv-x4-WeK">
                                                     <rect key="frame" x="374" y="38.5" width="25" height="25"/>
                                                     <color key="backgroundColor" systemColor="systemIndigoColor"/>
                                                     <constraints>
@@ -327,7 +327,7 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8yS-u4-6Rc">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8yS-u4-6Rc" customClass="ScaledButton" customModule="MessangerApp" customModuleProvider="target">
                                 <rect key="frame" x="324" y="752" width="60" height="60"/>
                                 <color key="backgroundColor" red="0.1333333333" green="0.64313725489999995" blue="0.36470588240000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -345,7 +345,7 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <action selector="addChat:" destination="9Bz-F3-WOZ" eventType="touchUpInside" id="rA9-mu-Ae3"/>
+                                    <action selector="addChat:" destination="9Bz-F3-WOZ" eventType="touchUpInside" id="zEd-rj-eWn"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -363,11 +363,81 @@
                     <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="I8n-Qb-5uL"/>
                     <connections>
                         <outlet property="tableView" destination="UUt-ej-kfj" id="TkH-1Z-Ayx"/>
+                        <segue destination="hMF-RA-rv5" kind="show" id="oQq-NE-m9q"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eFf-mb-o76" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1682.608695652174" y="93.75"/>
+        </scene>
+        <!--Create Chat-->
+        <scene sceneID="b6N-ys-NAy">
+            <objects>
+                <viewController storyboardIdentifier="CreateChatViewController" id="hMF-RA-rv5" customClass="CreateChatViewController" customModule="MessangerApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="FKU-XX-92o">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter user email to create chat" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cgF-53-xAg">
+                                <rect key="frame" x="20" y="128" width="374" height="26.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dXC-d8-ch9">
+                                <rect key="frame" x="20" y="204" width="374" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="6Ff-15-MOt"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="emailTextField:" destination="aal-ig-KcF" eventType="editingDidEnd" id="Hc8-AV-9m5"/>
+                                </connections>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GsD-sJ-oM0">
+                                <rect key="frame" x="50" y="274" width="314" height="45"/>
+                                <color key="backgroundColor" red="0.1333333333" green="0.64313725489999995" blue="0.36470588240000001" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="45" id="YDB-VB-elC"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="Create chat"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <integer key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="createChat:" destination="hMF-RA-rv5" eventType="touchUpInside" id="R2b-6f-a6D"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="m9r-uT-hzE"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="GsD-sJ-oM0" firstAttribute="top" secondItem="dXC-d8-ch9" secondAttribute="bottom" constant="30" id="6Mj-eB-a8S"/>
+                            <constraint firstItem="m9r-uT-hzE" firstAttribute="trailing" secondItem="dXC-d8-ch9" secondAttribute="trailing" constant="20" id="GhV-ej-vp3"/>
+                            <constraint firstItem="m9r-uT-hzE" firstAttribute="trailing" secondItem="cgF-53-xAg" secondAttribute="trailing" constant="20" id="Gya-NI-BvQ"/>
+                            <constraint firstItem="m9r-uT-hzE" firstAttribute="trailing" secondItem="GsD-sJ-oM0" secondAttribute="trailing" constant="50" id="Wnf-MA-Rrb"/>
+                            <constraint firstItem="cgF-53-xAg" firstAttribute="leading" secondItem="m9r-uT-hzE" secondAttribute="leading" constant="20" id="pE3-sR-NGM"/>
+                            <constraint firstItem="dXC-d8-ch9" firstAttribute="top" secondItem="cgF-53-xAg" secondAttribute="bottom" constant="49.5" id="sye-Qg-SFX"/>
+                            <constraint firstItem="GsD-sJ-oM0" firstAttribute="leading" secondItem="m9r-uT-hzE" secondAttribute="leading" constant="50" id="v7n-LI-Pyd"/>
+                            <constraint firstItem="cgF-53-xAg" firstAttribute="top" secondItem="m9r-uT-hzE" secondAttribute="top" constant="40" id="wio-4E-yDS"/>
+                            <constraint firstItem="dXC-d8-ch9" firstAttribute="leading" secondItem="m9r-uT-hzE" secondAttribute="leading" constant="20" id="yfd-Lq-8fI"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Create Chat" id="pf3-bd-vbP"/>
+                    <connections>
+                        <outlet property="emailTextField" destination="dXC-d8-ch9" id="2sl-Rs-7lM"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="B41-Ed-1gT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="aal-ig-KcF" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="2432" y="94"/>
         </scene>
     </scenes>
     <resources>

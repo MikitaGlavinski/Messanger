@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "Profile_avatar_placeholder_large.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

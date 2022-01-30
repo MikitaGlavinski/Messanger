@@ -8,5 +8,10 @@
 import Foundation
 
 protocol ChatListPresenterProtocol {
-    
+    func viewDidLoad()
+    func addChat()
+}
+
+protocol ChatListPresenterInput: AnyObject {
+    func updateChatList()
 }

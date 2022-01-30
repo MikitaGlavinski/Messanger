@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ChatListViewController: UIViewController {
+class ChatListViewController: BaseViewController {
     
     var presenter: ChatListPresenterProtocol!
 
@@ -22,7 +22,7 @@ class ChatListViewController: UIViewController {
     }()
     
     private lazy var updatingLabel: UILabel = {
-       let label = UILabel()
+        let label = UILabel()
         label.text = "updating..."
         label.textAlignment = .center
         label.textColor = .lightGray
@@ -31,25 +31,63 @@ class ChatListViewController: UIViewController {
         return label
     }()
     
-    private var chatModels = [ChatViewModel]()
+    private var chatModels = [ChatViewModel]() {
+        didSet {
+            tableView.reloadData()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        presenter.viewDidLoad()
         setupUI()
     }
     
     private func setupUI() {
+        tableView.dataSource = self
+        tableView.delegate = self
         let titleStackView = UIStackView(arrangedSubviews: [chatTitleLabel, updatingLabel])
         titleStackView.axis = .vertical
         titleStackView.distribution = .equalSpacing
         titleStackView.spacing = 7
         navigationItem.titleView = titleStackView
     }
-
-    @IBAction func addChat(_ sender: UIButton) {
+    
+    @IBAction func addChat(_ sender: Any) {
+        presenter.addChat()
     }
 }
 
 extension ChatListViewController: ChatListViewInput {
+    func updateChatList(chatModels: [ChatViewModel]) {
+        self.chatModels = chatModels
+    }
     
+    func showUpdating() {
+        self.updatingLabel.isHidden = false
+    }
+    
+    func hideUpdating() {
+        self.updatingLabel.isHidden = true
+    }
+}
+
+extension ChatListViewController: UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return chatModels.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: ChatListTableViewCell.reuseIdentifier) as! ChatListTableViewCell
+        cell.configureCell(with: chatModels[indexPath.row])
+        return cell
+    }
+}
+
+extension ChatListViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
 }

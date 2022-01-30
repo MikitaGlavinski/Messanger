@@ -10,9 +10,7 @@ import UIKit
 class AuthAssembly {
     
     static func assemble() -> UIViewController {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        
-        let view = storyboard.instantiateViewController(withIdentifier: "Auth") as! AuthViewController
+        let view = AuthViewController.instantiateWith(storyboard: UIStoryboard.main) as! AuthViewController
         let presenter = AuthPresenter()
         let interactor = AuthInteractor()
         let router = AuthRouter()
