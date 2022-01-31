@@ -35,6 +35,14 @@
 		FA08AAAB27A053A40056BE29 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = FA08AAAA27A053A40056BE29 /* Kingfisher */; };
 		FA08AAAD27A055010056BE29 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA08AAAC27A055010056BE29 /* UIImage+Extension.swift */; };
 		FA08AAAF27A056F80056BE29 /* UITableViewCell+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA08AAAE27A056F80056BE29 /* UITableViewCell+Extension.swift */; };
+		FA0ADBCD27A6CCDC00B87E6F /* ChatViewInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0ADBCC27A6CCDC00B87E6F /* ChatViewInput.swift */; };
+		FA0ADBD027A6CD0600B87E6F /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0ADBCF27A6CD0600B87E6F /* ChatViewController.swift */; };
+		FA0ADBD627A6CD7B00B87E6F /* ChatPresenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0ADBD527A6CD7B00B87E6F /* ChatPresenterProtocol.swift */; };
+		FA0ADBD827A6CD8D00B87E6F /* ChatPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0ADBD727A6CD8D00B87E6F /* ChatPresenter.swift */; };
+		FA0ADBDA27A6CDF200B87E6F /* ChatInteractorInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0ADBD927A6CDF200B87E6F /* ChatInteractorInput.swift */; };
+		FA0ADBDC27A6CE0300B87E6F /* ChatInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0ADBDB27A6CE0300B87E6F /* ChatInteractor.swift */; };
+		FA0ADBDE27A6CE1A00B87E6F /* ChatRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0ADBDD27A6CE1A00B87E6F /* ChatRouter.swift */; };
+		FA0ADBE027A6CE8500B87E6F /* ChatAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0ADBDF27A6CE8500B87E6F /* ChatAssembly.swift */; };
 		FA26080427A1FD8700093F66 /* ScaledButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA26080327A1FD8700093F66 /* ScaledButton.swift */; };
 		FA68B8F027A18562004A5655 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA68B8EF27A18562004A5655 /* StorageService.swift */; };
 		FA68B8F327A185B7004A5655 /* ChatStorageAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA68B8F227A185B7004A5655 /* ChatStorageAdapter.swift */; };
@@ -103,6 +111,14 @@
 		FA08AAA727A04DE50056BE29 /* ChatSignalService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatSignalService.swift; sourceTree = "<group>"; };
 		FA08AAAC27A055010056BE29 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		FA08AAAE27A056F80056BE29 /* UITableViewCell+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+Extension.swift"; sourceTree = "<group>"; };
+		FA0ADBCC27A6CCDC00B87E6F /* ChatViewInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewInput.swift; sourceTree = "<group>"; };
+		FA0ADBCF27A6CD0600B87E6F /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
+		FA0ADBD527A6CD7B00B87E6F /* ChatPresenterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatPresenterProtocol.swift; sourceTree = "<group>"; };
+		FA0ADBD727A6CD8D00B87E6F /* ChatPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatPresenter.swift; sourceTree = "<group>"; };
+		FA0ADBD927A6CDF200B87E6F /* ChatInteractorInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInteractorInput.swift; sourceTree = "<group>"; };
+		FA0ADBDB27A6CE0300B87E6F /* ChatInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInteractor.swift; sourceTree = "<group>"; };
+		FA0ADBDD27A6CE1A00B87E6F /* ChatRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRouter.swift; sourceTree = "<group>"; };
+		FA0ADBDF27A6CE8500B87E6F /* ChatAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatAssembly.swift; sourceTree = "<group>"; };
 		FA26080327A1FD8700093F66 /* ScaledButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaledButton.swift; sourceTree = "<group>"; };
 		FA68B8EF27A18562004A5655 /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
 		FA68B8F227A185B7004A5655 /* ChatStorageAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatStorageAdapter.swift; sourceTree = "<group>"; };
@@ -226,6 +242,7 @@
 		FA04941327959D4B003C3050 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				FA0ADBCB27A6CCC000B87E6F /* ChatScreen */,
 				FAB032CF279F2C49006F9C48 /* CreateChatScreen */,
 				FA8BDA982796A8070095EB5B /* RegisterScreen */,
 				FA8BDA822796A1930095EB5B /* ChatListScreen */,
@@ -320,6 +337,69 @@
 				FA7D253127982F82004F29D4 /* DictionaryHelpper.swift */,
 			);
 			path = Base;
+			sourceTree = "<group>";
+		};
+		FA0ADBCB27A6CCC000B87E6F /* ChatScreen */ = {
+			isa = PBXGroup;
+			children = (
+				FA0ADBD427A6CD3900B87E6F /* ChatAssembly */,
+				FA0ADBD327A6CD3000B87E6F /* ChatRouter */,
+				FA0ADBD227A6CD2200B87E6F /* ChatInteractor */,
+				FA0ADBD127A6CD1C00B87E6F /* ChatPresenter */,
+				FA0ADBCE27A6CCE000B87E6F /* ChatView */,
+			);
+			path = ChatScreen;
+			sourceTree = "<group>";
+		};
+		FA0ADBCE27A6CCE000B87E6F /* ChatView */ = {
+			isa = PBXGroup;
+			children = (
+				FA0ADBE127A6D6A400B87E6F /* Cells */,
+				FA0ADBCC27A6CCDC00B87E6F /* ChatViewInput.swift */,
+				FA0ADBCF27A6CD0600B87E6F /* ChatViewController.swift */,
+			);
+			path = ChatView;
+			sourceTree = "<group>";
+		};
+		FA0ADBD127A6CD1C00B87E6F /* ChatPresenter */ = {
+			isa = PBXGroup;
+			children = (
+				FA0ADBD527A6CD7B00B87E6F /* ChatPresenterProtocol.swift */,
+				FA0ADBD727A6CD8D00B87E6F /* ChatPresenter.swift */,
+			);
+			path = ChatPresenter;
+			sourceTree = "<group>";
+		};
+		FA0ADBD227A6CD2200B87E6F /* ChatInteractor */ = {
+			isa = PBXGroup;
+			children = (
+				FA0ADBD927A6CDF200B87E6F /* ChatInteractorInput.swift */,
+				FA0ADBDB27A6CE0300B87E6F /* ChatInteractor.swift */,
+			);
+			path = ChatInteractor;
+			sourceTree = "<group>";
+		};
+		FA0ADBD327A6CD3000B87E6F /* ChatRouter */ = {
+			isa = PBXGroup;
+			children = (
+				FA0ADBDD27A6CE1A00B87E6F /* ChatRouter.swift */,
+			);
+			path = ChatRouter;
+			sourceTree = "<group>";
+		};
+		FA0ADBD427A6CD3900B87E6F /* ChatAssembly */ = {
+			isa = PBXGroup;
+			children = (
+				FA0ADBDF27A6CE8500B87E6F /* ChatAssembly.swift */,
+			);
+			path = ChatAssembly;
+			sourceTree = "<group>";
+		};
+		FA0ADBE127A6D6A400B87E6F /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		FA26080227A1FD6C00093F66 /* Views */ = {
@@ -639,18 +719,22 @@
 				FA0494332795AD4B003C3050 /* SecureStorageService.swift in Sources */,
 				FA08AAA827A04DE50056BE29 /* ChatSignalService.swift in Sources */,
 				FA8BDAA52796A8960095EB5B /* RegisterPresenter.swift in Sources */,
+				FA0ADBE027A6CE8500B87E6F /* ChatAssembly.swift in Sources */,
 				FA68B8F027A18562004A5655 /* StorageService.swift in Sources */,
 				FA0494222795A0C8003C3050 /* AuthPresenterProtocol.swift in Sources */,
 				FA8BDAB32796D3490095EB5B /* UIColorExtensions.swift in Sources */,
+				FA0ADBDC27A6CE0300B87E6F /* ChatInteractor.swift in Sources */,
 				FAB032E4279F2DF9006F9C48 /* CreateChatAssembly.swift in Sources */,
 				FAB032DE279F2D68006F9C48 /* CreateChatInteractorInput.swift in Sources */,
 				FA8BDAA32796A8860095EB5B /* RegisterPresenterProtocol.swift in Sources */,
+				FA0ADBDA27A6CDF200B87E6F /* ChatInteractorInput.swift in Sources */,
 				FA8BDAB82796FB020095EB5B /* UserModel.swift in Sources */,
 				FA04943A2795B593003C3050 /* BaseViewController.swift in Sources */,
 				FA8BDA8D2796A5D10095EB5B /* ChatListPresenterProtocol.swift in Sources */,
 				FA8BDA972796A6A00095EB5B /* ChatListAssembly.swift in Sources */,
 				FA04942F2795A1F8003C3050 /* ServiceLocator.swift in Sources */,
 				FA8BDAAB2796A8F70095EB5B /* RegisterRouter.swift in Sources */,
+				FA0ADBCD27A6CCDC00B87E6F /* ChatViewInput.swift in Sources */,
 				FA7D253927983A7C004F29D4 /* DateFormatterService.swift in Sources */,
 				FA0493F42795970C003C3050 /* SceneDelegate.swift in Sources */,
 				FAB032E8279F2FF7006F9C48 /* Storyboard+Extension.swift in Sources */,
@@ -663,6 +747,7 @@
 				FA8BDAAD2796A9400095EB5B /* RegisterAssembly.swift in Sources */,
 				FA26080427A1FD8700093F66 /* ScaledButton.swift in Sources */,
 				FA8BDA892796A5840095EB5B /* ChatListViewInput.swift in Sources */,
+				FA0ADBDE27A6CE1A00B87E6F /* ChatRouter.swift in Sources */,
 				FA0494282795A100003C3050 /* AuthInteractor.swift in Sources */,
 				FA8BDAA72796A8C70095EB5B /* RegisterInteractorInput.swift in Sources */,
 				FA8BDAB62796F8B20095EB5B /* ChatModel.swift in Sources */,
@@ -673,6 +758,7 @@
 				FA8BDAA12796A8690095EB5B /* RegisterViewController.swift in Sources */,
 				FA8BDA8B2796A5B00095EB5B /* ChatListViewController.swift in Sources */,
 				FA7D253227982F82004F29D4 /* DictionaryHelpper.swift in Sources */,
+				FA0ADBD827A6CD8D00B87E6F /* ChatPresenter.swift in Sources */,
 				FA68B8F527A1869E004A5655 /* UserStorageAdapter.swift in Sources */,
 				FAB032D1279F2C61006F9C48 /* CreateChatViewInput.swift in Sources */,
 				FA04941E2795A061003C3050 /* AuthViewInput.swift in Sources */,
@@ -684,11 +770,13 @@
 				FA04942A2795A121003C3050 /* AuthRouter.swift in Sources */,
 				FAB032E0279F2D78006F9C48 /* CreateChatInteractor.swift in Sources */,
 				FA8BDA952796A6430095EB5B /* ChatListRouter.swift in Sources */,
+				FA0ADBD627A6CD7B00B87E6F /* ChatPresenterProtocol.swift in Sources */,
 				FA8BDA8F2796A5E00095EB5B /* ChatListPresenter.swift in Sources */,
 				FAB032DA279F2D2F006F9C48 /* CreateChatPresenterProtocol.swift in Sources */,
 				FAB032E6279F2E58006F9C48 /* UIViewController+Extension.swift in Sources */,
 				FA68B8F727A18716004A5655 /* MessageStorageAdapter.swift in Sources */,
 				FA0494262795A0F5003C3050 /* AuthInteractorInput.swift in Sources */,
+				FA0ADBD027A6CD0600B87E6F /* ChatViewController.swift in Sources */,
 				FA04942C2795A16D003C3050 /* AuthAssembly.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

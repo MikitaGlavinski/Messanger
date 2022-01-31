@@ -278,7 +278,7 @@
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SSv-x4-WeK">
+                                                <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SSv-x4-WeK">
                                                     <rect key="frame" x="374" y="38.5" width="25" height="25"/>
                                                     <color key="backgroundColor" systemColor="systemIndigoColor"/>
                                                     <constraints>
@@ -364,11 +364,47 @@
                     <connections>
                         <outlet property="tableView" destination="UUt-ej-kfj" id="TkH-1Z-Ayx"/>
                         <segue destination="hMF-RA-rv5" kind="show" id="oQq-NE-m9q"/>
+                        <segue destination="Zg8-zL-aJb" kind="show" id="43G-dc-Dp7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eFf-mb-o76" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1682.608695652174" y="93.75"/>
+        </scene>
+        <!--Chat View Controller-->
+        <scene sceneID="MQo-iY-mOW">
+            <objects>
+                <viewController storyboardIdentifier="ChatViewController" id="Zg8-zL-aJb" customClass="ChatViewController" customModule="MessangerApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Luz-pA-4f1">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="JqN-Ia-9xB">
+                                <rect key="frame" x="0.0" y="88" width="414" height="808"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="WA5-4F-px0">
+                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                            </collectionView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="scp-cf-hqS"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="JqN-Ia-9xB" firstAttribute="bottom" secondItem="Luz-pA-4f1" secondAttribute="bottom" id="MoP-a8-dtG"/>
+                            <constraint firstItem="JqN-Ia-9xB" firstAttribute="top" secondItem="scp-cf-hqS" secondAttribute="top" id="NDg-0v-fCJ"/>
+                            <constraint firstItem="scp-cf-hqS" firstAttribute="trailing" secondItem="JqN-Ia-9xB" secondAttribute="trailing" id="UMR-HV-fC9"/>
+                            <constraint firstItem="JqN-Ia-9xB" firstAttribute="leading" secondItem="scp-cf-hqS" secondAttribute="leading" id="bqW-JL-cDM"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="fNV-Ng-iNm"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WnI-YE-Y44" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2443.4782608695655" y="437.94642857142856"/>
         </scene>
         <!--Create Chat-->
         <scene sceneID="b6N-ys-NAy">
@@ -437,7 +473,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="B41-Ed-1gT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="aal-ig-KcF" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="2432" y="94"/>
+            <point key="canvasLocation" x="2438" y="-237"/>
         </scene>
     </scenes>
     <resources>
