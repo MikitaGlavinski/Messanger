@@ -6,7 +6,15 @@
 //
 
 import Foundation
+import RxSwift
 
 protocol ChatInteractorInput {
-    
+    func obtainToken() -> String?
+    func obtainStoredMessages(chatId: String) -> Single<[MessageStorageAdapter]>?
+    func storeMessages(messageAdapters: [MessageStorageAdapter])
+    func obtainMessages(chatId: String) -> Single<[MessageModel]>?
+    func sendMessage(message: MessageModel) -> Single<String>?
+    func obtainStoredChat(chatId: String) -> Single<ChatsStorageResponse>?
+    func obtainChat(chatId: String) -> Single<ChatModel>?
+    func storeChats(chats: [ChatStorageAdapter])
 }

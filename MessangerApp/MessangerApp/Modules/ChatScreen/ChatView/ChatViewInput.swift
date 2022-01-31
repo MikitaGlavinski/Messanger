@@ -8,5 +8,11 @@
 import Foundation
 
 protocol ChatViewInput: AnyObject {
-    
+    func showError(error: Error)
+    func showLoader()
+    func hideLoader()
+    func showUpdating()
+    func hideUpdating()
+    func setupChat(peerEmail: String, peerImageURL: String)
+    func setupMessages(messages: [MessageViewModel])
 }

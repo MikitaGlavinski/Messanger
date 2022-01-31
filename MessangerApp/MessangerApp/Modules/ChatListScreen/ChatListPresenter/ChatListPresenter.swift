@@ -62,6 +62,10 @@ extension ChatListPresenter: ChatListPresenterProtocol {
     func addChat() {
         router.routeToAddChat()
     }
+    
+    func openChat(with id: String) {
+        router.routeToChat(id: id)
+    }
 }
 
 extension ChatListPresenter: ChatListPresenterInput {

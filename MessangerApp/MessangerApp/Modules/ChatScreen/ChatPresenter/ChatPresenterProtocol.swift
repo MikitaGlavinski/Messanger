@@ -10,3 +10,7 @@ import Foundation
 protocol ChatPresenterProtocol {
     
 }
+
+protocol ChatPresenterInput: AnyObject {
+    
+}

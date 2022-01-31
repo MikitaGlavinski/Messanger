@@ -17,4 +17,16 @@ struct MessageModel: Codable {
     var fileURL: String?
     var date: Double
     var isRead: Bool
+    
+    init(messageAdapter: MessageStorageAdapter) {
+        self.id = messageAdapter.id
+        self.text = messageAdapter.text
+        self.peerId = messageAdapter.peerId
+        self.senderId = messageAdapter.senderId
+        self.chatId = messageAdapter.chatId
+        self.type = messageAdapter.type
+        self.fileURL = messageAdapter.fileURL
+        self.date = messageAdapter.date
+        self.isRead = messageAdapter.isRead
+    }
 }

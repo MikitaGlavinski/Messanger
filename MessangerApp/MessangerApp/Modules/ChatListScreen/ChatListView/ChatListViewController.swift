@@ -88,6 +88,7 @@ extension ChatListViewController: UITableViewDataSource {
 extension ChatListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        presenter.openChat(with: chatModels[indexPath.row].chatId)
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }

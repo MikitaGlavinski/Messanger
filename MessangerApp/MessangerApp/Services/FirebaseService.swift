@@ -16,6 +16,9 @@ protocol FirebaseServiceProtocol {
     func getUserBy(token: String) -> Single<UserModel>
     func createChat(chat: ChatModel) -> Single<String>
     func getChats(userId: String) -> Single<[ChatModel]>
+    func getMessages(chatId: String) -> Single<[MessageModel]>
+    func addMessage(message: MessageModel) -> Single<String>
+    func getChat(by chatId: String) -> Single<ChatModel>
 }
 
 class FirebaseService {
@@ -168,5 +171,17 @@ extension FirebaseService: FirebaseServiceProtocol {
     
     func getChats(userId: String) -> Single<[ChatModel]> {
         getListWithFilterContains(at: "chats", field: "membersIds", filter: userId, decodeType: ChatModel.self)
+    }
+    
+    func getMessages(chatId: String) -> Single<[MessageModel]> {
+        getListWithFilterEqual(at: "messages", field: "chatId", filter: chatId, decodeType: MessageModel.self)
+    }
+    
+    func addMessage(message: MessageModel) -> Single<String> {
+        setData(at: "messages/\(message.id)", model: message)
+    }
+    
+    func getChat(by chatId: String) -> Single<ChatModel> {
+        getData(at: "chats/\(chatId)", decodeType: ChatModel.self)
     }
 }

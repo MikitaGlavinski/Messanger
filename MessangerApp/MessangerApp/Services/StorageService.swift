@@ -11,6 +11,7 @@ import RxSwift
 
 protocol StorageServiceProtocol {
     func storeChats(chatAdapters: [ChatStorageAdapter])
+    func obtainChat(chatId: String) -> Single<ChatsStorageResponse>
     func obtainChats() -> Single<[ChatsStorageResponse]>
     func storeUsers(userAdapters: [UserStorageAdapter])
     func obtainUsers(chatId: String) -> Single<[UserStorageAdapter]>
@@ -97,6 +98,33 @@ extension StorageService: StorageServiceProtocol {
             })
         } catch let error {
             print(error.localizedDescription)
+        }
+    }
+    
+    func obtainChat(chatId: String) -> Single<ChatsStorageResponse> {
+        Single<ChatsStorageResponse>.create { [weak self] observer -> Disposable in
+            do {
+                let chat = try self?.db.read({ db in
+                    try ChatStorageAdapter
+                        .filter(Column("id") == chatId).fetchOne(db)
+                })
+                let members = try self?.db.read({ db in
+                    try UserStorageAdapter
+                        .filter(Column("chatId") == chat?.id).fetchAll(db)
+                })
+                guard
+                    let chat = chat,
+                    let members = members
+                else {
+                    observer(.failure(NetworkError.noData))
+                    return Disposables.create()
+                }
+                let response = ChatsStorageResponse(chats: chat, users: members)
+                observer(.success(response))
+            } catch let error {
+                observer(.failure(error))
+            }
+            return Disposables.create()
         }
     }
     
