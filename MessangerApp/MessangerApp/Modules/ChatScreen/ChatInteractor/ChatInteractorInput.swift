@@ -17,4 +17,5 @@ protocol ChatInteractorInput {
     func obtainStoredChat(chatId: String) -> Single<ChatsStorageResponse>?
     func obtainChat(chatId: String) -> Single<ChatModel>?
     func storeChats(chats: [ChatStorageAdapter])
+    func addMessagesListener(chatId: String, updateClosure: @escaping (Result<[MessageModel], Error>) -> ())
 }

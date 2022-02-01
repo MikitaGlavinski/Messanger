@@ -53,4 +53,8 @@ extension ChatInteractor: ChatInteractorInput {
     func storeChats(chats: [ChatStorageAdapter]) {
         storageService.storeChats(chatAdapters: chats)
     }
+    
+    func addMessagesListener(chatId: String, updateClosure: @escaping (Result<[MessageModel], Error>) -> ()) {
+        firebaseService.addMessagesListener(chatId: chatId, updateClosure: updateClosure)
+    }
 }

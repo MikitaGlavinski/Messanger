@@ -18,6 +18,28 @@ struct MessageModel: Codable {
     var date: Double
     var isRead: Bool
     
+    init(
+        id: String,
+        text: String? = nil,
+        peerId: String,
+        senderId: String,
+        chatId: String,
+        type: Int,
+        fileURL: String? = nil,
+        date: Double,
+        isRead: Bool
+    ) {
+        self.id = id
+        self.text = text
+        self.peerId = peerId
+        self.senderId = senderId
+        self.chatId = chatId
+        self.type = type
+        self.fileURL = fileURL
+        self.date = date
+        self.isRead = isRead
+    }
+    
     init(messageAdapter: MessageStorageAdapter) {
         self.id = messageAdapter.id
         self.text = messageAdapter.text

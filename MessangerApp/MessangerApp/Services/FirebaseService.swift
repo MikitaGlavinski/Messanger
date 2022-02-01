@@ -11,6 +11,7 @@ import Firebase
 
 protocol FirebaseServiceProtocol {
     func uploadImage(path: String, image: UIImage) -> Single<String>
+    func addMessagesListener(chatId: String, updateClosure: @escaping (Result<[MessageModel], Error>) -> ())
     func createUser(user: UserModel) -> Single<String>
     func getUserBy(email: String) -> Single<[UserModel]>
     func getUserBy(token: String) -> Single<UserModel>
@@ -150,6 +151,18 @@ extension FirebaseService: FirebaseServiceProtocol {
                 }
             })
             return Disposables.create()
+        }
+    }
+    
+    func addMessagesListener(chatId: String, updateClosure: @escaping (Result<[MessageModel], Error>) -> ()) {
+        self.db.collection("messages").whereField("chatId", isEqualTo: chatId).addSnapshotListener { snapshot, error in
+            if let error = error {
+                updateClosure(.failure(error))
+                return
+            }
+            guard let documents = snapshot?.documents else { return }
+            let messages = documents.compactMap({try? DictionaryDecoder().decode(dictionary: $0.data(), decodeType: MessageModel.self)})
+            updateClosure(.success(messages))
         }
     }
     

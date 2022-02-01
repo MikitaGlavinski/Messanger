@@ -12,17 +12,20 @@ class TextMessageCollectionViewCell: UICollectionViewCell {
     private var messageModel: MessageViewModel! {
         didSet {
             guard let text = messageModel.text else { return }
-            let textRect = text.estimatedSize(width: 300, height: 2000, font: UIFont.systemFont(ofSize: 16))
-            if messageModel.isOwner {
-                messageView.frame = CGRect(x: 16, y: 0, width: textRect.width + 16 + 8, height: textRect.height + 20)
-                textView.frame = CGRect(x: 16 + 8, y: 0, width: textRect.width + 16, height: textRect.height + 20)
-                messageView.backgroundColor = UIColor.MessengerColors.ownerMessageColor
-                textView.textColor = .black
-            } else {
-                messageView.frame = CGRect(x: contentView.frame.width - textRect.width - 16 - 8 - 16, y: 0, width: textRect.width + 16 + 8, height: textRect.height + 20)
-                textView.frame = CGRect(x: contentView.frame.width - textRect.width - 16 - 16, y: 0, width: textRect.width + 16, height: textRect.height + 20)
+            let textRect = text.estimatedSize(width: 250, height: 2000, font: UIFont.systemFont(ofSize: 16))
+            if !messageModel.isOwner {
+                messageView.frame = CGRect(x: 16, y: 10, width: textRect.width + 16 + 11, height: textRect.height + 20)
+                textView.frame = CGRect(x: 16 + 8, y: 11, width: textRect.width + 16, height: textRect.height + 20)
                 messageView.backgroundColor = UIColor.MessengerColors.peerMessageColor
                 textView.textColor = .white
+            } else {
+                messageView.frame = CGRect(x: contentView.frame.width - textRect.width - 16 - 8 - 16, y: 10, width: textRect.width + 16 + 11, height: textRect.height + 20)
+                textView.frame = CGRect(x: contentView.frame.width - textRect.width - 16 - 16, y: 11, width: textRect.width + 16, height: textRect.height + 20)
+                messageView.backgroundColor = UIColor.MessengerColors.ownerMessageColor
+                textView.textColor = .white
+            }
+            if text.containsOnlyEmoji {
+                messageView.backgroundColor = .clear
             }
             textView.text = text
         }
@@ -44,6 +47,7 @@ class TextMessageCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
+        contentView.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
     }
     
     required init?(coder: NSCoder) {
@@ -59,5 +63,4 @@ class TextMessageCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(messageView)
         contentView.addSubview(textView)
     }
-
 }
