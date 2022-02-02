@@ -9,6 +9,7 @@ import Foundation
 
 protocol ChatListPresenterProtocol {
     func viewDidLoad()
+    func addMessagesListener()
     func addChat()
     func openChat(with id: String)
 }

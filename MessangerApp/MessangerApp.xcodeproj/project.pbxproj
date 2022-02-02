@@ -616,6 +616,7 @@
 		FAB032D7279F2CF8006F9C48 /* CreateChatRouter */ = {
 			isa = PBXGroup;
 			children = (
+				FAFDF45427A7F88D00509779 /* TextMessageCollectionViewCell.swift */,
 				FAB032E1279F2D94006F9C48 /* CreateChatRouter.swift */,
 			);
 			path = CreateChatRouter;
@@ -632,7 +633,6 @@
 		FAFDF45327A7F87B00509779 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				FAFDF45427A7F88D00509779 /* TextMessageCollectionViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";

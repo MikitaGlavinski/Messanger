@@ -12,6 +12,7 @@ class ChatInteractor {
     var secureStorage: SecureStorageServiceProtocol!
     var firebaseService: FirebaseServiceProtocol!
     var storageService: StorageServiceProtocol!
+    var chatSignalService: ChatSignalServiceProtocol!
     weak var presenter: ChatPresenterInput!
 }
 
@@ -54,7 +55,25 @@ extension ChatInteractor: ChatInteractorInput {
         storageService.storeChats(chatAdapters: chats)
     }
     
-    func addMessagesListener(chatId: String, updateClosure: @escaping (Result<[MessageModel], Error>) -> ()) {
-        firebaseService.addMessagesListener(chatId: chatId, updateClosure: updateClosure)
+    func addMessagesListener(chatId: String, date: Double, updateClosure: @escaping (Result<[MessageModel], Error>) -> ()) {
+        firebaseService.addMessagesListener(chatId: chatId, date: date, updateClosure: updateClosure)
+    }
+    
+    func obtainLastMessage(chatId: String) -> Single<MessageStorageAdapter?>? {
+        storageService.obtainLastMessage(chatId: chatId)
+            .subscribe(on: SerialDispatchQueueScheduler(qos: .background))
+    }
+    
+    func signalizeChatList() {
+        chatSignalService.signalChatListToUpdate()
+    }
+    
+    func readAllStoredMessages(chatId: String) {
+        storageService.readAllMessagesInChat(chatId: chatId)
+    }
+    
+    func readAllRemoteMessages(chatId: String, peerId: String) -> Single<String>? {
+        firebaseService.readAllMessages(chatId: chatId, peerId: peerId)
+            .subscribe(on: SerialDispatchQueueScheduler(qos: .background))
     }
 }

@@ -26,6 +26,19 @@ class ChatListPresenter {
         }
         self.interactor.storeChats(chatAdapters: chatAdapters, members: memberAdapters)
     }
+    
+    private func addMessagesListenerAfter(date: Double) {
+        interactor.addMessagesListener(date: date) { [weak self] result in
+            switch result {
+            case .success(let messages):
+                let messageAdapters = messages.compactMap({MessageStorageAdapter(message: $0)})
+                self?.interactor.storeMessages(messages: messageAdapters)
+                self?.updateChatList()
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
 }
 
 extension ChatListPresenter: ChatListPresenterProtocol {
@@ -41,21 +54,36 @@ extension ChatListPresenter: ChatListPresenterProtocol {
         storedChatsObtainer
             .observe(on: MainScheduler.instance)
             .flatMap { [weak self] chatsResponse -> Single<[ChatModel]> in
-                let chatModels = chatsResponse.compactMap({ChatModel(chatAdapter: $0.chats, userAdapters: $0.users)})
-                let chatViewModels = chatModels.compactMap({ChatViewModel(chat: $0, chatMessages: [], currentUserId: token)})
+                let chatViewModels = chatsResponse.compactMap({ChatViewModel(chatStorageResponse: $0, currentUserId: token)})
                 self?.view.hideLoader()
                 self?.view.updateChatList(chatModels: chatViewModels)
                 return chatsObtainer
             }
+            .flatMap({ [weak self] chats -> Single<[ChatsStorageResponse]> in
+                self?.storeChats(chats: chats)
+                guard let storedChats = self?.interactor.getStoredChats() else {
+                    return Single<[ChatsStorageResponse]>.error(NetworkError.noData)
+                }
+                return storedChats
+            })
             .observe(on: MainScheduler.instance)
             .subscribe(onSuccess: { [weak self] chats in
-                let chatViewModels = chats.compactMap({ChatViewModel(chat: $0, chatMessages: [], currentUserId: token)})
-                self?.storeChats(chats: chats)
                 self?.view.hideUpdating()
+                let chatViewModels = chats.compactMap({ChatViewModel(chatStorageResponse: $0, currentUserId: token)})
                 self?.view.updateChatList(chatModels: chatViewModels)
             }, onFailure: { [weak self] error in
                 self?.view.hideLoader()
                 self?.view.showError(error: error)
+            }).disposed(by: disposeBag)
+    }
+    
+    func addMessagesListener() {
+        guard let lastMessage = interactor.obtainLastMessage() else { return }
+        lastMessage
+            .subscribe(onSuccess: { [weak self] message in
+                self?.addMessagesListenerAfter(date: message?.date ?? 0)
+            }, onFailure: { error in
+                print(error.localizedDescription)
             }).disposed(by: disposeBag)
     }
     
@@ -75,11 +103,17 @@ extension ChatListPresenter: ChatListPresenterInput {
             let chatsObtainer = interactor.getChatList(userId: token)
         else { return }
         chatsObtainer
-            .observe(on: MainScheduler.instance)
-            .subscribe(onSuccess: { [weak self] chats in
+            .flatMap({ [weak self] chats -> Single<[ChatsStorageResponse]> in
                 self?.storeChats(chats: chats)
-                let viewChatsModels = chats.compactMap({ChatViewModel(chat: $0, chatMessages: [], currentUserId: token)})
-                self?.view.updateChatList(chatModels: viewChatsModels)
+                guard let storedChats = self?.interactor.getStoredChats() else {
+                    return Single<[ChatsStorageResponse]>.error(NetworkError.noData)
+                }
+                return storedChats
+            })
+            .observe(on: MainScheduler.instance)
+            .subscribe(onSuccess: { [weak self] storedChats in
+                let viewModels = storedChats.compactMap({ChatViewModel(chatStorageResponse: $0, currentUserId: token)})
+                self?.view.updateChatList(chatModels: viewModels)
             }, onFailure: { error in
                 print(error.localizedDescription)
             }).disposed(by: disposeBag)

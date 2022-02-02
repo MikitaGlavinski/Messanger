@@ -22,16 +22,16 @@ extension CreateChatPresenter: CreateChatPresenterProtocol {
         self.view.showLoader()
         guard
             let token = interactor.getToken(),
-            let emailUserObtainer = interactor.getUser(email: userEmail),
-            let tokenUserObtainer = interactor.getUser(token: token)
+            let peerUserObtainer = interactor.getUser(email: userEmail),
+            let currentUserObtainer = interactor.getUser(token: token)
         else {
             return
         }
         var peerUser: UserModel?
-        emailUserObtainer
+        peerUserObtainer
             .flatMap { models -> Single<UserModel> in
                 peerUser = models.first
-                return tokenUserObtainer
+                return currentUserObtainer
             }
             .flatMap { [weak self] user -> Single<String> in
                 guard let peerUser = peerUser else {

@@ -23,11 +23,48 @@ class ChatPresenter {
         self.chatId = chatId
     }
     
-    private func updateMessages(messages: [MessageModel], token: String) {
-        let messageModels = messages.compactMap({MessageViewModel(messageModel: $0, userId: token)})
+    private func updateMessages(messages: [MessageModel]) {
         let messageAdapters = messages.compactMap({MessageStorageAdapter(message: $0)})
         interactor.storeMessages(messageAdapters: messageAdapters)
-        view.setupMessages(messages: messageModels)
+        readMessages()
+        guard
+            let token = interactor.obtainToken(),
+            let storedMessages = interactor.obtainMessages(chatId: chatId)
+        else { return }
+        storedMessages
+            .observe(on: MainScheduler.instance)
+            .subscribe(onSuccess: { [weak self] messages in
+                let messageModels = messages.sorted(by: {$0.date < $1.date}).compactMap({MessageViewModel(messageModel: $0, userId: token)})
+                self?.view.setupMessages(messages: messageModels)
+            }, onFailure: { [weak self] error in
+                self?.view.showError(error: error)
+            }).disposed(by: disposeBag)
+    }
+    
+    private func addMessageListener(after date: Double) {
+        interactor.addMessagesListener(chatId: chatId, date: date) { [weak self] result in
+            switch result {
+            case.success(let messages):
+                self?.updateMessages(messages: messages.sorted(by: {$0.date < $1.date}))
+            case .failure(let error):
+                self?.view.showError(error: error)
+            }
+        }
+    }
+    
+    private func readMessages() {
+        interactor.readAllStoredMessages(chatId: chatId)
+        guard
+            let peerId = self.peerId,
+            let remoteMessageReader = interactor.readAllRemoteMessages(chatId: chatId, peerId: peerId)
+        else { return }
+        remoteMessageReader
+            .subscribe(onSuccess: { [weak self] complete in
+                print(complete)
+                self?.interactor.signalizeChatList()
+            }, onFailure: { error in
+                print(error.localizedDescription)
+            }).disposed(by: disposeBag)
     }
 }
 
@@ -40,8 +77,7 @@ extension ChatPresenter: ChatPresenterProtocol {
             let token = interactor.obtainToken(),
             let storedMessagesObtainer = interactor.obtainStoredMessages(chatId: chatId),
             let storedChatObtainer = interactor.obtainStoredChat(chatId: chatId),
-            let chatObtainer = interactor.obtainChat(chatId: chatId),
-            let messagesObtainer = interactor.obtainMessages(chatId: chatId)
+            let chatObtainer = interactor.obtainChat(chatId: chatId)
         else { return }
         self.senderId = token
         
@@ -58,20 +94,17 @@ extension ChatPresenter: ChatPresenterProtocol {
                 self?.chatModel = ChatModel(chatAdapter: response.chats, userAdapters: response.users)
                 let peerUser = response.users.first(where: {$0.id != token})
                 self?.peerId = peerUser?.id
+                self?.readMessages()
                 self?.view.setupChat(peerEmail: peerUser?.email ?? "", peerImageURL: peerUser?.imageURL ?? "")
                 return chatObtainer
             }
-            .flatMap { [weak self] chat -> Single<[MessageModel]> in
+            .observe(on: MainScheduler.instance)
+            .subscribe(onSuccess: { [weak self] chat in
+                self?.view.hideUpdating()
                 self?.chatModel = chat
                 self?.interactor.storeChats(chats: [ChatStorageAdapter(chat: chat)])
-                return messagesObtainer
-            }
-            .observe(on: MainScheduler.instance)
-            .subscribe(onSuccess: { [weak self] messages in
-                self?.view.hideUpdating()
                 let peerUser = self?.chatModel?.members.first(where: {$0.id != token})
                 self?.peerId = peerUser?.id
-                self?.updateMessages(messages: messages.sorted(by: {$0.date < $1.date}), token: token)
                 self?.view.setupChat(peerEmail: peerUser?.email ?? "", peerImageURL: peerUser?.imageURL ?? "")
             }, onFailure: { [weak self] error in
                 self?.view.hideLoader()
@@ -81,15 +114,13 @@ extension ChatPresenter: ChatPresenterProtocol {
     }
     
     func addMessagesListener() {
-        interactor.addMessagesListener(chatId: chatId) { [weak self] result in
-            switch result {
-            case.success(let messages):
-                guard let token = self?.interactor.obtainToken() else { return }
-                self?.updateMessages(messages: messages.sorted(by: {$0.date < $1.date}), token: token)
-            case .failure(let error):
+        guard let lastMessageObtainer = interactor.obtainLastMessage(chatId: chatId) else { return }
+        lastMessageObtainer
+            .subscribe(onSuccess: { [weak self] message in
+                self?.addMessageListener(after: message?.date ?? 0)
+            }, onFailure: { [weak self] error in
                 self?.view.showError(error: error)
-            }
-        }
+            }).disposed(by: disposeBag)
     }
     
     func sendTextMessage(text: String) {

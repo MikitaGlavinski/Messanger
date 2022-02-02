@@ -40,6 +40,7 @@ class ChatListViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         presenter.viewDidLoad()
+        presenter.addMessagesListener()
         setupUI()
     }
     

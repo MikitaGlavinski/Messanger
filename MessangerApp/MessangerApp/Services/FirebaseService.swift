@@ -11,7 +11,8 @@ import Firebase
 
 protocol FirebaseServiceProtocol {
     func uploadImage(path: String, image: UIImage) -> Single<String>
-    func addMessagesListener(chatId: String, updateClosure: @escaping (Result<[MessageModel], Error>) -> ())
+    func addMessagesListener(chatId: String, date: Double, updateClosure: @escaping (Result<[MessageModel], Error>) -> ())
+    func addAllMessagesListener(date: Double, updateClosure: @escaping (Result<[MessageModel], Error>) -> ())
     func createUser(user: UserModel) -> Single<String>
     func getUserBy(email: String) -> Single<[UserModel]>
     func getUserBy(token: String) -> Single<UserModel>
@@ -20,6 +21,7 @@ protocol FirebaseServiceProtocol {
     func getMessages(chatId: String) -> Single<[MessageModel]>
     func addMessage(message: MessageModel) -> Single<String>
     func getChat(by chatId: String) -> Single<ChatModel>
+    func readAllMessages(chatId: String, peerId: String) -> Single<String>
 }
 
 class FirebaseService {
@@ -154,8 +156,11 @@ extension FirebaseService: FirebaseServiceProtocol {
         }
     }
     
-    func addMessagesListener(chatId: String, updateClosure: @escaping (Result<[MessageModel], Error>) -> ()) {
-        self.db.collection("messages").whereField("chatId", isEqualTo: chatId).addSnapshotListener { snapshot, error in
+    func addMessagesListener(chatId: String, date: Double, updateClosure: @escaping (Result<[MessageModel], Error>) -> ()) {
+        self.db.collection("messages")
+            .whereField("chatId", isEqualTo: chatId)
+            .whereField("date", isGreaterThan: date)
+            .addSnapshotListener { snapshot, error in
             if let error = error {
                 updateClosure(.failure(error))
                 return
@@ -163,6 +168,55 @@ extension FirebaseService: FirebaseServiceProtocol {
             guard let documents = snapshot?.documents else { return }
             let messages = documents.compactMap({try? DictionaryDecoder().decode(dictionary: $0.data(), decodeType: MessageModel.self)})
             updateClosure(.success(messages))
+        }
+    }
+    
+    func addAllMessagesListener(date: Double, updateClosure: @escaping (Result<[MessageModel], Error>) -> ()) {
+        self.db.collection("messages")
+            .whereField("date", isGreaterThan: date)
+            .addSnapshotListener { snapshot, error in
+            if let error = error {
+                updateClosure(.failure(error))
+                return
+            }
+            guard let documents = snapshot?.documents else { return }
+            let messages = documents.compactMap({try? DictionaryDecoder().decode(dictionary: $0.data(), decodeType: MessageModel.self)})
+            updateClosure(.success(messages))
+        }
+    }
+    
+    func readAllMessages(chatId: String, peerId: String) -> Single<String> {
+        Single<String>.create { [weak self] observer -> Disposable in
+            self?.db.collection("messages")
+                .whereField("chatId", isEqualTo: chatId)
+                .whereField("senderId", isEqualTo: peerId)
+                .getDocuments(completion: { snapshot, error in
+                    if let error = error {
+                        observer(.failure(error))
+                        return
+                    }
+                    guard let documents = snapshot?.documents else {
+                        observer(.failure(NetworkError.noData))
+                        return
+                    }
+                    var changeDocumentsCount = 0
+                    for document in documents {
+                        var dictionary = document.data()
+                        dictionary["isRead"] = true
+                        document.reference.setData(dictionary) { error in
+                            if let error = error {
+                                observer(.failure(error))
+                                return
+                            }
+                            changeDocumentsCount += 1
+                            if changeDocumentsCount == documents.count {
+                                observer(.success("Ok"))
+                                return
+                            }
+                        }
+                    }
+                })
+            return Disposables.create()
         }
     }
     

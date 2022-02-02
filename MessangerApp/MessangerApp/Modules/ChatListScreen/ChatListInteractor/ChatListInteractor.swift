@@ -43,4 +43,17 @@ extension ChatListInteractor: ChatListInteractorInput {
         storageService.storeChats(chatAdapters: chatAdapters)
         storageService.storeUsers(userAdapters: members)
     }
+    
+    func addMessagesListener(date: Double, updateClosure: @escaping (Result<[MessageModel], Error>) -> ()) {
+        firebaseService.addAllMessagesListener(date: date, updateClosure: updateClosure)
+    }
+    
+    func obtainLastMessage() -> Single<MessageStorageAdapter?>? {
+        storageService.obtainLastMessage()
+            .subscribe(on: SerialDispatchQueueScheduler(qos: .background))
+    }
+    
+    func storeMessages(messages: [MessageStorageAdapter]) {
+        storageService.storeMessages(messageAdapters: messages)
+    }
 }

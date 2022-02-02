@@ -14,9 +14,11 @@ protocol StorageServiceProtocol {
     func obtainChat(chatId: String) -> Single<ChatsStorageResponse>
     func obtainChats() -> Single<[ChatsStorageResponse]>
     func storeUsers(userAdapters: [UserStorageAdapter])
-    func obtainUsers(chatId: String) -> Single<[UserStorageAdapter]>
     func storeMessages(messageAdapters: [MessageStorageAdapter])
     func obtainMessages(chatId: String) -> Single<[MessageStorageAdapter]>
+    func obtainLastMessage(chatId: String) -> Single<MessageStorageAdapter?>
+    func obtainLastMessage() -> Single<MessageStorageAdapter?>
+    func readAllMessagesInChat(chatId: String)
 }
 
 class StorageService {
@@ -110,16 +112,20 @@ extension StorageService: StorageServiceProtocol {
                 })
                 let members = try self?.db.read({ db in
                     try UserStorageAdapter
-                        .filter(Column("chatId") == chat?.id).fetchAll(db)
+                        .filter(Column("chatId") == chatId).fetchAll(db)
+                })
+                let messages = try self?.db.read({ db in
+                    try MessageStorageAdapter
+                        .filter(Column("chatId") == chatId).fetchAll(db)
                 })
                 guard
                     let chat = chat,
-                    let members = members
+                    let members = members,
+                    let messages = messages
                 else {
-                    observer(.failure(NetworkError.noData))
                     return Disposables.create()
                 }
-                let response = ChatsStorageResponse(chats: chat, users: members)
+                let response = ChatsStorageResponse(chats: chat, users: members, messages: messages)
                 observer(.success(response))
             } catch let error {
                 observer(.failure(error))
@@ -141,7 +147,11 @@ extension StorageService: StorageServiceProtocol {
                         try UserStorageAdapter
                             .filter(Column("chatId") == chat.id).fetchAll(db)
                     })
-                    response.append(ChatsStorageResponse(chats: chat, users: members ?? []))
+                    let messages = try self?.db.read({ db in
+                        try MessageStorageAdapter
+                            .filter(Column("chatId") == chat.id).fetchAll(db)
+                    })
+                    response.append(ChatsStorageResponse(chats: chat, users: members ?? [], messages: messages ?? []))
                 }
                 observer(.success(response))
             } catch let error {
@@ -160,21 +170,6 @@ extension StorageService: StorageServiceProtocol {
             })
         } catch let error {
             print(error.localizedDescription)
-        }
-    }
-    
-    func obtainUsers(chatId: String) -> Single<[UserStorageAdapter]> {
-        Single<[UserStorageAdapter]>.create { [weak self] observer -> Disposable in
-            do {
-                let users = try self?.db.read({ db in
-                    try UserStorageAdapter
-                        .filter(Column("chatId") == chatId).fetchAll(db)
-                })
-                observer(.success(users ?? []))
-            } catch {
-                observer(.success([]))
-            }
-            return Disposables.create()
         }
     }
     
@@ -203,6 +198,63 @@ extension StorageService: StorageServiceProtocol {
                 observer(.success([]))
             }
             return Disposables.create()
+        }
+    }
+    
+    func obtainLastMessage(chatId: String) -> Single<MessageStorageAdapter?> {
+        Single<MessageStorageAdapter?>.create { [weak self] observer -> Disposable in
+            do {
+                let lastMessage = try self?.db.read({ db in
+                    try MessageStorageAdapter
+                        .filter(Column("chatId") == chatId)
+                        .order(Column("date").asc).fetchOne(db)
+                })
+                guard let lastMessage = lastMessage else {
+                    observer(.success(nil))
+                    return Disposables.create()
+                }
+                observer(.success(lastMessage))
+            } catch let error {
+                observer(.failure(error))
+            }
+            return Disposables.create()
+        }
+    }
+    
+    func obtainLastMessage() -> Single<MessageStorageAdapter?> {
+        Single<MessageStorageAdapter?>.create { [weak self] observer -> Disposable in
+            do {
+                let lastMessage = try self?.db.read({ db in
+                    try MessageStorageAdapter
+                        .order(Column("date").asc).fetchOne(db)
+                })
+                guard let lastMessage = lastMessage else {
+                    observer(.success(nil))
+                    return Disposables.create()
+                }
+                observer(.success(lastMessage))
+            } catch let error {
+                observer(.failure(error))
+            }
+            return Disposables.create()
+        }
+    }
+    
+    func readAllMessagesInChat(chatId: String) {
+        do {
+            let messages = try self.db.read({ db in
+                try MessageStorageAdapter
+                    .filter(Column("chatId") == chatId)
+                    .filter(Column("isRead") == false).fetchAll(db)
+            })
+            try self.db.write({ db in
+                for var message in messages {
+                    message.isRead = true
+                    try message.insert(db)
+                }
+            })
+        } catch let error {
+            print(error.localizedDescription)
         }
     }
 }

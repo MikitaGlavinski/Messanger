@@ -515,24 +515,6 @@
                                 <constraint firstItem="yNI-zB-xhL" firstAttribute="top" secondItem="szY-6I-eUd" secondAttribute="top" id="cZY-KW-zDO"/>
                             </constraints>
                         </view>
-                        <barButtonItem key="rightBarButtonItem" style="plain" id="HMY-EB-0bq">
-                            <button key="customView" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="uCU-bb-f3T">
-                                <rect key="frame" x="354" y="2" width="40" height="40"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <state key="normal" image="placeholdertext.fill" catalog="system"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                        <integer key="value" value="20"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                            </button>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                    <integer key="value" value="20"/>
-                                </userDefinedRuntimeAttribute>
-                            </userDefinedRuntimeAttributes>
-                        </barButtonItem>
                         <connections>
                             <outlet property="titleView" destination="szY-6I-eUd" id="Cjy-nD-hve"/>
                         </connections>
@@ -546,7 +528,6 @@
                         <outlet property="placeholderLabel" destination="fcm-m7-u7a" id="iFG-0S-kKW"/>
                         <outlet property="textBackViewHeightConstraint" destination="NMu-S7-rke" id="LfA-tX-EU7"/>
                         <outlet property="updatingLabel" destination="wZW-qA-l4u" id="PJf-14-MZd"/>
-                        <outlet property="userImageButton" destination="uCU-bb-f3T" id="qj2-pg-dSf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WnI-YE-Y44" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -625,7 +606,6 @@
     </scenes>
     <resources>
         <image name="paperclip" catalog="system" width="121" height="128"/>
-        <image name="placeholdertext.fill" catalog="system" width="80" height="128"/>
         <image name="plus" catalog="system" width="128" height="113"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

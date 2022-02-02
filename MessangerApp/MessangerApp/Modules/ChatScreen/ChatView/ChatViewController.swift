@@ -21,10 +21,18 @@ class ChatViewController: BaseViewController {
     @IBOutlet weak var messageTextView: UITextView!
     @IBOutlet weak var placeholderLabel: UILabel!
     @IBOutlet weak var containerHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var userImageButton: UIButton!
     @IBOutlet weak var textBackViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var chatTitleLabel: UILabel!
     @IBOutlet weak var updatingLabel: UILabel!
+    
+    private lazy var userImageButton: UIButton = {
+        let button = UIButton()
+        button.layer.cornerRadius = 20
+        button.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        button.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        button.clipsToBounds = true
+        return button
+    }()
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -51,6 +59,9 @@ class ChatViewController: BaseViewController {
         collectionView.register(TextMessageCollectionViewCell.self, forCellWithReuseIdentifier: TextMessageCollectionViewCell.reuseIdentifier)
         collectionView.dataSource = self
         collectionView.delegate = self
+        
+        let barButton = UIBarButtonItem(customView: userImageButton)
+        navigationItem.rightBarButtonItem = barButton
     }
     
     private func setupGestures() {

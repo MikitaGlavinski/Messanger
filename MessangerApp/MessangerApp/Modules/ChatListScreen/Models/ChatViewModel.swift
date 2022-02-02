@@ -10,7 +10,6 @@ import Foundation
 struct ChatViewModel {
     var chatId: String
     var title: String
-    var messages: [MessageModel]
     var chatImageURL: String?
     var lastMessageDate: String?
     var lastMessageText: String?
@@ -18,15 +17,27 @@ struct ChatViewModel {
     
     init(chat: ChatModel, chatMessages: [MessageModel]?, currentUserId: String) {
         let chatIndex = chat.members.firstIndex(where: {$0.id != currentUserId}) ?? 0
-        let filteredMessages = chatMessages?.sorted(by: {$0.date > $1.date})
+        let filteredMessages = chatMessages?.sorted(by: {$0.date < $1.date})
         self.chatId = chat.id
         self.title = chat.members[chatIndex].email
-        self.messages = filteredMessages ?? []
         self.chatImageURL = chat.members[chatIndex].imageURL
-        if let doubleDate = filteredMessages?.first?.date {
+        if let doubleDate = filteredMessages?.last?.date {
             self.lastMessageDate = DateFormatterService.shared.formatDate(doubleDate: doubleDate, format: "dd.MM.yy")
         }
-        self.unreadMessageCount = chatMessages?.count ?? 0
-        lastMessageText = filteredMessages?.first?.text
+        self.unreadMessageCount = chatMessages?.filter({$0.isRead == false && $0.senderId != currentUserId}).count ?? 0
+        self.lastMessageText = filteredMessages?.last?.text
+    }
+    
+    init(chatStorageResponse: ChatsStorageResponse, currentUserId: String) {
+        let chatIndex = chatStorageResponse.users.firstIndex(where: {$0.id != currentUserId}) ?? 0
+        let filteredMessages = chatStorageResponse.messages.sorted(by: {$0.date < $1.date})
+        self.chatId = chatStorageResponse.chats.id
+        self.title = chatStorageResponse.users[chatIndex].email
+        self.chatImageURL = chatStorageResponse.users[chatIndex].imageURL
+        if let doubleDate = chatStorageResponse.messages.last?.date {
+            self.lastMessageDate = DateFormatterService.shared.formatDate(doubleDate: doubleDate, format: "dd.MM.yy")
+        }
+        self.unreadMessageCount = chatStorageResponse.messages.filter({$0.isRead == false && $0.senderId != currentUserId}).count
+        self.lastMessageText = filteredMessages.last?.text
     }
 }

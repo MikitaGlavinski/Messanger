@@ -11,6 +11,7 @@ import GRDB
 struct ChatsStorageResponse {
     var chats: ChatStorageAdapter
     var users: [UserStorageAdapter]
+    var messages: [MessageStorageAdapter]
 }
 
 struct ChatStorageAdapter: Codable, PersistableRecord, FetchableRecord {
