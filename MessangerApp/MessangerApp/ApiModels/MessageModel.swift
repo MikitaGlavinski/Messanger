@@ -17,6 +17,7 @@ struct MessageModel: Codable {
     var fileURL: String?
     var date: Double
     var isRead: Bool
+    var isSent: Bool
     
     init(
         id: String,
@@ -27,7 +28,8 @@ struct MessageModel: Codable {
         type: Int,
         fileURL: String? = nil,
         date: Double,
-        isRead: Bool
+        isRead: Bool,
+        isSent: Bool
     ) {
         self.id = id
         self.text = text
@@ -38,6 +40,7 @@ struct MessageModel: Codable {
         self.fileURL = fileURL
         self.date = date
         self.isRead = isRead
+        self.isSent = isSent
     }
     
     init(messageAdapter: MessageStorageAdapter) {
@@ -50,5 +53,6 @@ struct MessageModel: Codable {
         self.fileURL = messageAdapter.fileURL
         self.date = messageAdapter.date
         self.isRead = messageAdapter.isRead
+        self.isSent = messageAdapter.isSent
     }
 }

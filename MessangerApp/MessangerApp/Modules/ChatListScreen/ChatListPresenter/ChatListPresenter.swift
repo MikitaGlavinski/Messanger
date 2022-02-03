@@ -100,16 +100,9 @@ extension ChatListPresenter: ChatListPresenterInput {
     func updateChatList() {
         guard
             let token = interactor.getUserToken(),
-            let chatsObtainer = interactor.getChatList(userId: token)
+            let storedChats = self.interactor.getStoredChats()
         else { return }
-        chatsObtainer
-            .flatMap({ [weak self] chats -> Single<[ChatsStorageResponse]> in
-                self?.storeChats(chats: chats)
-                guard let storedChats = self?.interactor.getStoredChats() else {
-                    return Single<[ChatsStorageResponse]>.error(NetworkError.noData)
-                }
-                return storedChats
-            })
+        storedChats
             .observe(on: MainScheduler.instance)
             .subscribe(onSuccess: { [weak self] storedChats in
                 let viewModels = storedChats.compactMap({ChatViewModel(chatStorageResponse: $0, currentUserId: token)})

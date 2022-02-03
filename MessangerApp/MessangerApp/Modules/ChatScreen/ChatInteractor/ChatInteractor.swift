@@ -14,6 +14,16 @@ class ChatInteractor {
     var storageService: StorageServiceProtocol!
     var chatSignalService: ChatSignalServiceProtocol!
     weak var presenter: ChatPresenterInput!
+    
+    private let disposeBag = DisposeBag()
+    
+    init(chatSignalService: ChatSignalServiceProtocol?) {
+        self.chatSignalService = chatSignalService
+        
+        chatSignalService?.getChatListener().bind(onNext: { [weak self] _ in
+            self?.presenter.updateChat()
+        }).disposed(by: disposeBag)
+    }
 }
 
 extension ChatInteractor: ChatInteractorInput {
@@ -36,7 +46,7 @@ extension ChatInteractor: ChatInteractorInput {
             .subscribe(on: SerialDispatchQueueScheduler(qos: .background))
     }
     
-    func sendMessage(message: MessageModel) -> Single<String>? {
+    func sendMessage(message: MessageModel) -> Single<MessageModel>? {
         firebaseService.addMessage(message: message)
             .subscribe(on: SerialDispatchQueueScheduler(qos: .background))
     }
@@ -75,5 +85,9 @@ extension ChatInteractor: ChatInteractorInput {
     func readAllRemoteMessages(chatId: String, peerId: String) -> Single<String>? {
         firebaseService.readAllMessages(chatId: chatId, peerId: peerId)
             .subscribe(on: SerialDispatchQueueScheduler(qos: .background))
+    }
+    
+    func signalizeToSend(messageId: String) {
+        chatSignalService.signalSendMessage(messageId: messageId)
     }
 }

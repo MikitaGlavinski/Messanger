@@ -25,7 +25,9 @@ class ScaledButton: UIButton {
     
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesCancelled(touches, with: event)
-        self.transform = .identity
+        UIView.animate(withDuration: 0.2) {
+            self.transform = .identity
+        }
     }
 
 }

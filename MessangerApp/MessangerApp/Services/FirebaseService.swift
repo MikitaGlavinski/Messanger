@@ -13,13 +13,13 @@ protocol FirebaseServiceProtocol {
     func uploadImage(path: String, image: UIImage) -> Single<String>
     func addMessagesListener(chatId: String, date: Double, updateClosure: @escaping (Result<[MessageModel], Error>) -> ())
     func addAllMessagesListener(date: Double, updateClosure: @escaping (Result<[MessageModel], Error>) -> ())
-    func createUser(user: UserModel) -> Single<String>
+    func createUser(user: UserModel) -> Single<UserModel>
     func getUserBy(email: String) -> Single<[UserModel]>
     func getUserBy(token: String) -> Single<UserModel>
-    func createChat(chat: ChatModel) -> Single<String>
+    func createChat(chat: ChatModel) -> Single<ChatModel>
     func getChats(userId: String) -> Single<[ChatModel]>
     func getMessages(chatId: String) -> Single<[MessageModel]>
-    func addMessage(message: MessageModel) -> Single<String>
+    func addMessage(message: MessageModel) -> Single<MessageModel>
     func getChat(by chatId: String) -> Single<ChatModel>
     func readAllMessages(chatId: String, peerId: String) -> Single<String>
 }
@@ -29,8 +29,8 @@ class FirebaseService {
     private let db = Firestore.firestore()
     private let storageRef = Storage.storage().reference()
     
-    private func setData<T: Encodable>(at path: String, model: T) -> Single<String> {
-        Single<String>.create { [weak self] observer -> Disposable in
+    private func setData<T: Encodable>(at path: String, model: T) -> Single<T> {
+        Single<T>.create { [weak self] observer -> Disposable in
             guard let dictionary = try? DictionaryEncoder().encode(value: model) else {
                 observer(.failure(NetworkError.decodeError))
                 return Disposables.create()
@@ -40,7 +40,7 @@ class FirebaseService {
                     observer(.failure(error))
                     return
                 }
-                observer(.success("OK"))
+                observer(.success(model))
             }
             return Disposables.create()
         }
@@ -220,7 +220,7 @@ extension FirebaseService: FirebaseServiceProtocol {
         }
     }
     
-    func createUser(user: UserModel) -> Single<String> {
+    func createUser(user: UserModel) -> Single<UserModel> {
         setData(at: "users/\(user.id)", model: user)
     }
     
@@ -232,7 +232,7 @@ extension FirebaseService: FirebaseServiceProtocol {
         getData(at: "users/\(token)", decodeType: UserModel.self)
     }
     
-    func createChat(chat: ChatModel) -> Single<String> {
+    func createChat(chat: ChatModel) -> Single<ChatModel> {
         setData(at: "chats/\(chat.id)", model: chat)
     }
     
@@ -244,7 +244,7 @@ extension FirebaseService: FirebaseServiceProtocol {
         getListWithFilterEqual(at: "messages", field: "chatId", filter: chatId, decodeType: MessageModel.self)
     }
     
-    func addMessage(message: MessageModel) -> Single<String> {
+    func addMessage(message: MessageModel) -> Single<MessageModel> {
         setData(at: "messages/\(message.id)", model: message)
     }
     

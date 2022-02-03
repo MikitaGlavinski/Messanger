@@ -21,6 +21,7 @@ struct MessageStorageAdapter: Codable, PersistableRecord, FetchableRecord {
     var fileURL: String
     var date: Double
     var isRead: Bool
+    var isSent: Bool
     
     init(
         id: String,
@@ -31,7 +32,8 @@ struct MessageStorageAdapter: Codable, PersistableRecord, FetchableRecord {
         type: Int,
         fileURL: String,
         date: Double,
-        isRead: Bool
+        isRead: Bool,
+        isSent: Bool
     ) {
         self.id = id
         self.text = text
@@ -42,6 +44,7 @@ struct MessageStorageAdapter: Codable, PersistableRecord, FetchableRecord {
         self.fileURL = fileURL
         self.date = date
         self.isRead = isRead
+        self.isSent = isSent
     }
     
     init(message: MessageModel) {
@@ -54,5 +57,6 @@ struct MessageStorageAdapter: Codable, PersistableRecord, FetchableRecord {
         self.fileURL = message.fileURL ?? ""
         self.date = message.date
         self.isRead = message.isRead
+        self.isSent = message.isSent
     }
 }

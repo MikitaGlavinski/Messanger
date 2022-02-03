@@ -479,12 +479,12 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="le0-lH-6EE" firstAttribute="top" secondItem="JqN-Ia-9xB" secondAttribute="bottom" id="5al-3z-9DC"/>
-                            <constraint firstItem="scp-cf-hqS" firstAttribute="trailing" secondItem="le0-lH-6EE" secondAttribute="trailing" id="KKv-xn-y1f"/>
+                            <constraint firstAttribute="trailing" secondItem="le0-lH-6EE" secondAttribute="trailing" id="KKv-xn-y1f"/>
                             <constraint firstItem="JqN-Ia-9xB" firstAttribute="top" secondItem="scp-cf-hqS" secondAttribute="top" id="NDg-0v-fCJ"/>
-                            <constraint firstItem="le0-lH-6EE" firstAttribute="leading" secondItem="scp-cf-hqS" secondAttribute="leading" id="O6R-uV-huC"/>
-                            <constraint firstItem="scp-cf-hqS" firstAttribute="trailing" secondItem="JqN-Ia-9xB" secondAttribute="trailing" id="UMR-HV-fC9"/>
+                            <constraint firstItem="le0-lH-6EE" firstAttribute="leading" secondItem="Luz-pA-4f1" secondAttribute="leading" id="O6R-uV-huC"/>
+                            <constraint firstAttribute="trailing" secondItem="JqN-Ia-9xB" secondAttribute="trailing" id="UMR-HV-fC9"/>
                             <constraint firstItem="le0-lH-6EE" firstAttribute="bottom" secondItem="Luz-pA-4f1" secondAttribute="bottom" id="Wv5-xQ-xY9"/>
-                            <constraint firstItem="JqN-Ia-9xB" firstAttribute="leading" secondItem="scp-cf-hqS" secondAttribute="leading" id="bqW-JL-cDM"/>
+                            <constraint firstItem="JqN-Ia-9xB" firstAttribute="leading" secondItem="Luz-pA-4f1" secondAttribute="leading" id="bqW-JL-cDM"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="fNV-Ng-iNm">

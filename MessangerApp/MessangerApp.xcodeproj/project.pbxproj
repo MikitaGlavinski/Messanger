@@ -74,6 +74,8 @@
 		FA8BDAB62796F8B20095EB5B /* ChatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8BDAB52796F8B20095EB5B /* ChatModel.swift */; };
 		FA8BDAB82796FB020095EB5B /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8BDAB72796FB010095EB5B /* UserModel.swift */; };
 		FA8BDABA2796FB330095EB5B /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = FA8BDAB92796FB330095EB5B /* FirebaseStorage */; };
+		FA91C70D27ABDB4000353739 /* Reachability in Frameworks */ = {isa = PBXBuildFile; productRef = FA91C70C27ABDB4000353739 /* Reachability */; };
+		FA91C71127ABF11500353739 /* SendingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA91C71027ABF11500353739 /* SendingService.swift */; };
 		FAB032D1279F2C61006F9C48 /* CreateChatViewInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB032D0279F2C61006F9C48 /* CreateChatViewInput.swift */; };
 		FAB032D3279F2CA0006F9C48 /* CreateChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB032D2279F2CA0006F9C48 /* CreateChatViewController.swift */; };
 		FAB032DA279F2D2F006F9C48 /* CreateChatPresenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB032D9279F2D2F006F9C48 /* CreateChatPresenterProtocol.swift */; };
@@ -153,6 +155,7 @@
 		FA8BDAB22796D3490095EB5B /* UIColorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtensions.swift; sourceTree = "<group>"; };
 		FA8BDAB52796F8B20095EB5B /* ChatModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatModel.swift; sourceTree = "<group>"; };
 		FA8BDAB72796FB010095EB5B /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
+		FA91C71027ABF11500353739 /* SendingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendingService.swift; sourceTree = "<group>"; };
 		FAB032D0279F2C61006F9C48 /* CreateChatViewInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateChatViewInput.swift; sourceTree = "<group>"; };
 		FAB032D2279F2CA0006F9C48 /* CreateChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateChatViewController.swift; sourceTree = "<group>"; };
 		FAB032D9279F2D2F006F9C48 /* CreateChatPresenterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateChatPresenterProtocol.swift; sourceTree = "<group>"; };
@@ -179,6 +182,7 @@
 				FA08AAAB27A053A40056BE29 /* Kingfisher in Frameworks */,
 				FA04940727959AEC003C3050 /* RxCocoa in Frameworks */,
 				FA04940C27959BD1003C3050 /* FirebaseFirestore in Frameworks */,
+				FA91C70D27ABDB4000353739 /* Reachability in Frameworks */,
 				FA04940F27959CB3003C3050 /* GRDB in Frameworks */,
 				FA8BDABA2796FB330095EB5B /* FirebaseStorage in Frameworks */,
 			);
@@ -331,6 +335,7 @@
 				FA7D253A27983FC2004F29D4 /* FirebaseService.swift */,
 				FA08AAA727A04DE50056BE29 /* ChatSignalService.swift */,
 				FA68B8EF27A18562004A5655 /* StorageService.swift */,
+				FA91C71027ABF11500353739 /* SendingService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -616,7 +621,6 @@
 		FAB032D7279F2CF8006F9C48 /* CreateChatRouter */ = {
 			isa = PBXGroup;
 			children = (
-				FAFDF45427A7F88D00509779 /* TextMessageCollectionViewCell.swift */,
 				FAB032E1279F2D94006F9C48 /* CreateChatRouter.swift */,
 			);
 			path = CreateChatRouter;
@@ -633,6 +637,7 @@
 		FAFDF45327A7F87B00509779 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				FAFDF45427A7F88D00509779 /* TextMessageCollectionViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -669,6 +674,7 @@
 				FA04941527959D75003C3050 /* FirebaseAuth */,
 				FA8BDAB92796FB330095EB5B /* FirebaseStorage */,
 				FA08AAAA27A053A40056BE29 /* Kingfisher */,
+				FA91C70C27ABDB4000353739 /* Reachability */,
 			);
 			productName = MessangerApp;
 			productReference = FA0493EE2795970C003C3050 /* MessangerApp.app */;
@@ -703,6 +709,7 @@
 				FA04940A27959BD1003C3050 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				FA04940D27959CB3003C3050 /* XCRemoteSwiftPackageReference "GRDB.swift" */,
 				FA08AAA927A053A40056BE29 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				FA91C70B27ABDB4000353739 /* XCRemoteSwiftPackageReference "Reachability" */,
 			);
 			productRefGroup = FA0493EF2795970C003C3050 /* Products */;
 			projectDirPath = "";
@@ -787,6 +794,7 @@
 				FA04941E2795A061003C3050 /* AuthViewInput.swift in Sources */,
 				FA08AAAD27A055010056BE29 /* UIImage+Extension.swift in Sources */,
 				FAFDF45627A7F88D00509779 /* TextMessageCollectionViewCell.swift in Sources */,
+				FA91C71127ABF11500353739 /* SendingService.swift in Sources */,
 				FA7D2537279833E6004F29D4 /* MessageModel.swift in Sources */,
 				FAB032DC279F2D3E006F9C48 /* CreateChatPresenter.swift in Sources */,
 				FAB032E2279F2D94006F9C48 /* CreateChatRouter.swift in Sources */,
@@ -1055,6 +1063,14 @@
 				minimumVersion = 7.0.0;
 			};
 		};
+		FA91C70B27ABDB4000353739 /* XCRemoteSwiftPackageReference "Reachability" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ashleymills/Reachability.swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.1.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1092,6 +1108,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = FA04940A27959BD1003C3050 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseStorage;
+		};
+		FA91C70C27ABDB4000353739 /* Reachability */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FA91C70B27ABDB4000353739 /* XCRemoteSwiftPackageReference "Reachability" */;
+			productName = Reachability;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -31,7 +31,7 @@ extension RegisterInteractor: RegisterInteractorInput {
             .subscribe(on: SerialDispatchQueueScheduler(qos: .background))
     }
     
-    func addUser(user: UserModel) -> Single<String>? {
+    func addUser(user: UserModel) -> Single<UserModel>? {
         firebaseService.createUser(user: user)
             .subscribe(on: SerialDispatchQueueScheduler(qos: .background))
     }

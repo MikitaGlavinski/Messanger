@@ -33,18 +33,19 @@ extension CreateChatPresenter: CreateChatPresenterProtocol {
                 peerUser = models.first
                 return currentUserObtainer
             }
-            .flatMap { [weak self] user -> Single<String> in
+            .flatMap { [weak self] user -> Single<ChatModel> in
                 guard let peerUser = peerUser else {
-                    return Single<String>.error(NetworkError.invalidEmail)
+                    return Single<ChatModel>.error(NetworkError.invalidEmail)
                 }
                 let chatModel = ChatModel(id: UUID().uuidString, members: [user, peerUser], membersIds: [user.id, peerUser.id])
                 guard let chatCreator = self?.interactor.createChat(chat: chatModel) else {
-                    return Single<String>.error(NetworkError.requestError)
+                    return Single<ChatModel>.error(NetworkError.requestError)
                 }
                 return chatCreator
             }
             .observe(on: MainScheduler.instance)
-            .subscribe(onSuccess: { [weak self] _ in
+            .subscribe(onSuccess: { [weak self] chat in
+                self?.interactor.storeChat(chatAdapter: ChatStorageAdapter(chat: chat))
                 self?.interactor.signalChatListToUpdate()
                 self?.view.hideLoader()
                 self?.router.dismissView()

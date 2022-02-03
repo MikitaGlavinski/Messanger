@@ -12,5 +12,5 @@ protocol RegisterInteractorInput {
     func createUser(email: String, password: String) -> Single<String>?
     func saveToken(token: String)
     func uploadImage(image: UIImage) -> Single<String>?
-    func addUser(user: UserModel) -> Single<String>?
+    func addUser(user: UserModel) -> Single<UserModel>?
 }

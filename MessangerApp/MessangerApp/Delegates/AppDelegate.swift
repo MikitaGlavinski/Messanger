@@ -7,16 +7,18 @@
 
 import UIKit
 import Firebase
+import Reachability
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
-
+    
+    let reachability = try! Reachability()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         FirebaseApp.configure()
         setupServiceLocator()
+        setupReachability()
         return true
     }
 
@@ -39,6 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let authService = AuthService()
         let firebaseService = FirebaseService()
         let chatSignalService = ChatSignalService()
+        
         ServiceLocator.shared.addService(service: secureStorage)
         ServiceLocator.shared.addService(service: authService)
         ServiceLocator.shared.addService(service: firebaseService)
@@ -46,7 +49,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         guard let dbURL = try? FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
                 .appendingPathComponent("MessangerDB.sqlite") else { return }
         let storageService = StorageService(path: dbURL.path)
+        let sendingService = SendingService(
+            firebaseService: firebaseService,
+            storageService: storageService,
+            chatSignalService: chatSignalService
+        )
         ServiceLocator.shared.addService(service: storageService)
+        ServiceLocator.shared.addService(service: sendingService)
+    }
+    
+    private func setupReachability() {
+        reachability.whenReachable = { reachability in
+            let chatSignalService: ChatSignalService? = ServiceLocator.shared.getService()
+            chatSignalService?.signalStartSending()
+        }
+        
+        do {
+            try reachability.startNotifier()
+        } catch {
+            print("Unable to notifier reachability")
+        }
     }
 
 }

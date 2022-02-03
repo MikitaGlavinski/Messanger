@@ -23,18 +23,20 @@ class ChatPresenter {
         self.chatId = chatId
     }
     
-    private func updateMessages(messages: [MessageModel]) {
-        let messageAdapters = messages.compactMap({MessageStorageAdapter(message: $0)})
-        interactor.storeMessages(messageAdapters: messageAdapters)
-        readMessages()
+    private func updateMessages(messages: [MessageModel]?) {
+        if let messages = messages {
+            let messageAdapters = messages.compactMap({MessageStorageAdapter(message: $0)})
+            interactor.storeMessages(messageAdapters: messageAdapters)
+            readMessages()
+        }
         guard
             let token = interactor.obtainToken(),
-            let storedMessages = interactor.obtainMessages(chatId: chatId)
+            let storedMessages = interactor.obtainStoredMessages(chatId: chatId)
         else { return }
         storedMessages
             .observe(on: MainScheduler.instance)
             .subscribe(onSuccess: { [weak self] messages in
-                let messageModels = messages.sorted(by: {$0.date < $1.date}).compactMap({MessageViewModel(messageModel: $0, userId: token)})
+                let messageModels = messages.sorted(by: {$0.date > $1.date}).compactMap({MessageViewModel(messageModel: $0, userId: token)})
                 self?.view.setupMessages(messages: messageModels)
             }, onFailure: { [weak self] error in
                 self?.view.showError(error: error)
@@ -45,7 +47,7 @@ class ChatPresenter {
         interactor.addMessagesListener(chatId: chatId, date: date) { [weak self] result in
             switch result {
             case.success(let messages):
-                self?.updateMessages(messages: messages.sorted(by: {$0.date < $1.date}))
+                self?.updateMessages(messages: messages.sorted(by: {$0.date > $1.date}))
             case .failure(let error):
                 self?.view.showError(error: error)
             }
@@ -84,7 +86,7 @@ extension ChatPresenter: ChatPresenterProtocol {
         storedMessagesObtainer
             .observe(on: MainScheduler.instance)
             .flatMap { [weak self] messages -> Single<ChatsStorageResponse> in
-                let messageModels = messages.sorted(by: {$0.date < $1.date}).compactMap({MessageViewModel(messageModel: $0, userId: token)})
+                let messageModels = messages.sorted(by: {$0.date > $1.date}).compactMap({MessageViewModel(messageModel: $0, userId: token)})
                 self?.view.setupMessages(messages: messageModels)
                 return storedChatObtainer
             }
@@ -128,31 +130,27 @@ extension ChatPresenter: ChatPresenterProtocol {
             let peerId = self.peerId,
             let senderId = self.senderId
         else { return }
-        let messageModel = MessageModel(
+        let messageAdapter = MessageStorageAdapter(
             id: UUID().uuidString,
             text: text,
             peerId: peerId,
             senderId: senderId,
             chatId: chatId,
             type: 0,
-            fileURL: nil,
+            fileURL: "",
             date: Date().timeIntervalSince1970,
-            isRead: false
+            isRead: false,
+            isSent: false
         )
-        let messageViewModel = MessageViewModel(messageModel: messageModel, userId: senderId)
-        view.addMessage(message: messageViewModel)
-        guard let messageSender = interactor.sendMessage(message: messageModel) else { return }
-        messageSender
-            .observe(on: MainScheduler.instance)
-            .subscribe(onSuccess: { [weak self] response in
-                self?.interactor.storeMessages(messageAdapters: [MessageStorageAdapter(message: messageModel)])
-                print(response)
-            }, onFailure: { [weak self] error in
-                self?.view.showError(error: error)
-            }).disposed(by: disposeBag)
+        interactor.storeMessages(messageAdapters: [messageAdapter])
+        let messageViewModel = MessageViewModel(messageModel: messageAdapter, userId: senderId)
+//        view.addMessage(message: messageViewModel)
+        interactor.signalizeToSend(messageId: messageAdapter.id)
     }
 }
 
 extension ChatPresenter: ChatPresenterInput {
-    
+    func updateChat() {
+//        updateMessages(messages: nil)
+    }
 }

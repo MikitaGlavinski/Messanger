@@ -19,6 +19,9 @@ protocol StorageServiceProtocol {
     func obtainLastMessage(chatId: String) -> Single<MessageStorageAdapter?>
     func obtainLastMessage() -> Single<MessageStorageAdapter?>
     func readAllMessagesInChat(chatId: String)
+    func obtainSendingMessages() -> Single<[MessageStorageAdapter]>
+    func obtainFirstSendingMessage() -> MessageStorageAdapter?
+    func obtainMessageBy(messageId: String) -> MessageStorageAdapter?
 }
 
 class StorageService {
@@ -78,6 +81,7 @@ class StorageService {
                 t.column("fileURL", .text)
                 t.column("date", .double).notNull()
                 t.column("isRead", .boolean).notNull()
+                t.column("isSent", .boolean).notNull()
                 t.uniqueKey(["id"], onConflict: .replace)
             }
         }
@@ -255,6 +259,45 @@ extension StorageService: StorageServiceProtocol {
             })
         } catch let error {
             print(error.localizedDescription)
+        }
+    }
+    
+    func obtainSendingMessages() -> Single<[MessageStorageAdapter]> {
+        Single<[MessageStorageAdapter]>.create { [weak self] observer -> Disposable in
+            do {
+                let messages = try self?.db.read({ db in
+                    try MessageStorageAdapter
+                        .filter(Column("isSent") == false).fetchAll(db)
+                })
+                observer(.success(messages ?? []))
+            } catch let error {
+                observer(.failure(error))
+            }
+            return Disposables.create()
+        }
+    }
+    
+    func obtainFirstSendingMessage() -> MessageStorageAdapter? {
+        do {
+            let message = try self.db.read({ db in
+                try MessageStorageAdapter
+                    .filter(Column("isSent") == false).fetchOne(db)
+            })
+            return message
+        } catch {
+            return nil
+        }
+    }
+    
+    func obtainMessageBy(messageId: String) -> MessageStorageAdapter? {
+        do {
+            let message = try self.db.read({ db in
+                try MessageStorageAdapter
+                    .filter(Column("id") == messageId).fetchOne(db)
+            })
+            return message
+        } catch {
+            return nil
         }
     }
 }

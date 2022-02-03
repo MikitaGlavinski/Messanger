@@ -13,7 +13,7 @@ protocol ChatInteractorInput {
     func obtainStoredMessages(chatId: String) -> Single<[MessageStorageAdapter]>?
     func storeMessages(messageAdapters: [MessageStorageAdapter])
     func obtainMessages(chatId: String) -> Single<[MessageModel]>?
-    func sendMessage(message: MessageModel) -> Single<String>?
+    func sendMessage(message: MessageModel) -> Single<MessageModel>?
     func obtainStoredChat(chatId: String) -> Single<ChatsStorageResponse>?
     func obtainChat(chatId: String) -> Single<ChatModel>?
     func storeChats(chats: [ChatStorageAdapter])
@@ -22,4 +22,5 @@ protocol ChatInteractorInput {
     func signalizeChatList()
     func readAllStoredMessages(chatId: String)
     func readAllRemoteMessages(chatId: String, peerId: String) -> Single<String>?
+    func signalizeToSend(messageId: String)
 }

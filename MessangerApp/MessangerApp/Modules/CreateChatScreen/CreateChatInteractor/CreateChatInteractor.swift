@@ -12,6 +12,7 @@ class CreateChatInteractor {
     var secureStorage: SecureStorageServiceProtocol!
     var firebaseService: FirebaseServiceProtocol!
     var chatSignalService: ChatSignalServiceProtocol!
+    var storageService: StorageServiceProtocol!
 }
 
 extension CreateChatInteractor: CreateChatInteractorInput {
@@ -30,12 +31,16 @@ extension CreateChatInteractor: CreateChatInteractorInput {
             .subscribe(on: SerialDispatchQueueScheduler(qos: .background))
     }
     
-    func createChat(chat: ChatModel) -> Single<String>? {
+    func createChat(chat: ChatModel) -> Single<ChatModel>? {
         firebaseService.createChat(chat: chat)
             .subscribe(on: SerialDispatchQueueScheduler(qos: .background))
     }
     
     func signalChatListToUpdate() {
         chatSignalService.signalChatListToUpdate()
+    }
+    
+    func storeChat(chatAdapter: ChatStorageAdapter) {
+        storageService.storeChats(chatAdapters: [chatAdapter])
     }
 }

@@ -77,6 +77,11 @@ class ChatViewController: BaseViewController {
         presenter.sendTextMessage(text: text)
         messageTextView.text = ""
         placeholderLabel.isHidden = false
+        textBackViewHeightConstraint.constant = 35
+        containerHeightConstraint.constant = 90
+        UIView.animate(withDuration: 0.2) {
+            self.view.layoutIfNeeded()
+        }
     }
     
     @IBAction func addAttachment(_ sender: Any) {
@@ -110,7 +115,6 @@ extension ChatViewController: ChatViewInput {
     func setupMessages(messages: [MessageViewModel]) {
         let changeNumber = messages.count - self.messages.count
         self.messages = messages
-        self.messages.reverse()
         if changeNumber > 0 {
             var indexSet = [IndexPath]()
             for item in 0..<changeNumber {
@@ -119,12 +123,13 @@ extension ChatViewController: ChatViewInput {
             self.collectionView.insertItems(at: indexSet)
         } else {
             self.collectionView.reloadData()
+            collectionView.collectionViewLayout.invalidateLayout()
+            collectionView.layoutSubviews()
         }
     }
     
     func addMessage(message: MessageViewModel) {
-        messages.append(message)
-        messages.reverse()
+        messages.insert(message, at: 0)
         collectionView.insertItems(at: [IndexPath(item: 0, section: 0)])
     }
 }
@@ -137,7 +142,9 @@ extension ChatViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let message = messages[indexPath.item]
-        return message.getCollectionCell(from: collectionView, indexPath: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TextMessageCollectionViewCell.reuseIdentifier, for: indexPath) as! TextMessageCollectionViewCell
+        cell.configureCell(with: message)
+        return cell
     }
 }
 

@@ -38,13 +38,13 @@ extension RegisterPresenter: RegisterPresenterProtocol {
         view.showLoader()
         guard let createUser = interactor.createUser(email: email, password: password) else { return }
         createUser
-            .flatMap({ [weak self] token -> Single<String> in
+            .flatMap({ [weak self] token -> Single<UserModel> in
                 self?.interactor.saveToken(token: token)
                 guard
                     let imageURL = self?.imageURL,
                     let userAdder = self?.interactor.addUser(user: UserModel(id: token, email: email, imageURL: imageURL))
                 else {
-                    return Single<String>.error(NetworkError.requestError)
+                    return Single<UserModel>.error(NetworkError.requestError)
                 }
                 return userAdder
             })

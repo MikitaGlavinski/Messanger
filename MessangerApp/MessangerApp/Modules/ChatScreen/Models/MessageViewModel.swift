@@ -22,6 +22,7 @@ struct MessageViewModel {
     var date: String
     var isOwner: Bool
     var isRead: Bool
+    var isSent: Bool
     
     init(messageModel: MessageModel, userId: String) {
         self.id = messageModel.id
@@ -34,6 +35,7 @@ struct MessageViewModel {
         self.isOwner = messageModel.senderId == userId
         self.date = DateFormatterService.shared.formatDate(doubleDate: messageModel.date, format: "dd MM, HH:mm")
         self.type = MessageType(rawValue: messageModel.type) ?? .text
+        self.isSent = messageModel.isSent
     }
     
     init(messageModel: MessageStorageAdapter, userId: String) {
@@ -47,6 +49,7 @@ struct MessageViewModel {
         self.isOwner = messageModel.senderId == userId
         self.date = DateFormatterService.shared.formatDate(doubleDate: messageModel.date, format: "dd MM, HH:mm")
         self.type = MessageType(rawValue: messageModel.type) ?? .text
+        self.isSent = messageModel.isSent
     }
     
     func getCollectionCell(from collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
