@@ -26,8 +26,15 @@ protocol FirebaseServiceProtocol {
 
 class FirebaseService {
     
-    private let db = Firestore.firestore()
+    private let db: Firestore
     private let storageRef = Storage.storage().reference()
+    
+    init() {
+        self.db = Firestore.firestore()
+        let settings = FirestoreSettings()
+        settings.isPersistenceEnabled = false
+        self.db.settings = settings
+    }
     
     private func setData<T: Encodable>(at path: String, model: T) -> Single<T> {
         Single<T>.create { [weak self] observer -> Disposable in
@@ -161,14 +168,17 @@ extension FirebaseService: FirebaseServiceProtocol {
             .whereField("chatId", isEqualTo: chatId)
             .whereField("date", isGreaterThan: date)
             .addSnapshotListener { snapshot, error in
-            if let error = error {
-                updateClosure(.failure(error))
-                return
+                if let error = error {
+                    updateClosure(.failure(error))
+                    return
+                }
+                if snapshot?.metadata.hasPendingWrites == true {
+                    return
+                }
+                guard let documents = snapshot?.documents else { return }
+                let messages = documents.compactMap({try? DictionaryDecoder().decode(dictionary: $0.data(), decodeType: MessageModel.self)})
+                updateClosure(.success(messages))
             }
-            guard let documents = snapshot?.documents else { return }
-            let messages = documents.compactMap({try? DictionaryDecoder().decode(dictionary: $0.data(), decodeType: MessageModel.self)})
-            updateClosure(.success(messages))
-        }
     }
     
     func addAllMessagesListener(date: Double, updateClosure: @escaping (Result<[MessageModel], Error>) -> ()) {

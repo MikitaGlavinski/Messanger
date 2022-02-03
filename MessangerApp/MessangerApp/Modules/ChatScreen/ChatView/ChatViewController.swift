@@ -123,14 +123,19 @@ extension ChatViewController: ChatViewInput {
             self.collectionView.insertItems(at: indexSet)
         } else {
             self.collectionView.reloadData()
-            collectionView.collectionViewLayout.invalidateLayout()
-            collectionView.layoutSubviews()
         }
     }
     
     func addMessage(message: MessageViewModel) {
         messages.insert(message, at: 0)
         collectionView.insertItems(at: [IndexPath(item: 0, section: 0)])
+    }
+    
+    func updateMessage(message: MessageViewModel) {
+        guard let index = messages.firstIndex(where: {$0.id == message.id}) else { return }
+        messages[index] = message
+        self.collectionView.reloadData()
+        self.collectionView.reloadItems(at: [IndexPath(item: index, section: 0)])
     }
 }
 

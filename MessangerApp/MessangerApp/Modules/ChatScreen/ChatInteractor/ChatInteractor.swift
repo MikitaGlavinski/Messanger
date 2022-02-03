@@ -20,8 +20,8 @@ class ChatInteractor {
     init(chatSignalService: ChatSignalServiceProtocol?) {
         self.chatSignalService = chatSignalService
         
-        chatSignalService?.getChatListener().bind(onNext: { [weak self] _ in
-            self?.presenter.updateChat()
+        chatSignalService?.getChatListener().bind(onNext: { [weak self] message in
+            self?.presenter.updateChat(message: message)
         }).disposed(by: disposeBag)
     }
 }

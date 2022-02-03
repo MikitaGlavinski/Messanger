@@ -14,5 +14,5 @@ protocol ChatPresenterProtocol {
 }
 
 protocol ChatPresenterInput: AnyObject {
-    func updateChat()
+    func updateChat(message: MessageModel)
 }

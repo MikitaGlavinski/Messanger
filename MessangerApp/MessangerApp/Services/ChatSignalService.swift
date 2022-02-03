@@ -15,15 +15,15 @@ protocol ChatSignalServiceProtocol {
     func signalStartSending()
     func getSendingMessageListener() -> PublishSubject<String>
     func signalSendMessage(messageId: String)
-    func getChatListener() -> PublishSubject<Void>
-    func signalChatToUpdate()
+    func getChatListener() -> PublishSubject<MessageModel>
+    func signalChatToUpdate(messageModel: MessageModel)
 }
 
 class ChatSignalService {
     let chatListListener: PublishSubject<Void> = PublishSubject<Void>()
     let startSendingListener: PublishSubject<Void> = PublishSubject<Void>()
     let sendingMessageListener: PublishSubject<String> = PublishSubject<String>()
-    let chatListener: PublishSubject<Void> = PublishSubject<Void>()
+    let chatListener: PublishSubject<MessageModel> = PublishSubject<MessageModel>()
 }
 
 extension ChatSignalService: ChatSignalServiceProtocol {
@@ -52,11 +52,11 @@ extension ChatSignalService: ChatSignalServiceProtocol {
         sendingMessageListener.onNext(messageId)
     }
     
-    func getChatListener() -> PublishSubject<Void> {
+    func getChatListener() -> PublishSubject<MessageModel> {
         chatListener
     }
     
-    func signalChatToUpdate() {
-        chatListener.onNext(())
+    func signalChatToUpdate(messageModel: MessageModel) {
+        chatListener.onNext(messageModel)
     }
 }

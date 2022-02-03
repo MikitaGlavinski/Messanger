@@ -143,14 +143,16 @@ extension ChatPresenter: ChatPresenterProtocol {
             isSent: false
         )
         interactor.storeMessages(messageAdapters: [messageAdapter])
-        let messageViewModel = MessageViewModel(messageModel: messageAdapter, userId: senderId)
-//        view.addMessage(message: messageViewModel)
+        let viewModel = MessageViewModel(messageModel: messageAdapter, userId: senderId)
+        view.addMessage(message: viewModel)
         interactor.signalizeToSend(messageId: messageAdapter.id)
     }
 }
 
 extension ChatPresenter: ChatPresenterInput {
-    func updateChat() {
-//        updateMessages(messages: nil)
+    func updateChat(message: MessageModel) {
+        guard let senderId = self.senderId else { return }
+        let viewMessageModel = MessageViewModel(messageModel: message, userId: senderId)
+        self.view.updateMessage(message: viewMessageModel)
     }
 }

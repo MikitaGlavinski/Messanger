@@ -84,11 +84,11 @@ class TextMessageCollectionViewCell: UICollectionViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-//        handleMessage()
+        handleMessage()
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        sendStateView.backgroundColor = .clear
+        sendStateView.isHidden = false
     }
 }

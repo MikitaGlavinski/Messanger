@@ -59,9 +59,16 @@ class SendingService: SendingServiceProtocol {
         messageModel.isSent = true
         let messageSender = firebaseService.addMessage(message: messageModel)
         messageSender
+//            .flatMap({ [weak self] message -> Single<MessageModel> in
+//                var sentMessage = message
+//                sentMessage.isSent = true
+//                guard let secondMessageSender = self?.firebaseService.addMessage(message: sentMessage) else {
+//                    return Single<MessageModel>.error(NetworkError.requestError)
+//                }
+//                return secondMessageSender
+//            })
             .subscribe(onSuccess: { [weak self] message in
-//                self?.storageService.storeMessages(messageAdapters: [MessageStorageAdapter(message: message)])
-//                self?.chatSignalService.signalChatToUpdate()
+                self?.chatSignalService.signalChatToUpdate(messageModel: message)
                 self?.start()
             }, onFailure: { error in
                 print(error.localizedDescription)
