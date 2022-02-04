@@ -147,8 +147,12 @@ extension ChatViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let message = messages[indexPath.item]
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TextMessageCollectionViewCell.reuseIdentifier, for: indexPath) as! TextMessageCollectionViewCell
-        cell.configureCell(with: message)
+        var showDate: Bool = true
+        let previousMessageDate: Double? = indexPath.item + 1 != messages.count ? messages[indexPath.item + 1].doubleDate : nil
+        if let previousMessageDate = previousMessageDate {
+            showDate = (messages[indexPath.item].doubleDate - previousMessageDate) > 86400
+        }
+        let cell = message.getCollectionCell(from: collectionView, showDate: showDate, indexPath: indexPath)
         return cell
     }
 }
@@ -156,9 +160,14 @@ extension ChatViewController: UICollectionViewDataSource {
 extension ChatViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        var additionalHeight: CGFloat = 20
+        let previousMessageDate: Double? = indexPath.item + 1 != messages.count ? messages[indexPath.item + 1].doubleDate : nil
+        if let previousMessageDate = previousMessageDate {
+            additionalHeight = (messages[indexPath.item].doubleDate - previousMessageDate) > 86400 ? 20 : 0
+        }
         guard let messageText = messages[indexPath.item].text else { return CGSize(width: view.frame.width, height: 100) }
         let textRect = messageText.estimatedSize(width: 250, height: 2000, font: UIFont.systemFont(ofSize: 16))
-        return CGSize(width: view.frame.width, height: textRect.height + 30)
+        return CGSize(width: view.frame.width, height: textRect.height + 30 + additionalHeight)
     }
 }
 

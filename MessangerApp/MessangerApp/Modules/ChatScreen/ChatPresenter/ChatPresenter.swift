@@ -55,7 +55,8 @@ class ChatPresenter {
     }
     
     private func readMessages() {
-        interactor.readAllStoredMessages(chatId: chatId)
+        guard let peerId = self.peerId else { return }
+        interactor.readAllStoredMessages(chatId: chatId, senderId: peerId)
         guard
             let peerId = self.peerId,
             let remoteMessageReader = interactor.readAllRemoteMessages(chatId: chatId, peerId: peerId)
@@ -145,6 +146,7 @@ extension ChatPresenter: ChatPresenterProtocol {
         interactor.storeMessages(messageAdapters: [messageAdapter])
         let viewModel = MessageViewModel(messageModel: messageAdapter, userId: senderId)
         view.addMessage(message: viewModel)
+        interactor.signalizeChatList()
         interactor.signalizeToSend(messageId: messageAdapter.id)
     }
 }

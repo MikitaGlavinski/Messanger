@@ -18,7 +18,7 @@ protocol StorageServiceProtocol {
     func obtainMessages(chatId: String) -> Single<[MessageStorageAdapter]>
     func obtainLastMessage(chatId: String) -> Single<MessageStorageAdapter?>
     func obtainLastMessage() -> Single<MessageStorageAdapter?>
-    func readAllMessagesInChat(chatId: String)
+    func readAllMessagesInChat(chatId: String, senderId: String)
     func obtainSendingMessages() -> Single<[MessageStorageAdapter]>
     func obtainFirstSendingMessage() -> MessageStorageAdapter?
     func obtainMessageBy(messageId: String) -> MessageStorageAdapter?
@@ -244,11 +244,12 @@ extension StorageService: StorageServiceProtocol {
         }
     }
     
-    func readAllMessagesInChat(chatId: String) {
+    func readAllMessagesInChat(chatId: String, senderId: String) {
         do {
             let messages = try self.db.read({ db in
                 try MessageStorageAdapter
                     .filter(Column("chatId") == chatId)
+                    .filter(Column("senderId") == senderId)
                     .filter(Column("isRead") == false).fetchAll(db)
             })
             try self.db.write({ db in

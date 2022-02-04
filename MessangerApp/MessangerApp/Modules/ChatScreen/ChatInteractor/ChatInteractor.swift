@@ -78,8 +78,8 @@ extension ChatInteractor: ChatInteractorInput {
         chatSignalService.signalChatListToUpdate()
     }
     
-    func readAllStoredMessages(chatId: String) {
-        storageService.readAllMessagesInChat(chatId: chatId)
+    func readAllStoredMessages(chatId: String, senderId: String) {
+        storageService.readAllMessagesInChat(chatId: chatId, senderId: senderId)
     }
     
     func readAllRemoteMessages(chatId: String, peerId: String) -> Single<String>? {

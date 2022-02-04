@@ -20,6 +20,7 @@ struct MessageViewModel {
     var type: MessageType
     var fileURL: String?
     var date: String
+    var doubleDate: Double
     var isOwner: Bool
     var isRead: Bool
     var isSent: Bool
@@ -33,7 +34,8 @@ struct MessageViewModel {
         self.fileURL = messageModel.fileURL
         self.isRead = messageModel.isRead
         self.isOwner = messageModel.senderId == userId
-        self.date = DateFormatterService.shared.formatDate(doubleDate: messageModel.date, format: "dd MM, HH:mm")
+        self.date = DateFormatterService.shared.formatDate(doubleDate: messageModel.date, format: "HH:mm")
+        self.doubleDate = messageModel.date
         self.type = MessageType(rawValue: messageModel.type) ?? .text
         self.isSent = messageModel.isSent
     }
@@ -47,15 +49,17 @@ struct MessageViewModel {
         self.fileURL = messageModel.fileURL
         self.isRead = messageModel.isRead
         self.isOwner = messageModel.senderId == userId
-        self.date = DateFormatterService.shared.formatDate(doubleDate: messageModel.date, format: "dd MM, HH:mm")
+        self.date = DateFormatterService.shared.formatDate(doubleDate: messageModel.date, format: "HH:mm")
+        self.doubleDate = messageModel.date
         self.type = MessageType(rawValue: messageModel.type) ?? .text
         self.isSent = messageModel.isSent
     }
     
-    func getCollectionCell(from collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
+    func getCollectionCell(from collectionView: UICollectionView, showDate: Bool, indexPath: IndexPath) -> UICollectionViewCell {
         switch self.type {
         case .text:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TextMessageCollectionViewCell.reuseIdentifier, for: indexPath) as! TextMessageCollectionViewCell
+            cell.configureWithDate = showDate
             cell.configureCell(with: self)
             return cell
         default:

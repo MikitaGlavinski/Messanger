@@ -21,11 +21,11 @@ struct ChatViewModel {
         self.chatId = chat.id
         self.title = chat.members[chatIndex].email
         self.chatImageURL = chat.members[chatIndex].imageURL
-        if let doubleDate = filteredMessages?.last?.date {
-            self.lastMessageDate = DateFormatterService.shared.formatDate(doubleDate: doubleDate, format: "dd.MM.yy")
-        }
         self.unreadMessageCount = chatMessages?.filter({$0.isRead == false && $0.senderId != currentUserId}).count ?? 0
         self.lastMessageText = filteredMessages?.last?.text
+        if let doubleDate = filteredMessages?.last?.date {
+            self.lastMessageDate = self.dateForChat(doubleDate)
+        }
     }
     
     init(chatStorageResponse: ChatsStorageResponse, currentUserId: String) {
@@ -34,10 +34,22 @@ struct ChatViewModel {
         self.chatId = chatStorageResponse.chats.id
         self.title = chatStorageResponse.users[chatIndex].email
         self.chatImageURL = chatStorageResponse.users[chatIndex].imageURL
-        if let doubleDate = chatStorageResponse.messages.last?.date {
-            self.lastMessageDate = DateFormatterService.shared.formatDate(doubleDate: doubleDate, format: "dd.MM.yy")
-        }
         self.unreadMessageCount = chatStorageResponse.messages.filter({$0.isRead == false && $0.senderId != currentUserId}).count
         self.lastMessageText = filteredMessages.last?.text
+        if let doubleDate = chatStorageResponse.messages.last?.date {
+            self.lastMessageDate = self.dateForChat(doubleDate)
+        }
+    }
+    
+    private func dateForChat(_ doubleDate: Double) -> String {
+        let date = Date(timeIntervalSince1970: doubleDate)
+        let calendar = Calendar.current
+        if calendar.isDateInToday(date) {
+            return DateFormatterService.shared.formatDate(doubleDate: doubleDate, format: "HH:mm")
+        } else if calendar.isDateInWeekend(date) {
+            return DateFormatterService.shared.formatDate(doubleDate: doubleDate, format: "E")
+        } else {
+            return DateFormatterService.shared.formatDate(doubleDate: doubleDate, format: "dd.MM")
+        }
     }
 }

@@ -20,7 +20,7 @@ protocol ChatInteractorInput {
     func addMessagesListener(chatId: String, date: Double, updateClosure: @escaping (Result<[MessageModel], Error>) -> ())
     func obtainLastMessage(chatId: String) -> Single<MessageStorageAdapter?>?
     func signalizeChatList()
-    func readAllStoredMessages(chatId: String)
+    func readAllStoredMessages(chatId: String, senderId: String)
     func readAllRemoteMessages(chatId: String, peerId: String) -> Single<String>?
     func signalizeToSend(messageId: String)
 }

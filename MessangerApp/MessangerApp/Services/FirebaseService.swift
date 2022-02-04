@@ -185,14 +185,17 @@ extension FirebaseService: FirebaseServiceProtocol {
         self.db.collection("messages")
             .whereField("date", isGreaterThan: date)
             .addSnapshotListener { snapshot, error in
-            if let error = error {
-                updateClosure(.failure(error))
-                return
+                if let error = error {
+                    updateClosure(.failure(error))
+                    return
+                }
+                if snapshot?.metadata.hasPendingWrites == true {
+                    return
+                }
+                guard let documents = snapshot?.documents else { return }
+                let messages = documents.compactMap({try? DictionaryDecoder().decode(dictionary: $0.data(), decodeType: MessageModel.self)})
+                updateClosure(.success(messages))
             }
-            guard let documents = snapshot?.documents else { return }
-            let messages = documents.compactMap({try? DictionaryDecoder().decode(dictionary: $0.data(), decodeType: MessageModel.self)})
-            updateClosure(.success(messages))
-        }
     }
     
     func readAllMessages(chatId: String, peerId: String) -> Single<String> {
