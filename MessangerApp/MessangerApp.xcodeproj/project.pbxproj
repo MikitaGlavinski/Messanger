@@ -43,6 +43,12 @@
 		FA0ADBDC27A6CE0300B87E6F /* ChatInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0ADBDB27A6CE0300B87E6F /* ChatInteractor.swift */; };
 		FA0ADBDE27A6CE1A00B87E6F /* ChatRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0ADBDD27A6CE1A00B87E6F /* ChatRouter.swift */; };
 		FA0ADBE027A6CE8500B87E6F /* ChatAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0ADBDF27A6CE8500B87E6F /* ChatAssembly.swift */; };
+		FA13F80E27B1374600A242C3 /* ImageMessageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA13F80D27B1374600A242C3 /* ImageMessageCollectionViewCell.swift */; };
+		FA13F81027B13A0800A242C3 /* ScaledImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA13F80F27B13A0800A242C3 /* ScaledImageView.swift */; };
+		FA13F81327B13DC900A242C3 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = FA13F81227B13DC900A242C3 /* Alamofire */; };
+		FA13F81527B13DE200A242C3 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA13F81427B13DE200A242C3 /* ImageLoader.swift */; };
+		FA13F81727B1423900A242C3 /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA13F81627B1423900A242C3 /* UIImageView+Extension.swift */; };
+		FA13F81927B1573300A242C3 /* DataCacher.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA13F81827B1573300A242C3 /* DataCacher.swift */; };
 		FA26080427A1FD8700093F66 /* ScaledButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA26080327A1FD8700093F66 /* ScaledButton.swift */; };
 		FA68B8F027A18562004A5655 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA68B8EF27A18562004A5655 /* StorageService.swift */; };
 		FA68B8F327A185B7004A5655 /* ChatStorageAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA68B8F227A185B7004A5655 /* ChatStorageAdapter.swift */; };
@@ -76,6 +82,14 @@
 		FA8BDABA2796FB330095EB5B /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = FA8BDAB92796FB330095EB5B /* FirebaseStorage */; };
 		FA91C70D27ABDB4000353739 /* Reachability in Frameworks */ = {isa = PBXBuildFile; productRef = FA91C70C27ABDB4000353739 /* Reachability */; };
 		FA91C71127ABF11500353739 /* SendingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA91C71027ABF11500353739 /* SendingService.swift */; };
+		FAA48F7927B28DC50050884F /* ImageViewInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA48F7827B28DC50050884F /* ImageViewInput.swift */; };
+		FAA48F7B27B28DE60050884F /* ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA48F7A27B28DE60050884F /* ImageViewController.swift */; };
+		FAA48F7D27B28E000050884F /* ImagePresenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA48F7C27B28E000050884F /* ImagePresenterProtocol.swift */; };
+		FAA48F7F27B28E110050884F /* ImagePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA48F7E27B28E110050884F /* ImagePresenter.swift */; };
+		FAA48F8127B28E2C0050884F /* ImageInteractorInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA48F8027B28E2C0050884F /* ImageInteractorInput.swift */; };
+		FAA48F8327B28E380050884F /* ImageInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA48F8227B28E380050884F /* ImageInteractor.swift */; };
+		FAA48F8527B28E4E0050884F /* ImageRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA48F8427B28E4E0050884F /* ImageRouter.swift */; };
+		FAA48F8727B295070050884F /* ImageAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA48F8627B295070050884F /* ImageAssembly.swift */; };
 		FAB032D1279F2C61006F9C48 /* CreateChatViewInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB032D0279F2C61006F9C48 /* CreateChatViewInput.swift */; };
 		FAB032D3279F2CA0006F9C48 /* CreateChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB032D2279F2CA0006F9C48 /* CreateChatViewController.swift */; };
 		FAB032DA279F2D2F006F9C48 /* CreateChatPresenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB032D9279F2D2F006F9C48 /* CreateChatPresenterProtocol.swift */; };
@@ -125,6 +139,11 @@
 		FA0ADBDB27A6CE0300B87E6F /* ChatInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInteractor.swift; sourceTree = "<group>"; };
 		FA0ADBDD27A6CE1A00B87E6F /* ChatRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRouter.swift; sourceTree = "<group>"; };
 		FA0ADBDF27A6CE8500B87E6F /* ChatAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatAssembly.swift; sourceTree = "<group>"; };
+		FA13F80D27B1374600A242C3 /* ImageMessageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageMessageCollectionViewCell.swift; sourceTree = "<group>"; };
+		FA13F80F27B13A0800A242C3 /* ScaledImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaledImageView.swift; sourceTree = "<group>"; };
+		FA13F81427B13DE200A242C3 /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
+		FA13F81627B1423900A242C3 /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
+		FA13F81827B1573300A242C3 /* DataCacher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataCacher.swift; sourceTree = "<group>"; };
 		FA26080327A1FD8700093F66 /* ScaledButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaledButton.swift; sourceTree = "<group>"; };
 		FA68B8EF27A18562004A5655 /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
 		FA68B8F227A185B7004A5655 /* ChatStorageAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatStorageAdapter.swift; sourceTree = "<group>"; };
@@ -156,6 +175,14 @@
 		FA8BDAB52796F8B20095EB5B /* ChatModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatModel.swift; sourceTree = "<group>"; };
 		FA8BDAB72796FB010095EB5B /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		FA91C71027ABF11500353739 /* SendingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendingService.swift; sourceTree = "<group>"; };
+		FAA48F7827B28DC50050884F /* ImageViewInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewInput.swift; sourceTree = "<group>"; };
+		FAA48F7A27B28DE60050884F /* ImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewController.swift; sourceTree = "<group>"; };
+		FAA48F7C27B28E000050884F /* ImagePresenterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePresenterProtocol.swift; sourceTree = "<group>"; };
+		FAA48F7E27B28E110050884F /* ImagePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePresenter.swift; sourceTree = "<group>"; };
+		FAA48F8027B28E2C0050884F /* ImageInteractorInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageInteractorInput.swift; sourceTree = "<group>"; };
+		FAA48F8227B28E380050884F /* ImageInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageInteractor.swift; sourceTree = "<group>"; };
+		FAA48F8427B28E4E0050884F /* ImageRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRouter.swift; sourceTree = "<group>"; };
+		FAA48F8627B295070050884F /* ImageAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAssembly.swift; sourceTree = "<group>"; };
 		FAB032D0279F2C61006F9C48 /* CreateChatViewInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateChatViewInput.swift; sourceTree = "<group>"; };
 		FAB032D2279F2CA0006F9C48 /* CreateChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateChatViewController.swift; sourceTree = "<group>"; };
 		FAB032D9279F2D2F006F9C48 /* CreateChatPresenterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateChatPresenterProtocol.swift; sourceTree = "<group>"; };
@@ -177,6 +204,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA13F81327B13DC900A242C3 /* Alamofire in Frameworks */,
 				FA04940927959AEC003C3050 /* RxSwift in Frameworks */,
 				FA04941627959D75003C3050 /* FirebaseAuth in Frameworks */,
 				FA08AAAB27A053A40056BE29 /* Kingfisher in Frameworks */,
@@ -254,6 +282,7 @@
 		FA04941327959D4B003C3050 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				FAA48F7227B28D690050884F /* ImageScreen */,
 				FA0ADBCB27A6CCC000B87E6F /* ChatScreen */,
 				FAB032CF279F2C49006F9C48 /* CreateChatScreen */,
 				FA8BDA982796A8070095EB5B /* RegisterScreen */,
@@ -336,6 +365,8 @@
 				FA08AAA727A04DE50056BE29 /* ChatSignalService.swift */,
 				FA68B8EF27A18562004A5655 /* StorageService.swift */,
 				FA91C71027ABF11500353739 /* SendingService.swift */,
+				FA13F81427B13DE200A242C3 /* ImageLoader.swift */,
+				FA13F81827B1573300A242C3 /* DataCacher.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -413,6 +444,7 @@
 			isa = PBXGroup;
 			children = (
 				FA26080327A1FD8700093F66 /* ScaledButton.swift */,
+				FA13F80F27B13A0800A242C3 /* ScaledImageView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -565,6 +597,7 @@
 				FA08AAAE27A056F80056BE29 /* UITableViewCell+Extension.swift */,
 				FAFDF45827A7F90B00509779 /* UICollectionViewCell+Extension.swift */,
 				FAFDF45D27A800A400509779 /* String+Extension.swift */,
+				FA13F81627B1423900A242C3 /* UIImageView+Extension.swift */,
 			);
 			path = Extansions;
 			sourceTree = "<group>";
@@ -577,6 +610,61 @@
 				FA7D2536279833E6004F29D4 /* MessageModel.swift */,
 			);
 			path = ApiModels;
+			sourceTree = "<group>";
+		};
+		FAA48F7227B28D690050884F /* ImageScreen */ = {
+			isa = PBXGroup;
+			children = (
+				FAA48F7727B28DAB0050884F /* ImageAssembly */,
+				FAA48F7627B28DA40050884F /* ImageRouter */,
+				FAA48F7527B28D9B0050884F /* ImageInteractor */,
+				FAA48F7427B28D940050884F /* ImagePresenter */,
+				FAA48F7327B28D8B0050884F /* ImageView */,
+			);
+			path = ImageScreen;
+			sourceTree = "<group>";
+		};
+		FAA48F7327B28D8B0050884F /* ImageView */ = {
+			isa = PBXGroup;
+			children = (
+				FAA48F7827B28DC50050884F /* ImageViewInput.swift */,
+				FAA48F7A27B28DE60050884F /* ImageViewController.swift */,
+			);
+			path = ImageView;
+			sourceTree = "<group>";
+		};
+		FAA48F7427B28D940050884F /* ImagePresenter */ = {
+			isa = PBXGroup;
+			children = (
+				FAA48F7C27B28E000050884F /* ImagePresenterProtocol.swift */,
+				FAA48F7E27B28E110050884F /* ImagePresenter.swift */,
+			);
+			path = ImagePresenter;
+			sourceTree = "<group>";
+		};
+		FAA48F7527B28D9B0050884F /* ImageInteractor */ = {
+			isa = PBXGroup;
+			children = (
+				FAA48F8027B28E2C0050884F /* ImageInteractorInput.swift */,
+				FAA48F8227B28E380050884F /* ImageInteractor.swift */,
+			);
+			path = ImageInteractor;
+			sourceTree = "<group>";
+		};
+		FAA48F7627B28DA40050884F /* ImageRouter */ = {
+			isa = PBXGroup;
+			children = (
+				FAA48F8427B28E4E0050884F /* ImageRouter.swift */,
+			);
+			path = ImageRouter;
+			sourceTree = "<group>";
+		};
+		FAA48F7727B28DAB0050884F /* ImageAssembly */ = {
+			isa = PBXGroup;
+			children = (
+				FAA48F8627B295070050884F /* ImageAssembly.swift */,
+			);
+			path = ImageAssembly;
 			sourceTree = "<group>";
 		};
 		FAB032CF279F2C49006F9C48 /* CreateChatScreen */ = {
@@ -638,6 +726,7 @@
 			isa = PBXGroup;
 			children = (
 				FAFDF45427A7F88D00509779 /* TextMessageCollectionViewCell.swift */,
+				FA13F80D27B1374600A242C3 /* ImageMessageCollectionViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -675,6 +764,7 @@
 				FA8BDAB92796FB330095EB5B /* FirebaseStorage */,
 				FA08AAAA27A053A40056BE29 /* Kingfisher */,
 				FA91C70C27ABDB4000353739 /* Reachability */,
+				FA13F81227B13DC900A242C3 /* Alamofire */,
 			);
 			productName = MessangerApp;
 			productReference = FA0493EE2795970C003C3050 /* MessangerApp.app */;
@@ -710,6 +800,7 @@
 				FA04940D27959CB3003C3050 /* XCRemoteSwiftPackageReference "GRDB.swift" */,
 				FA08AAA927A053A40056BE29 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				FA91C70B27ABDB4000353739 /* XCRemoteSwiftPackageReference "Reachability" */,
+				FA13F81127B13DC900A242C3 /* XCRemoteSwiftPackageReference "Alamofire" */,
 			);
 			productRefGroup = FA0493EF2795970C003C3050 /* Products */;
 			projectDirPath = "";
@@ -740,19 +831,23 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA0493F22795970C003C3050 /* AppDelegate.swift in Sources */,
+				FAA48F8727B295070050884F /* ImageAssembly.swift in Sources */,
 				FA0494382795AFB7003C3050 /* NetworkError.swift in Sources */,
+				FAA48F8127B28E2C0050884F /* ImageInteractorInput.swift in Sources */,
 				FA0494202795A071003C3050 /* AuthViewController.swift in Sources */,
 				FA08AAAF27A056F80056BE29 /* UITableViewCell+Extension.swift in Sources */,
 				FA0494332795AD4B003C3050 /* SecureStorageService.swift in Sources */,
 				FA08AAA827A04DE50056BE29 /* ChatSignalService.swift in Sources */,
 				FA8BDAA52796A8960095EB5B /* RegisterPresenter.swift in Sources */,
 				FA0ADBE027A6CE8500B87E6F /* ChatAssembly.swift in Sources */,
+				FA13F81027B13A0800A242C3 /* ScaledImageView.swift in Sources */,
 				FAFDF45E27A800A400509779 /* String+Extension.swift in Sources */,
 				FA68B8F027A18562004A5655 /* StorageService.swift in Sources */,
 				FA0494222795A0C8003C3050 /* AuthPresenterProtocol.swift in Sources */,
 				FA8BDAB32796D3490095EB5B /* UIColorExtensions.swift in Sources */,
 				FA0ADBDC27A6CE0300B87E6F /* ChatInteractor.swift in Sources */,
 				FAFDF45927A7F90B00509779 /* UICollectionViewCell+Extension.swift in Sources */,
+				FA13F80E27B1374600A242C3 /* ImageMessageCollectionViewCell.swift in Sources */,
 				FAB032E4279F2DF9006F9C48 /* CreateChatAssembly.swift in Sources */,
 				FAB032DE279F2D68006F9C48 /* CreateChatInteractorInput.swift in Sources */,
 				FA8BDAA32796A8860095EB5B /* RegisterPresenterProtocol.swift in Sources */,
@@ -763,6 +858,7 @@
 				FA8BDA972796A6A00095EB5B /* ChatListAssembly.swift in Sources */,
 				FA04942F2795A1F8003C3050 /* ServiceLocator.swift in Sources */,
 				FAFDF45C27A7FDA500509779 /* MessageViewModel.swift in Sources */,
+				FA13F81527B13DE200A242C3 /* ImageLoader.swift in Sources */,
 				FA8BDAAB2796A8F70095EB5B /* RegisterRouter.swift in Sources */,
 				FA0ADBCD27A6CCDC00B87E6F /* ChatViewInput.swift in Sources */,
 				FA7D253927983A7C004F29D4 /* DateFormatterService.swift in Sources */,
@@ -775,8 +871,10 @@
 				FA68B8F327A185B7004A5655 /* ChatStorageAdapter.swift in Sources */,
 				FAB032D3279F2CA0006F9C48 /* CreateChatViewController.swift in Sources */,
 				FA8BDAAD2796A9400095EB5B /* RegisterAssembly.swift in Sources */,
+				FA13F81927B1573300A242C3 /* DataCacher.swift in Sources */,
 				FA26080427A1FD8700093F66 /* ScaledButton.swift in Sources */,
 				FA8BDA892796A5840095EB5B /* ChatListViewInput.swift in Sources */,
+				FAA48F7F27B28E110050884F /* ImagePresenter.swift in Sources */,
 				FA0ADBDE27A6CE1A00B87E6F /* ChatRouter.swift in Sources */,
 				FA0494282795A100003C3050 /* AuthInteractor.swift in Sources */,
 				FA8BDAA72796A8C70095EB5B /* RegisterInteractorInput.swift in Sources */,
@@ -784,6 +882,9 @@
 				FA8BDA932796A61E0095EB5B /* ChatListInteractorInput.swift in Sources */,
 				FA7D253B27983FC2004F29D4 /* FirebaseService.swift in Sources */,
 				FA8BDAB02796CF440095EB5B /* ChatListTableViewCell.swift in Sources */,
+				FAA48F7D27B28E000050884F /* ImagePresenterProtocol.swift in Sources */,
+				FAA48F8527B28E4E0050884F /* ImageRouter.swift in Sources */,
+				FAA48F8327B28E380050884F /* ImageInteractor.swift in Sources */,
 				FA0494242795A0CF003C3050 /* AuthPresenter.swift in Sources */,
 				FA8BDAA12796A8690095EB5B /* RegisterViewController.swift in Sources */,
 				FA8BDA8B2796A5B00095EB5B /* ChatListViewController.swift in Sources */,
@@ -793,10 +894,13 @@
 				FAB032D1279F2C61006F9C48 /* CreateChatViewInput.swift in Sources */,
 				FA04941E2795A061003C3050 /* AuthViewInput.swift in Sources */,
 				FA08AAAD27A055010056BE29 /* UIImage+Extension.swift in Sources */,
+				FAA48F7B27B28DE60050884F /* ImageViewController.swift in Sources */,
 				FAFDF45627A7F88D00509779 /* TextMessageCollectionViewCell.swift in Sources */,
 				FA91C71127ABF11500353739 /* SendingService.swift in Sources */,
 				FA7D2537279833E6004F29D4 /* MessageModel.swift in Sources */,
+				FA13F81727B1423900A242C3 /* UIImageView+Extension.swift in Sources */,
 				FAB032DC279F2D3E006F9C48 /* CreateChatPresenter.swift in Sources */,
+				FAA48F7927B28DC50050884F /* ImageViewInput.swift in Sources */,
 				FAB032E2279F2D94006F9C48 /* CreateChatRouter.swift in Sources */,
 				FA8BDA9F2796A8530095EB5B /* RegisterViewInput.swift in Sources */,
 				FA04942A2795A121003C3050 /* AuthRouter.swift in Sources */,
@@ -1063,6 +1167,14 @@
 				minimumVersion = 7.0.0;
 			};
 		};
+		FA13F81127B13DC900A242C3 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
 		FA91C70B27ABDB4000353739 /* XCRemoteSwiftPackageReference "Reachability" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ashleymills/Reachability.swift";
@@ -1103,6 +1215,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = FA08AAA927A053A40056BE29 /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
+		};
+		FA13F81227B13DC900A242C3 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FA13F81127B13DC900A242C3 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
 		};
 		FA8BDAB92796FB330095EB5B /* FirebaseStorage */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -13,6 +13,7 @@ struct ChatViewModel {
     var chatImageURL: String?
     var lastMessageDate: String?
     var lastMessageText: String?
+    var lastMessageType: Int?
     var unreadMessageCount: Int
     
     init(chat: ChatModel, chatMessages: [MessageModel]?, currentUserId: String) {
@@ -23,6 +24,7 @@ struct ChatViewModel {
         self.chatImageURL = chat.members[chatIndex].imageURL
         self.unreadMessageCount = chatMessages?.filter({$0.isRead == false && $0.senderId != currentUserId}).count ?? 0
         self.lastMessageText = filteredMessages?.last?.text
+        self.lastMessageType = filteredMessages?.last?.type
         if let doubleDate = filteredMessages?.last?.date {
             self.lastMessageDate = self.dateForChat(doubleDate)
         }
@@ -36,6 +38,7 @@ struct ChatViewModel {
         self.chatImageURL = chatStorageResponse.users[chatIndex].imageURL
         self.unreadMessageCount = chatStorageResponse.messages.filter({$0.isRead == false && $0.senderId != currentUserId}).count
         self.lastMessageText = filteredMessages.last?.text
+        self.lastMessageType = filteredMessages.last?.type
         if let doubleDate = chatStorageResponse.messages.last?.date {
             self.lastMessageDate = self.dateForChat(doubleDate)
         }

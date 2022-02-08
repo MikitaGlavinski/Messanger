@@ -19,9 +19,12 @@ struct MessageStorageAdapter: Codable, PersistableRecord, FetchableRecord {
     var chatId: String
     var type: Int
     var fileURL: String
+    var localPath: String
     var date: Double
     var isRead: Bool
     var isSent: Bool
+    var previewWidth: Double
+    var previewHeight: Double
     
     init(
         id: String,
@@ -31,9 +34,12 @@ struct MessageStorageAdapter: Codable, PersistableRecord, FetchableRecord {
         chatId: String,
         type: Int,
         fileURL: String,
+        localPath: String,
         date: Double,
         isRead: Bool,
-        isSent: Bool
+        isSent: Bool,
+        previewWidth: Double,
+        previewHeight: Double
     ) {
         self.id = id
         self.text = text
@@ -42,9 +48,12 @@ struct MessageStorageAdapter: Codable, PersistableRecord, FetchableRecord {
         self.chatId = chatId
         self.type = type
         self.fileURL = fileURL
+        self.localPath = localPath
         self.date = date
         self.isRead = isRead
         self.isSent = isSent
+        self.previewWidth = previewWidth
+        self.previewHeight = previewHeight
     }
     
     init(message: MessageModel) {
@@ -55,8 +64,11 @@ struct MessageStorageAdapter: Codable, PersistableRecord, FetchableRecord {
         self.chatId = message.chatId
         self.type = message.type
         self.fileURL = message.fileURL ?? ""
+        self.localPath = ""
         self.date = message.date
         self.isRead = message.isRead
         self.isSent = message.isSent
+        self.previewWidth = message.previewWidth
+        self.previewHeight = message.previewHeight
     }
 }

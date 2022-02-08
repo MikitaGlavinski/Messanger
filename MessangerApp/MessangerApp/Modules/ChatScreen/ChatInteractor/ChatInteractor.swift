@@ -5,14 +5,15 @@
 //  Created by Mikita Glavinski on 30.01.22.
 //
 
-import Foundation
 import RxSwift
+import UIKit
 
 class ChatInteractor {
     var secureStorage: SecureStorageServiceProtocol!
     var firebaseService: FirebaseServiceProtocol!
     var storageService: StorageServiceProtocol!
     var chatSignalService: ChatSignalServiceProtocol!
+    var dataCacher: DataCacherProtocol!
     weak var presenter: ChatPresenterInput!
     
     private let disposeBag = DisposeBag()
@@ -89,5 +90,9 @@ extension ChatInteractor: ChatInteractorInput {
     
     func signalizeToSend(messageId: String) {
         chatSignalService.signalSendMessage(messageId: messageId)
+    }
+    
+    func cacheData(_ data: Data, id: String) -> String? {
+        return dataCacher.cacheData(data, id: id)
     }
 }

@@ -5,7 +5,7 @@
 //  Created by Mikita Glavinski on 30.01.22.
 //
 
-import Foundation
+import UIKit
 import RxSwift
 
 protocol ChatInteractorInput {
@@ -23,4 +23,5 @@ protocol ChatInteractorInput {
     func readAllStoredMessages(chatId: String, senderId: String)
     func readAllRemoteMessages(chatId: String, peerId: String) -> Single<String>?
     func signalizeToSend(messageId: String)
+    func cacheData(_ data: Data, id: String) -> String?
 }

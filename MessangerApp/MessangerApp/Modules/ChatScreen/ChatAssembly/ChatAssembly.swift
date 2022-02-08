@@ -14,6 +14,7 @@ class ChatAssembly {
         let firebaseService: FirebaseService? = ServiceLocator.shared.getService()
         let storageService: StorageService? = ServiceLocator.shared.getService()
         let chatSignalService: ChatSignalService? = ServiceLocator.shared.getService()
+        let dataCacher: DataCacher? = ServiceLocator.shared.getService()
         
         let view = ChatViewController.instantiateWith(storyboard: .main) as! ChatViewController
         let presenter = ChatPresenter(chatId: chatId)
@@ -28,6 +29,7 @@ class ChatAssembly {
         interactor.firebaseService = firebaseService
         interactor.storageService = storageService
         interactor.presenter = presenter
+        interactor.dataCacher = dataCacher
         router.view = view
         
         return view

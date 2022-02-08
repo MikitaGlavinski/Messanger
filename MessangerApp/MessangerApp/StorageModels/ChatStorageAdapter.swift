@@ -14,7 +14,7 @@ struct ChatsStorageResponse {
     var messages: [MessageStorageAdapter]
 }
 
-struct ChatStorageAdapter: Codable, PersistableRecord, FetchableRecord {
+struct ChatStorageAdapter: Codable, PersistableRecord, FetchableRecord, TableRecord {
     
     static let databaseTableName: String = "ChatAdapter"
     

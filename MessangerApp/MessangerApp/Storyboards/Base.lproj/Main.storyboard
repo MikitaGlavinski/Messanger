@@ -534,6 +534,52 @@
             </objects>
             <point key="canvasLocation" x="2443.4782608695655" y="437.94642857142856"/>
         </scene>
+        <!--Image View Controller-->
+        <scene sceneID="kbK-HJ-QY0">
+            <objects>
+                <viewController storyboardIdentifier="ImageViewController" id="RlE-bu-Y9k" customClass="ImageViewController" customModule="MessangerApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="QDQ-vu-z5L">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ki9-Q8-A3b">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="3Ue-V2-pc6">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="3Ue-V2-pc6" firstAttribute="top" secondItem="Ki9-Q8-A3b" secondAttribute="top" id="TdD-fE-nLa"/>
+                                    <constraint firstAttribute="trailing" secondItem="3Ue-V2-pc6" secondAttribute="trailing" id="lk3-0x-Ddd"/>
+                                    <constraint firstAttribute="bottom" secondItem="3Ue-V2-pc6" secondAttribute="bottom" id="nc2-j9-ARx"/>
+                                    <constraint firstItem="3Ue-V2-pc6" firstAttribute="leading" secondItem="Ki9-Q8-A3b" secondAttribute="leading" id="whg-KM-vKG"/>
+                                </constraints>
+                                <viewLayoutGuide key="contentLayoutGuide" id="lq6-Q5-nrK"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="QjD-ed-ESX"/>
+                            </scrollView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="ePO-q4-dDn"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="ePO-q4-dDn" firstAttribute="trailing" secondItem="Ki9-Q8-A3b" secondAttribute="trailing" id="5kJ-dg-bRR"/>
+                            <constraint firstItem="Ki9-Q8-A3b" firstAttribute="leading" secondItem="ePO-q4-dDn" secondAttribute="leading" id="Qal-Mm-jqo"/>
+                            <constraint firstItem="Ki9-Q8-A3b" firstAttribute="bottom" secondItem="QDQ-vu-z5L" secondAttribute="bottom" id="YwI-MA-cIt"/>
+                            <constraint firstItem="3Ue-V2-pc6" firstAttribute="width" secondItem="QDQ-vu-z5L" secondAttribute="width" id="ghO-nh-NNg"/>
+                            <constraint firstItem="3Ue-V2-pc6" firstAttribute="height" secondItem="QDQ-vu-z5L" secondAttribute="height" id="iO2-BF-puw"/>
+                            <constraint firstAttribute="top" secondItem="Ki9-Q8-A3b" secondAttribute="top" id="uJH-3n-Xvs"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="imageView" destination="3Ue-V2-pc6" id="8SL-BT-Ano"/>
+                        <outlet property="scrollView" destination="Ki9-Q8-A3b" id="3P8-8A-sJb"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="eUh-eY-4gG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3200.0000000000005" y="437.94642857142856"/>
+        </scene>
         <!--Create Chat-->
         <scene sceneID="b6N-ys-NAy">
             <objects>

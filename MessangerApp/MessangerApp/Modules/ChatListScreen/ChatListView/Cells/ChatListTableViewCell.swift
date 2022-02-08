@@ -29,6 +29,12 @@ class ChatListTableViewCell: UITableViewCell {
             dateLabel.text = chatModel.lastMessageDate
             unreadCountLabel.text = "\(chatModel.unreadMessageCount)"
             unreadCountLabel.isHidden = chatModel.unreadMessageCount == 0
+            switch chatModel.lastMessageType {
+            case 0: lastMessageLabel.text = chatModel.lastMessageText
+            case 1: lastMessageLabel.text = "Photo"
+            case 2: lastMessageLabel.text = "Video"
+            default: break
+            }
         }
     }
     

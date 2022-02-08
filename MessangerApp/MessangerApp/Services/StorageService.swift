@@ -39,24 +39,17 @@ class StorageService {
     
     static var migrator: DatabaseMigrator {
         var migrator = DatabaseMigrator()
-        
+        migrator.eraseDatabaseOnSchemaChange = true
+
         migrator.registerMigration("createChatTable") { db in
-            if try db.tableExists("ChatAdapter") {
-                try db.drop(table: "ChatAdapter")
-            }
-            
             try db.create(table: "ChatAdapter") { t in
                 t.column("id", .text).notNull()
                 t.column("membersIds", .text).indexed().notNull()
                 t.uniqueKey(["id"], onConflict: .replace)
             }
         }
-        
+
         migrator.registerMigration("createUserTable") { db in
-            if try db.tableExists("UserAdapter") {
-                try db.drop(table: "UserAdapter")
-            }
-            
             try db.create(table: "UserAdapter") { t in
                 t.column("id", .text).notNull().indexed()
                 t.column("email", .text).notNull()
@@ -65,12 +58,8 @@ class StorageService {
                 t.uniqueKey(["id", "email"], onConflict: .replace)
             }
         }
-        
+
         migrator.registerMigration("createMessageAdapter") { db in
-            if try db.tableExists("MessageAdapter") {
-                try db.drop(table: "MessageAdapter")
-            }
-            
             try db.create(table: "MessageAdapter") { t in
                 t.column("id", .text).notNull()
                 t.column("text", .text)
@@ -79,9 +68,12 @@ class StorageService {
                 t.column("chatId", .text).notNull().indexed()
                 t.column("type", .integer).notNull()
                 t.column("fileURL", .text)
+                t.column("localPath", .text)
                 t.column("date", .double).notNull()
                 t.column("isRead", .boolean).notNull()
                 t.column("isSent", .boolean).notNull()
+                t.column("previewWidth", .double)
+                t.column("previewHeight", .double)
                 t.uniqueKey(["id"], onConflict: .replace)
             }
         }

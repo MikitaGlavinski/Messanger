@@ -1,5 +1,5 @@
-import Foundation
 import RxSwift
+import UIKit
 
 protocol SendingServiceProtocol {
     func start(messageId: String?)
@@ -51,7 +51,13 @@ class SendingService: SendingServiceProtocol {
                 return
             }
             self.sendQueueIds.insert(messageAdapter.id)
-            self.sendMessage(messageAdapter: messageAdapter)
+            
+            switch messageAdapter.type {
+            case 0:
+                self.sendMessage(messageAdapter: messageAdapter)
+            default:
+                self.sendMediaMessage(messageAdapter: messageAdapter)
+            }
         }
     }
     
@@ -60,6 +66,34 @@ class SendingService: SendingServiceProtocol {
         messageModel.isSent = true
         let messageSender = firebaseService.addMessage(message: messageModel)
         messageSender
+            .subscribe(onSuccess: { [weak self] message in
+                self?.storageService.storeMessages(messageAdapters: [MessageStorageAdapter(message: message)])
+                self?.chatSignalService.signalChatToUpdate(messageModel: message)
+                self?.start()
+            }, onFailure: { error in
+                print(error.localizedDescription)
+            }).disposed(by: disposeBag)
+    }
+    
+    private func sendMediaMessage(messageAdapter: MessageStorageAdapter) {
+        let url = URL(fileURLWithPath: messageAdapter.localPath)
+        let imageUUID = url.lastPathComponent
+        guard
+            let data = try? Data(contentsOf: url),
+            let image = UIImage(data: data)
+        else { return }
+        let imageUploader = firebaseService.uploadImage(path: "chat/\(imageUUID)", image: image)
+        
+        imageUploader
+            .flatMap { [weak self] imageURL -> Single<MessageModel> in
+                var messageModel = MessageModel(messageAdapter: messageAdapter)
+                messageModel.isSent = true
+                messageModel.fileURL = imageURL
+                guard let messageSender = self?.firebaseService.addMessage(message: messageModel) else {
+                    return Single<MessageModel>.error(NetworkError.requestError)
+                }
+                return messageSender
+            }
             .subscribe(onSuccess: { [weak self] message in
                 self?.storageService.storeMessages(messageAdapters: [MessageStorageAdapter(message: message)])
                 self?.chatSignalService.signalChatToUpdate(messageModel: message)

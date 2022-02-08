@@ -5,10 +5,10 @@
 //  Created by Mikita Glavinski on 30.01.22.
 //
 
-import Foundation
 import RxSwift
+import UIKit
 
-class ChatPresenter {
+class ChatPresenter: NSObject {
     weak var view: ChatViewInput!
     var interactor: ChatInteractorInput!
     var router: ChatRouter!
@@ -139,15 +139,64 @@ extension ChatPresenter: ChatPresenterProtocol {
             chatId: chatId,
             type: 0,
             fileURL: "",
+            localPath: "",
             date: Date().timeIntervalSince1970,
             isRead: false,
-            isSent: false
+            isSent: false,
+            previewWidth: 0.0,
+            previewHeight: 0.0
         )
         interactor.storeMessages(messageAdapters: [messageAdapter])
         let viewModel = MessageViewModel(messageModel: messageAdapter, userId: senderId)
         view.addMessage(message: viewModel)
         interactor.signalizeChatList()
         interactor.signalizeToSend(messageId: messageAdapter.id)
+    }
+    
+    func sendImageMessage(image: UIImage) {
+        let imageUUID = "%" + UUID().uuidString
+        guard
+            let peerId = self.peerId,
+            let senderId = self.senderId,
+            let imageData = image.jpegData(compressionQuality: 0.1),
+            let localPath = interactor.cacheData(imageData, id: imageUUID)
+        else { return }
+        
+        let scaledSize = image.scaledSize(size: CGSize(width: 250, height: 350))
+        let messageAdapter = MessageStorageAdapter(
+            id: UUID().uuidString,
+            text: "",
+            peerId: peerId,
+            senderId: senderId,
+            chatId: self.chatId,
+            type: 1,
+            fileURL: "",
+            localPath: localPath,
+            date: Date().timeIntervalSince1970,
+            isRead: false,
+            isSent: false,
+            previewWidth: Double(scaledSize.width),
+            previewHeight: Double(scaledSize.height)
+        )
+        interactor.storeMessages(messageAdapters: [messageAdapter])
+        let viewModel = MessageViewModel(messageModel: messageAdapter, userId: senderId)
+        view.addMessage(message: viewModel)
+        interactor.signalizeChatList()
+        interactor.signalizeToSend(messageId: messageAdapter.id)
+    }
+    
+    func checkDate(of firstDate: Double, and secondDate: Double) -> Bool {
+        let calendar = Calendar.current
+        let isInSameDay = calendar.isDate(Date(timeIntervalSince1970: firstDate), inSameDayAs: Date(timeIntervalSince1970: secondDate))
+        return !isInSameDay
+    }
+    
+    func pickPhoto() {
+        router.pickLibraryPhoto(delegate: self)
+    }
+    
+    func openImage(with image: UIImage) {
+        router.openImageMessage(with: image)
     }
 }
 
@@ -156,5 +205,15 @@ extension ChatPresenter: ChatPresenterInput {
         guard let senderId = self.senderId else { return }
         let viewMessageModel = MessageViewModel(messageModel: message, userId: senderId)
         self.view.updateMessage(message: viewMessageModel)
+    }
+}
+
+extension ChatPresenter: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let image = info[.editedImage] as? UIImage {
+            sendImageMessage(image: image)
+        }
+        picker.dismiss(animated: true, completion: nil)
     }
 }

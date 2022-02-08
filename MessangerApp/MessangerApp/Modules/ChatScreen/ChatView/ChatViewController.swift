@@ -36,6 +36,7 @@ class ChatViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        navigationController?.navigationBar.isHidden = false
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboard), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
         collectionView.transform = CGAffineTransform(rotationAngle: -CGFloat.pi)
@@ -57,6 +58,7 @@ class ChatViewController: BaseViewController {
     private func setupUI() {
         messageTextView.delegate = self
         collectionView.register(TextMessageCollectionViewCell.self, forCellWithReuseIdentifier: TextMessageCollectionViewCell.reuseIdentifier)
+        collectionView.register(ImageMessageCollectionViewCell.self, forCellWithReuseIdentifier: ImageMessageCollectionViewCell.reuseIdentifier)
         collectionView.dataSource = self
         collectionView.delegate = self
         
@@ -85,6 +87,17 @@ class ChatViewController: BaseViewController {
     }
     
     @IBAction func addAttachment(_ sender: Any) {
+        let actionSheet = UIAlertController(title: "Pick Media", message: nil, preferredStyle: .actionSheet)
+        let photoAction = UIAlertAction(title: "Photo", style: .default) { _ in
+            let actionSheet = UIAlertController(title: "Pick Media", message: nil, preferredStyle: .actionSheet)
+            let libraryAction = UIAlertAction(title: "Photo Library", style: .default) { _ in
+                self.presenter.pickPhoto()
+            }
+            actionSheet.addAction(libraryAction)
+            self.present(actionSheet, animated: true, completion: nil)
+        }
+        actionSheet.addAction(photoAction)
+        present(actionSheet, animated: true, completion: nil)
     }
     
     @objc private func handleKeyboard(_ notification: Notification) {
@@ -150,9 +163,9 @@ extension ChatViewController: UICollectionViewDataSource {
         var showDate: Bool = true
         let previousMessageDate: Double? = indexPath.item + 1 != messages.count ? messages[indexPath.item + 1].doubleDate : nil
         if let previousMessageDate = previousMessageDate {
-            showDate = (messages[indexPath.item].doubleDate - previousMessageDate) > 86400
+            showDate = presenter.checkDate(of: messages[indexPath.item].doubleDate, and: previousMessageDate)
         }
-        let cell = message.getCollectionCell(from: collectionView, showDate: showDate, indexPath: indexPath)
+        let cell = message.getCollectionCell(from: collectionView, showDate: showDate, indexPath: indexPath, delegate: self)
         return cell
     }
 }
@@ -163,9 +176,11 @@ extension ChatViewController: UICollectionViewDelegateFlowLayout {
         var additionalHeight: CGFloat = 20
         let previousMessageDate: Double? = indexPath.item + 1 != messages.count ? messages[indexPath.item + 1].doubleDate : nil
         if let previousMessageDate = previousMessageDate {
-            additionalHeight = (messages[indexPath.item].doubleDate - previousMessageDate) > 86400 ? 20 : 0
+            additionalHeight = presenter.checkDate(of: messages[indexPath.item].doubleDate, and: previousMessageDate) ? 20 : 0
         }
-        guard let messageText = messages[indexPath.item].text else { return CGSize(width: view.frame.width, height: 100) }
+        guard let messageText = messages[indexPath.item].text, messageText.count > 0 else {
+            return CGSize(width: view.frame.width, height: (messages[indexPath.item].previewHeight ?? 0) + additionalHeight + 20)
+        }
         let textRect = messageText.estimatedSize(width: 250, height: 2000, font: UIFont.systemFont(ofSize: 16))
         return CGSize(width: view.frame.width, height: textRect.height + 30 + additionalHeight)
     }
@@ -187,6 +202,27 @@ extension ChatViewController: UITextViewDelegate {
         }
         UIView.animate(withDuration: 0.2) {
             self.view.layoutIfNeeded()
+        }
+    }
+}
+
+extension ChatViewController: MessageActivitiesDelegate {
+    func openImage(with image: UIImage, of imageView: UIImageView) {
+        let parentRect = view.convert(imageView.frame, from: imageView.superview)
+        let animatedImage = UIImageView()
+        animatedImage.contentMode = .scaleAspectFit
+        animatedImage.image = image
+        animatedImage.frame = parentRect
+        animatedImage.layer.cornerRadius = 15
+        animatedImage.clipsToBounds = true
+        view.addSubview(animatedImage)
+        imageView.image = nil
+        UIView.animate(withDuration: 0.2) {
+            animatedImage.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
+        } completion: { _ in
+            self.presenter.openImage(with: image)
+            imageView.image = image
+            animatedImage.removeFromSuperview()
         }
     }
 }

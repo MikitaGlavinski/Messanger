@@ -18,6 +18,8 @@ struct MessageModel: Codable {
     var date: Double
     var isRead: Bool
     var isSent: Bool
+    var previewWidth: Double
+    var previewHeight: Double
     
     init(
         id: String,
@@ -29,7 +31,9 @@ struct MessageModel: Codable {
         fileURL: String? = nil,
         date: Double,
         isRead: Bool,
-        isSent: Bool
+        isSent: Bool,
+        previewWidth: Double,
+        previewHeight: Double
     ) {
         self.id = id
         self.text = text
@@ -41,6 +45,8 @@ struct MessageModel: Codable {
         self.date = date
         self.isRead = isRead
         self.isSent = isSent
+        self.previewWidth = previewWidth
+        self.previewHeight = previewHeight
     }
     
     init(messageAdapter: MessageStorageAdapter) {
@@ -54,5 +60,7 @@ struct MessageModel: Codable {
         self.date = messageAdapter.date
         self.isRead = messageAdapter.isRead
         self.isSent = messageAdapter.isSent
+        self.previewWidth = messageAdapter.previewWidth
+        self.previewHeight = messageAdapter.previewHeight
     }
 }
