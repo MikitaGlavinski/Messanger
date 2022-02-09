@@ -68,8 +68,8 @@ class ImageMessageCollectionViewCell: UICollectionViewCell {
     
     func configureCell(with model: MessageViewModel) {
         self.messageModel = model
-        handleMessage()
-        if let localPath = messageModel.localPath, localPath.count > 0 {
+        displayCellData()
+        if let localPath = messageModel.localPath, !localPath.isEmpty {
             guard
                 let data = try? Data(contentsOf: URL(fileURLWithPath: localPath)),
                 let image = UIImage(data: data)
@@ -83,36 +83,20 @@ class ImageMessageCollectionViewCell: UICollectionViewCell {
         imageView.downloadImage(from: fileURL)
     }
     
-    private func handleMessage() {
-        timeLabel.text = messageModel.date
-        
+    private func displayCellData() {
+        guard let cellData = messageModel.cellData as? ImageCellData else { return }
         if configureWithDate {
             contentView.addSubview(dateLabel)
-            dateLabel.text = DateFormatterService.shared.formatDate(doubleDate: messageModel.doubleDate, format: "dd.MM.yy")
         }
-        
-        let paddingNumber: CGFloat = UIDevice.current.orientation.isLandscape ? self.safeAreaInsets.right : 16
-        if !self.messageModel.isOwner {
-            if configureWithDate {
-                self.dateLabel.frame = CGRect(x: (contentView.frame.width / 2) - 40, y: 10, width: 80, height: 15)
-                self.imageView.frame = CGRect(x: paddingNumber + 3, y: 33, width: 250, height: messageModel.previewHeight ?? 0)
-            } else {
-                self.imageView.frame = CGRect(x: paddingNumber + 3, y: 13, width: 250, height: messageModel.previewHeight ?? 0)
-            }
-            self.timeLabel.frame = CGRect(x: self.imageView.frame.maxX + 11, y: self.imageView.frame.maxY - 10, width: 30, height: 10)
-            self.sendStateView.isHidden = true
-        } else {
-            if configureWithDate {
-                self.dateLabel.frame = CGRect(x: (contentView.frame.width / 2) - 40, y: 10, width: 80, height: 15)
-                self.imageView.frame = CGRect(x: self.contentView.frame.width - 250 - paddingNumber + 3, y: 33, width: 250, height: messageModel.previewHeight ?? 0)
-            } else {
-                self.imageView.frame = CGRect(x: self.contentView.frame.width - 250 - paddingNumber + 3, y: 13, width: 250, height: messageModel.previewHeight ?? 0)
-            }
-            self.timeLabel.frame = CGRect(x: self.imageView.frame.minX - 11 - 25, y: self.imageView.frame.maxY - 10, width: 30, height: 10)
-            self.sendStateView.frame = CGRect(x: self.timeLabel.frame.minX - 11, y: self.imageView.frame.maxY - 6, width: 6, height: 6)
-        }
-        self.sendStateView.layer.borderColor = self.messageModel.isSent ? UIColor.MessengerColors.ownerMessageColor.cgColor : UIColor.systemRed.cgColor
-        self.sendStateView.backgroundColor = self.messageModel.isRead ? UIColor.MessengerColors.ownerMessageColor : .clear
+        timeLabel.text = cellData.timeLabelText
+        dateLabel.text = cellData.dateLabelText
+        dateLabel.frame = cellData.dateLabelFrame ?? .zero
+        imageView.frame = cellData.imageViewFrame
+        timeLabel.frame = cellData.timeLabelFrame
+        sendStateView.frame = cellData.sendStateViewFrame
+        sendStateView.isHidden = cellData.isSendStateHidden
+        sendStateView.layer.borderColor = cellData.sendStateViewBorderColor
+        sendStateView.backgroundColor = cellData.sendStateViewBackgroundColor
     }
     
     private func setupUI() {
@@ -134,7 +118,6 @@ class ImageMessageCollectionViewCell: UICollectionViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        handleMessage()
     }
     
     override func prepareForReuse() {
@@ -144,5 +127,9 @@ class ImageMessageCollectionViewCell: UICollectionViewCell {
         self.sendStateView.layer.borderColor = UIColor.systemRed.cgColor
         self.imageView.image = nil
         sendStateView.isHidden = false
+        dateLabel.frame = .zero
+        imageView.frame = .zero
+        timeLabel.frame = .zero
+        sendStateView.frame = .zero
     }
 }

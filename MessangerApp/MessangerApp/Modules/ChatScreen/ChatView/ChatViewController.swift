@@ -10,6 +10,13 @@ import Kingfisher
 import RxCocoa
 import RxSwift
 
+class ChatCollectionViewLayout: UICollectionViewFlowLayout {
+    
+    override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
+        return true
+    }
+}
+
 class ChatViewController: BaseViewController {
     
     var presenter: ChatPresenterProtocol!
@@ -57,6 +64,10 @@ class ChatViewController: BaseViewController {
     
     private func setupUI() {
         messageTextView.delegate = self
+        let layout = ChatCollectionViewLayout()
+        layout.scrollDirection = .vertical
+        layout.estimatedItemSize = CGSize(width: 1, height: 1 )
+        collectionView.collectionViewLayout = layout
         collectionView.register(TextMessageCollectionViewCell.self, forCellWithReuseIdentifier: TextMessageCollectionViewCell.reuseIdentifier)
         collectionView.register(ImageMessageCollectionViewCell.self, forCellWithReuseIdentifier: ImageMessageCollectionViewCell.reuseIdentifier)
         collectionView.dataSource = self
@@ -75,7 +86,7 @@ class ChatViewController: BaseViewController {
     }
 
     @IBAction func sendMessage(_ sender: Any) {
-        guard let text = messageTextView.text else { return }
+        guard let text = messageTextView.text, !text.isEmpty else { return }
         presenter.sendTextMessage(text: text)
         messageTextView.text = ""
         placeholderLabel.isHidden = false
@@ -147,7 +158,6 @@ extension ChatViewController: ChatViewInput {
     func updateMessage(message: MessageViewModel) {
         guard let index = messages.firstIndex(where: {$0.id == message.id}) else { return }
         messages[index] = message
-        self.collectionView.reloadData()
         self.collectionView.reloadItems(at: [IndexPath(item: index, section: 0)])
     }
 }
@@ -160,11 +170,7 @@ extension ChatViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let message = messages[indexPath.item]
-        var showDate: Bool = true
-        let previousMessageDate: Double? = indexPath.item + 1 != messages.count ? messages[indexPath.item + 1].doubleDate : nil
-        if let previousMessageDate = previousMessageDate {
-            showDate = presenter.checkDate(of: messages[indexPath.item].doubleDate, and: previousMessageDate)
-        }
+        let showDate = message.cellData?.showDate ?? false
         let cell = message.getCollectionCell(from: collectionView, showDate: showDate, indexPath: indexPath, delegate: self)
         return cell
     }
@@ -173,16 +179,7 @@ extension ChatViewController: UICollectionViewDataSource {
 extension ChatViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        var additionalHeight: CGFloat = 20
-        let previousMessageDate: Double? = indexPath.item + 1 != messages.count ? messages[indexPath.item + 1].doubleDate : nil
-        if let previousMessageDate = previousMessageDate {
-            additionalHeight = presenter.checkDate(of: messages[indexPath.item].doubleDate, and: previousMessageDate) ? 20 : 0
-        }
-        guard let messageText = messages[indexPath.item].text, messageText.count > 0 else {
-            return CGSize(width: view.frame.width, height: (messages[indexPath.item].previewHeight ?? 0) + additionalHeight + 20)
-        }
-        let textRect = messageText.estimatedSize(width: 250, height: 2000, font: UIFont.systemFont(ofSize: 16))
-        return CGSize(width: view.frame.width, height: textRect.height + 30 + additionalHeight)
+        return CGSize(width: view.frame.width, height: messages[indexPath.item].cellData?.cellHeight ?? 350)
     }
 }
 

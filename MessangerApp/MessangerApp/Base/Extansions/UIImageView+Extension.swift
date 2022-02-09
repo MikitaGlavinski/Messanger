@@ -15,15 +15,15 @@ extension UIImageView {
     }
     
     func downloadImage(from stringURL: String) {
-        let activityIndicator = UIActivityIndicatorView(style: .medium)
-        activityIndicator.tintColor = .black
-        activityIndicator.frame = CGRect(x: frame.width / 2 - 15, y: frame.height / 2 - 15, width: 30, height: 30)
-        addSubview(activityIndicator)
-        activityIndicator.startAnimating()
+//        let activityIndicator = UIActivityIndicatorView(style: .medium)
+//        activityIndicator.tintColor = .black
+//        activityIndicator.frame = CGRect(x: frame.width / 2 - 15, y: frame.height / 2 - 15, width: 30, height: 30)
+//        addSubview(activityIndicator)
+//        activityIndicator.startAnimating()
         
         imageLoader?.fetchImage(with: stringURL) { image in
-            activityIndicator.stopAnimating()
-            activityIndicator.removeFromSuperview()
+//            activityIndicator.stopAnimating()
+//            activityIndicator.removeFromSuperview()
             guard let image = image else { return }
             self.image = image
         }

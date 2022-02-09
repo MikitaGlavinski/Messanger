@@ -12,6 +12,7 @@ class ChatPresenter: NSObject {
     weak var view: ChatViewInput!
     var interactor: ChatInteractorInput!
     var router: ChatRouter!
+    private let calculateManager = ColculateCellsDataManager()
     
     private var chatId: String
     private var chatModel: ChatModel?
@@ -37,7 +38,9 @@ class ChatPresenter: NSObject {
             .observe(on: MainScheduler.instance)
             .subscribe(onSuccess: { [weak self] messages in
                 let messageModels = messages.sorted(by: {$0.date > $1.date}).compactMap({MessageViewModel(messageModel: $0, userId: token)})
-                self?.view.setupMessages(messages: messageModels)
+                self?.calculateManager.handleMessages(messageModels) { handledMessages in
+                    self?.view.setupMessages(messages: handledMessages)
+                }
             }, onFailure: { [weak self] error in
                 self?.view.showError(error: error)
             }).disposed(by: disposeBag)
@@ -88,7 +91,9 @@ extension ChatPresenter: ChatPresenterProtocol {
             .observe(on: MainScheduler.instance)
             .flatMap { [weak self] messages -> Single<ChatsStorageResponse> in
                 let messageModels = messages.sorted(by: {$0.date > $1.date}).compactMap({MessageViewModel(messageModel: $0, userId: token)})
-                self?.view.setupMessages(messages: messageModels)
+                self?.calculateManager.handleMessages(messageModels, completion: { handledMessages in
+                    self?.view.setupMessages(messages: handledMessages)
+                })
                 return storedChatObtainer
             }
             .observe(on: MainScheduler.instance)
@@ -148,7 +153,10 @@ extension ChatPresenter: ChatPresenterProtocol {
         )
         interactor.storeMessages(messageAdapters: [messageAdapter])
         let viewModel = MessageViewModel(messageModel: messageAdapter, userId: senderId)
-        view.addMessage(message: viewModel)
+        calculateManager.handleMessages([viewModel]) { [weak self] messages in
+            guard let message = messages.first else { return }
+            self?.view.addMessage(message: message)
+        }
         interactor.signalizeChatList()
         interactor.signalizeToSend(messageId: messageAdapter.id)
     }
@@ -180,15 +188,12 @@ extension ChatPresenter: ChatPresenterProtocol {
         )
         interactor.storeMessages(messageAdapters: [messageAdapter])
         let viewModel = MessageViewModel(messageModel: messageAdapter, userId: senderId)
-        view.addMessage(message: viewModel)
+        calculateManager.handleMessages([viewModel]) { [weak self] messages in
+            guard let message = messages.first else { return }
+            self?.view.addMessage(message: message)
+        }
         interactor.signalizeChatList()
         interactor.signalizeToSend(messageId: messageAdapter.id)
-    }
-    
-    func checkDate(of firstDate: Double, and secondDate: Double) -> Bool {
-        let calendar = Calendar.current
-        let isInSameDay = calendar.isDate(Date(timeIntervalSince1970: firstDate), inSameDayAs: Date(timeIntervalSince1970: secondDate))
-        return !isInSameDay
     }
     
     func pickPhoto() {
@@ -204,14 +209,17 @@ extension ChatPresenter: ChatPresenterInput {
     func updateChat(message: MessageModel) {
         guard let senderId = self.senderId else { return }
         let viewMessageModel = MessageViewModel(messageModel: message, userId: senderId)
-        self.view.updateMessage(message: viewMessageModel)
+        calculateManager.handleMessages([viewMessageModel]) { [weak self] messages in
+            guard let message = messages.first else { return }
+            self?.view.updateMessage(message: message)
+        }
     }
 }
 
 extension ChatPresenter: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if let image = info[.editedImage] as? UIImage {
+        if let image = info[.originalImage] as? UIImage {
             sendImageMessage(image: image)
         }
         picker.dismiss(animated: true, completion: nil)

@@ -11,7 +11,6 @@ protocol ChatPresenterProtocol {
     func viewDidLoad()
     func addMessagesListener()
     func sendTextMessage(text: String)
-    func checkDate(of firstDate: Double, and secondDate: Double) -> Bool
     func pickPhoto()
     func openImage(with image: UIImage)
 }

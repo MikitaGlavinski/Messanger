@@ -44,12 +44,13 @@
 		FA0ADBDE27A6CE1A00B87E6F /* ChatRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0ADBDD27A6CE1A00B87E6F /* ChatRouter.swift */; };
 		FA0ADBE027A6CE8500B87E6F /* ChatAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0ADBDF27A6CE8500B87E6F /* ChatAssembly.swift */; };
 		FA13F80E27B1374600A242C3 /* ImageMessageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA13F80D27B1374600A242C3 /* ImageMessageCollectionViewCell.swift */; };
-		FA13F81027B13A0800A242C3 /* ScaledImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA13F80F27B13A0800A242C3 /* ScaledImageView.swift */; };
 		FA13F81327B13DC900A242C3 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = FA13F81227B13DC900A242C3 /* Alamofire */; };
 		FA13F81527B13DE200A242C3 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA13F81427B13DE200A242C3 /* ImageLoader.swift */; };
 		FA13F81727B1423900A242C3 /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA13F81627B1423900A242C3 /* UIImageView+Extension.swift */; };
 		FA13F81927B1573300A242C3 /* DataCacher.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA13F81827B1573300A242C3 /* DataCacher.swift */; };
 		FA26080427A1FD8700093F66 /* ScaledButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA26080327A1FD8700093F66 /* ScaledButton.swift */; };
+		FA68B20627B3BDFF00332F7A /* ColculateCellsDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA68B20527B3BDFF00332F7A /* ColculateCellsDataManager.swift */; };
+		FA68B20827B3BE5200332F7A /* CellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA68B20727B3BE5200332F7A /* CellData.swift */; };
 		FA68B8F027A18562004A5655 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA68B8EF27A18562004A5655 /* StorageService.swift */; };
 		FA68B8F327A185B7004A5655 /* ChatStorageAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA68B8F227A185B7004A5655 /* ChatStorageAdapter.swift */; };
 		FA68B8F527A1869E004A5655 /* UserStorageAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA68B8F427A1869E004A5655 /* UserStorageAdapter.swift */; };
@@ -140,11 +141,12 @@
 		FA0ADBDD27A6CE1A00B87E6F /* ChatRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRouter.swift; sourceTree = "<group>"; };
 		FA0ADBDF27A6CE8500B87E6F /* ChatAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatAssembly.swift; sourceTree = "<group>"; };
 		FA13F80D27B1374600A242C3 /* ImageMessageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageMessageCollectionViewCell.swift; sourceTree = "<group>"; };
-		FA13F80F27B13A0800A242C3 /* ScaledImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaledImageView.swift; sourceTree = "<group>"; };
 		FA13F81427B13DE200A242C3 /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
 		FA13F81627B1423900A242C3 /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
 		FA13F81827B1573300A242C3 /* DataCacher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataCacher.swift; sourceTree = "<group>"; };
 		FA26080327A1FD8700093F66 /* ScaledButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaledButton.swift; sourceTree = "<group>"; };
+		FA68B20527B3BDFF00332F7A /* ColculateCellsDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColculateCellsDataManager.swift; sourceTree = "<group>"; };
+		FA68B20727B3BE5200332F7A /* CellData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellData.swift; sourceTree = "<group>"; };
 		FA68B8EF27A18562004A5655 /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
 		FA68B8F227A185B7004A5655 /* ChatStorageAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatStorageAdapter.swift; sourceTree = "<group>"; };
 		FA68B8F427A1869E004A5655 /* UserStorageAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStorageAdapter.swift; sourceTree = "<group>"; };
@@ -386,6 +388,7 @@
 		FA0ADBCB27A6CCC000B87E6F /* ChatScreen */ = {
 			isa = PBXGroup;
 			children = (
+				FA68B20427B3BDDA00332F7A /* Managers */,
 				FAFDF45A27A7FD9100509779 /* Models */,
 				FA0ADBD427A6CD3900B87E6F /* ChatAssembly */,
 				FA0ADBD327A6CD3000B87E6F /* ChatRouter */,
@@ -444,9 +447,16 @@
 			isa = PBXGroup;
 			children = (
 				FA26080327A1FD8700093F66 /* ScaledButton.swift */,
-				FA13F80F27B13A0800A242C3 /* ScaledImageView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		FA68B20427B3BDDA00332F7A /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				FA68B20527B3BDFF00332F7A /* ColculateCellsDataManager.swift */,
+			);
+			path = Managers;
 			sourceTree = "<group>";
 		};
 		FA68B8F127A18592004A5655 /* StorageModels */ = {
@@ -735,6 +745,7 @@
 			isa = PBXGroup;
 			children = (
 				FAFDF45B27A7FDA500509779 /* MessageViewModel.swift */,
+				FA68B20727B3BE5200332F7A /* CellData.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -838,9 +849,9 @@
 				FA08AAAF27A056F80056BE29 /* UITableViewCell+Extension.swift in Sources */,
 				FA0494332795AD4B003C3050 /* SecureStorageService.swift in Sources */,
 				FA08AAA827A04DE50056BE29 /* ChatSignalService.swift in Sources */,
+				FA68B20827B3BE5200332F7A /* CellData.swift in Sources */,
 				FA8BDAA52796A8960095EB5B /* RegisterPresenter.swift in Sources */,
 				FA0ADBE027A6CE8500B87E6F /* ChatAssembly.swift in Sources */,
-				FA13F81027B13A0800A242C3 /* ScaledImageView.swift in Sources */,
 				FAFDF45E27A800A400509779 /* String+Extension.swift in Sources */,
 				FA68B8F027A18562004A5655 /* StorageService.swift in Sources */,
 				FA0494222795A0C8003C3050 /* AuthPresenterProtocol.swift in Sources */,
@@ -877,6 +888,7 @@
 				FAA48F7F27B28E110050884F /* ImagePresenter.swift in Sources */,
 				FA0ADBDE27A6CE1A00B87E6F /* ChatRouter.swift in Sources */,
 				FA0494282795A100003C3050 /* AuthInteractor.swift in Sources */,
+				FA68B20627B3BDFF00332F7A /* ColculateCellsDataManager.swift in Sources */,
 				FA8BDAA72796A8C70095EB5B /* RegisterInteractorInput.swift in Sources */,
 				FA8BDAB62796F8B20095EB5B /* ChatModel.swift in Sources */,
 				FA8BDA932796A61E0095EB5B /* ChatListInteractorInput.swift in Sources */,

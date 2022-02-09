@@ -27,7 +27,8 @@ struct MessageViewModel {
     var isSent: Bool
     var previewWidth: CGFloat?
     var previewHeight: CGFloat?
-    
+    var cellData: CellData?
+
     init(messageModel: MessageModel, userId: String) {
         self.id = messageModel.id
         self.text = messageModel.text
