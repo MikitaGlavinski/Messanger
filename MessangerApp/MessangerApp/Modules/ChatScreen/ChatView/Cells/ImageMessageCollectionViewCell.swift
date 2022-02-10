@@ -70,8 +70,10 @@ class ImageMessageCollectionViewCell: UICollectionViewCell {
         self.messageModel = model
         displayCellData()
         if let localPath = messageModel.localPath, !localPath.isEmpty {
+            let documents = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+            let url = documents.appendingPathComponent("chatFiles/%\(model.id)")
             guard
-                let data = try? Data(contentsOf: URL(fileURLWithPath: localPath)),
+                let data = try? Data(contentsOf: url),
                 let image = UIImage(data: data)
             else {
                 return

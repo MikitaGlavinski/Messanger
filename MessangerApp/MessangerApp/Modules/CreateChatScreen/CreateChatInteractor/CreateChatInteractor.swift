@@ -40,7 +40,7 @@ extension CreateChatInteractor: CreateChatInteractorInput {
         chatSignalService.signalChatListToUpdate()
     }
     
-    func storeChat(chatAdapter: ChatStorageAdapter) {
-        storageService.storeChats(chatAdapters: [chatAdapter])
+    func storeChat(chatAdapter: ChatStorageAdapter, userAdapters: [UserStorageAdapter]) {
+        storageService.storeChats(chatAdapters: [chatAdapter], userAdapters: userAdapters)
     }
 }

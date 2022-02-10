@@ -28,12 +28,14 @@ extension CreateChatPresenter: CreateChatPresenterProtocol {
             return
         }
         var peerUser: UserModel?
+        var senderUser: UserModel?
         peerUserObtainer
             .flatMap { models -> Single<UserModel> in
                 peerUser = models.first
                 return currentUserObtainer
             }
             .flatMap { [weak self] user -> Single<ChatModel> in
+                senderUser = user
                 guard let peerUser = peerUser else {
                     return Single<ChatModel>.error(NetworkError.invalidEmail)
                 }
@@ -45,9 +47,19 @@ extension CreateChatPresenter: CreateChatPresenterProtocol {
             }
             .observe(on: MainScheduler.instance)
             .subscribe(onSuccess: { [weak self] chat in
-                self?.interactor.storeChat(chatAdapter: ChatStorageAdapter(chat: chat))
-                self?.interactor.signalChatListToUpdate()
                 self?.view.hideLoader()
+                guard
+                    let senderUser = senderUser,
+                    let peerUser = peerUser
+                else { return }
+                self?.interactor.storeChat(
+                    chatAdapter: ChatStorageAdapter(chat: chat),
+                    userAdapters: [
+                        UserStorageAdapter(user: senderUser, chatId: chat.id),
+                        UserStorageAdapter(user: peerUser, chatId: chat.id)
+                    ]
+                )
+                self?.interactor.signalChatListToUpdate()
                 self?.router.dismissView()
             }, onFailure: { [weak self] error in
                 self?.view.hideLoader()

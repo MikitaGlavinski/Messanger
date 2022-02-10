@@ -40,8 +40,7 @@ extension ChatListInteractor: ChatListInteractorInput {
     }
     
     func storeChats(chatAdapters: [ChatStorageAdapter], members: [UserStorageAdapter]) {
-        storageService.storeChats(chatAdapters: chatAdapters)
-        storageService.storeUsers(userAdapters: members)
+        storageService.storeChats(chatAdapters: chatAdapters, userAdapters: members)
     }
     
     func addMessagesListener(date: Double, updateClosure: @escaping (Result<[MessageModel], Error>) -> ()) {

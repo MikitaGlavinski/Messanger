@@ -10,7 +10,7 @@ import GRDB
 import RxSwift
 
 protocol StorageServiceProtocol {
-    func storeChats(chatAdapters: [ChatStorageAdapter])
+    func storeChats(chatAdapters: [ChatStorageAdapter], userAdapters: [UserStorageAdapter])
     func obtainChat(chatId: String) -> Single<ChatsStorageResponse>
     func obtainChats() -> Single<[ChatsStorageResponse]>
     func storeUsers(userAdapters: [UserStorageAdapter])
@@ -87,11 +87,14 @@ class StorageService {
 }
 
 extension StorageService: StorageServiceProtocol {
-    func storeChats(chatAdapters: [ChatStorageAdapter]) {
+    func storeChats(chatAdapters: [ChatStorageAdapter], userAdapters: [UserStorageAdapter]) {
         do {
             try db.write({ db in
                 for chatAdapter in chatAdapters {
                     try chatAdapter.insert(db)
+                }
+                for userAdapter in userAdapters {
+                    try userAdapter.insert(db)
                 }
             })
         } catch let error {

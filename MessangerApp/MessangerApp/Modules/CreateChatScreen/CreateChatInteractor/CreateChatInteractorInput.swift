@@ -14,5 +14,5 @@ protocol CreateChatInteractorInput {
     func getUser(token: String) -> Single<UserModel>?
     func createChat(chat: ChatModel) -> Single<ChatModel>?
     func signalChatListToUpdate()
-    func storeChat(chatAdapter: ChatStorageAdapter)
+    func storeChat(chatAdapter: ChatStorageAdapter, userAdapters: [UserStorageAdapter])
 }

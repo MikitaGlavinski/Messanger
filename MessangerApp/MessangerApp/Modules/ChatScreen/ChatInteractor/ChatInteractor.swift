@@ -62,8 +62,8 @@ extension ChatInteractor: ChatInteractorInput {
             .subscribe(on: SerialDispatchQueueScheduler(qos: .background))
     }
     
-    func storeChats(chats: [ChatStorageAdapter]) {
-        storageService.storeChats(chatAdapters: chats)
+    func storeChats(chats: [ChatStorageAdapter], users: [UserStorageAdapter]) {
+        storageService.storeChats(chatAdapters: chats, userAdapters: users)
     }
     
     func addMessagesListener(chatId: String, date: Double, updateClosure: @escaping (Result<[MessageModel], Error>) -> ()) {

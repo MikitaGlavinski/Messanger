@@ -12,7 +12,7 @@ class ChatPresenter: NSObject {
     weak var view: ChatViewInput!
     var interactor: ChatInteractorInput!
     var router: ChatRouter!
-    private let calculateManager = ColculateCellsDataManager()
+    var collectionManager: ChatCollectionViewManagerProtocol!
     
     private var chatId: String
     private var chatModel: ChatModel?
@@ -38,9 +38,7 @@ class ChatPresenter: NSObject {
             .observe(on: MainScheduler.instance)
             .subscribe(onSuccess: { [weak self] messages in
                 let messageModels = messages.sorted(by: {$0.date > $1.date}).compactMap({MessageViewModel(messageModel: $0, userId: token)})
-                self?.calculateManager.handleMessages(messageModels) { handledMessages in
-                    self?.view.setupMessages(messages: handledMessages)
-                }
+                self?.collectionManager.setupMessages(messages: messageModels)
             }, onFailure: { [weak self] error in
                 self?.view.showError(error: error)
             }).disposed(by: disposeBag)
@@ -91,9 +89,7 @@ extension ChatPresenter: ChatPresenterProtocol {
             .observe(on: MainScheduler.instance)
             .flatMap { [weak self] messages -> Single<ChatsStorageResponse> in
                 let messageModels = messages.sorted(by: {$0.date > $1.date}).compactMap({MessageViewModel(messageModel: $0, userId: token)})
-                self?.calculateManager.handleMessages(messageModels, completion: { handledMessages in
-                    self?.view.setupMessages(messages: handledMessages)
-                })
+                self?.collectionManager.setupMessages(messages: messageModels)
                 return storedChatObtainer
             }
             .observe(on: MainScheduler.instance)
@@ -109,8 +105,9 @@ extension ChatPresenter: ChatPresenterProtocol {
             .observe(on: MainScheduler.instance)
             .subscribe(onSuccess: { [weak self] chat in
                 self?.view.hideUpdating()
+                let userAdapters = chat.members.compactMap({UserStorageAdapter(user: $0, chatId: chat.id)})
                 self?.chatModel = chat
-                self?.interactor.storeChats(chats: [ChatStorageAdapter(chat: chat)])
+                self?.interactor.storeChats(chats: [ChatStorageAdapter(chat: chat)], users: userAdapters)
                 let peerUser = self?.chatModel?.members.first(where: {$0.id != token})
                 self?.peerId = peerUser?.id
                 self?.view.setupChat(peerEmail: peerUser?.email ?? "", peerImageURL: peerUser?.imageURL ?? "")
@@ -129,6 +126,10 @@ extension ChatPresenter: ChatPresenterProtocol {
             }, onFailure: { [weak self] error in
                 self?.view.showError(error: error)
             }).disposed(by: disposeBag)
+    }
+    
+    func setupCollectionView(_ collectionView: UICollectionView) {
+        collectionManager.setup(with: collectionView)
     }
     
     func sendTextMessage(text: String) {
@@ -153,26 +154,23 @@ extension ChatPresenter: ChatPresenterProtocol {
         )
         interactor.storeMessages(messageAdapters: [messageAdapter])
         let viewModel = MessageViewModel(messageModel: messageAdapter, userId: senderId)
-        calculateManager.handleMessages([viewModel]) { [weak self] messages in
-            guard let message = messages.first else { return }
-            self?.view.addMessage(message: message)
-        }
+        collectionManager.addMessage(message: viewModel)
         interactor.signalizeChatList()
         interactor.signalizeToSend(messageId: messageAdapter.id)
     }
     
     func sendImageMessage(image: UIImage) {
-        let imageUUID = "%" + UUID().uuidString
+        let imageUUID = UUID().uuidString
         guard
             let peerId = self.peerId,
             let senderId = self.senderId,
             let imageData = image.jpegData(compressionQuality: 0.1),
-            let localPath = interactor.cacheData(imageData, id: imageUUID)
+            let localPath = interactor.cacheData(imageData, id: "%\(imageUUID)")
         else { return }
         
         let scaledSize = image.scaledSize(size: CGSize(width: 250, height: 350))
         let messageAdapter = MessageStorageAdapter(
-            id: UUID().uuidString,
+            id: imageUUID,
             text: "",
             peerId: peerId,
             senderId: senderId,
@@ -188,10 +186,7 @@ extension ChatPresenter: ChatPresenterProtocol {
         )
         interactor.storeMessages(messageAdapters: [messageAdapter])
         let viewModel = MessageViewModel(messageModel: messageAdapter, userId: senderId)
-        calculateManager.handleMessages([viewModel]) { [weak self] messages in
-            guard let message = messages.first else { return }
-            self?.view.addMessage(message: message)
-        }
+        collectionManager.addMessage(message: viewModel)
         interactor.signalizeChatList()
         interactor.signalizeToSend(messageId: messageAdapter.id)
     }
@@ -199,7 +194,9 @@ extension ChatPresenter: ChatPresenterProtocol {
     func pickPhoto() {
         router.pickLibraryPhoto(delegate: self)
     }
-    
+}
+
+extension ChatPresenter: ChatCollectionViewManagerDelegate {
     func openImage(with image: UIImage) {
         router.openImageMessage(with: image)
     }
@@ -209,10 +206,7 @@ extension ChatPresenter: ChatPresenterInput {
     func updateChat(message: MessageModel) {
         guard let senderId = self.senderId else { return }
         let viewMessageModel = MessageViewModel(messageModel: message, userId: senderId)
-        calculateManager.handleMessages([viewMessageModel]) { [weak self] messages in
-            guard let message = messages.first else { return }
-            self?.view.updateMessage(message: message)
-        }
+        collectionManager.updateMessage(message: viewMessageModel)
     }
 }
 

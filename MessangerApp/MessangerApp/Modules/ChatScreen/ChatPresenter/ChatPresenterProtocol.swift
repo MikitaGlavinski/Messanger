@@ -10,9 +10,9 @@ import UIKit
 protocol ChatPresenterProtocol {
     func viewDidLoad()
     func addMessagesListener()
+    func setupCollectionView(_ collectionView: UICollectionView)
     func sendTextMessage(text: String)
     func pickPhoto()
-    func openImage(with image: UIImage)
 }
 
 protocol ChatPresenterInput: AnyObject {

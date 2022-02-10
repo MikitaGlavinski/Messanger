@@ -10,7 +10,6 @@ class SendingService: SendingServiceProtocol {
     private let storageService: StorageServiceProtocol
     private let chatSignalService: ChatSignalServiceProtocol
     
-    private var sendQueueIds = Set<String>()
     private let disposeBag = DisposeBag()
     private let queue = DispatchQueue(label: "SendingService")
     
@@ -42,26 +41,23 @@ class SendingService: SendingServiceProtocol {
             } else {
                 guard let message = self.storageService.obtainFirstSendingMessage() else {
                     self.chatSignalService.signalChatListToUpdate()
-                    self.sendQueueIds.removeAll()
                     return
                 }
                 messageAdapter = message
             }
-            if self.sendQueueIds.contains(messageAdapter.id) {
-                return
-            }
-            self.sendQueueIds.insert(messageAdapter.id)
             
             switch messageAdapter.type {
             case 0:
-                self.sendMessage(messageAdapter: messageAdapter)
+                self.sendTextMessage(messageAdapter: messageAdapter)
+            case 1:
+                self.sendImageMessage(messageAdapter: messageAdapter)
             default:
-                self.sendMediaMessage(messageAdapter: messageAdapter)
+                break
             }
         }
     }
     
-    private func sendMessage(messageAdapter: MessageStorageAdapter) {
+    private func sendTextMessage(messageAdapter: MessageStorageAdapter) {
         var messageModel = MessageModel(messageAdapter: messageAdapter)
         messageModel.isSent = true
         let messageSender = firebaseService.addMessage(message: messageModel)
@@ -75,8 +71,9 @@ class SendingService: SendingServiceProtocol {
             }).disposed(by: disposeBag)
     }
     
-    private func sendMediaMessage(messageAdapter: MessageStorageAdapter) {
-        let url = URL(fileURLWithPath: messageAdapter.localPath)
+    private func sendImageMessage(messageAdapter: MessageStorageAdapter) {
+        let documents = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let url = documents.appendingPathComponent("chatFiles/%\(messageAdapter.id)")
         let imageUUID = url.lastPathComponent
         guard
             let data = try? Data(contentsOf: url),

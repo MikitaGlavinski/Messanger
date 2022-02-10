@@ -11,17 +11,25 @@ class ColculateCellsDataManager {
     
     private let queue = DispatchQueue(label: "cell.data.calculate", qos: .userInteractive)
     
-    func handleMessages(_ messages: [MessageViewModel], completion: @escaping ([MessageViewModel]) -> Void) {
+    func handleMessages(_ messages: [MessageViewModel], lastMessageData: Double? = nil, completion: @escaping ([MessageViewModel]) -> Void) {
         queue.async {
             let handledMessages = messages.compactMap { messageModel -> MessageViewModel? in
                 var additionalHeight: CGFloat = 20
                 var configureWithDate: Bool = true
-                guard let indexPath = messages.firstIndex(where: {$0.id == messageModel.id}) else { return nil}
+                
+                guard let indexPath = messages.firstIndex(where: {$0.id == messageModel.id}) else { return nil }
                 let previousMessageDate: Double? = indexPath + 1 != messages.count ? messages[indexPath + 1].doubleDate : nil
-                if let previousMessageDate = previousMessageDate {
-                    configureWithDate = self.checkDate(of: messageModel.doubleDate, and: previousMessageDate)
-                    additionalHeight = self.checkDate(of: messageModel.doubleDate, and: previousMessageDate) ? 20 : 0
+                
+                if let lastMessageData = lastMessageData {
+                    configureWithDate = self.checkDate(of: messageModel.doubleDate, and: lastMessageData)
+                    additionalHeight = self.checkDate(of: messageModel.doubleDate, and: lastMessageData) ? 20 : 0
+                } else {
+                    if let previousMessageDate = previousMessageDate {
+                        configureWithDate = self.checkDate(of: messageModel.doubleDate, and: previousMessageDate)
+                        additionalHeight = self.checkDate(of: messageModel.doubleDate, and: previousMessageDate) ? 20 : 0
+                    }
                 }
+                
                 guard let messageText = messages[indexPath].text, messageText.count > 0 else {
                     let cellHeight = (messageModel.previewHeight ?? 0) + additionalHeight + 20
                     var data = self.handleImageMessage(with: messageModel, configureWithDate: configureWithDate)
@@ -31,13 +39,15 @@ class ColculateCellsDataManager {
                     newMessageModel.cellData = data
                     return newMessageModel
                 }
+                
                 let textRect = messageText.estimatedSize(width: 250, height: 2000, font: UIFont.systemFont(ofSize: 16))
-                let cellHeight = textRect.height + 30 + additionalHeight
+                let cellHeight = textRect.height + 20 + additionalHeight
                 var data = self.handleTextMessage(with: messageModel, configureWithDate: configureWithDate)
                 data?.cellHeight = cellHeight
                 data?.showDate = configureWithDate
                 var newMessageModel = messageModel
                 newMessageModel.cellData = data
+                
                 return newMessageModel
             }
             DispatchQueue.main.async {
@@ -58,9 +68,9 @@ class ColculateCellsDataManager {
         if !messageModel.isOwner {
             if configureWithDate {
                 data.dateLabelFrame = CGRect(x: (UIScreen.main.bounds.width / 2) - 40, y: 10, width: 80, height: 15)
-                data.imageViewFrame = CGRect(x: paddingNumber + 3, y: 33, width: messageModel.previewWidth ?? 0, height: messageModel.previewHeight ?? 0)
+                data.imageViewFrame = CGRect(x: paddingNumber + 3, y: 23, width: messageModel.previewWidth ?? 0, height: messageModel.previewHeight ?? 0)
             } else {
-                data.imageViewFrame = CGRect(x: paddingNumber + 3, y: 13, width: messageModel.previewWidth ?? 0, height: messageModel.previewHeight ?? 0)
+                data.imageViewFrame = CGRect(x: paddingNumber + 3, y: 5, width: messageModel.previewWidth ?? 0, height: messageModel.previewHeight ?? 0)
             }
             data.timeLabelFrame = CGRect(x: data.imageViewFrame.maxX + 11, y: data.imageViewFrame.maxY - 10, width: 30, height: 10)
             data.isSendStateHidden = true
@@ -93,11 +103,11 @@ class ColculateCellsDataManager {
         if !messageModel.isOwner {
             if configureWithDate {
                 data.dateLabelFrame = CGRect(x: (UIScreen.main.bounds.width / 2) - 40, y: 10, width: 80, height: 15)
-                data.textMessageBackViewFrame = CGRect(x: paddingNumber, y: 30, width: textRect.width + 16 + 11, height: textRect.height + 20)
-                data.textViewFrame = CGRect(x: paddingNumber + 8, y: 31, width: textRect.width + 16, height: textRect.height + 20)
+                data.textMessageBackViewFrame = CGRect(x: paddingNumber, y: 20, width: textRect.width + 16 + 11, height: textRect.height + 20)
+                data.textViewFrame = CGRect(x: paddingNumber + 8, y: 21, width: textRect.width + 16, height: textRect.height + 20)
             } else {
-                data.textMessageBackViewFrame = CGRect(x: paddingNumber, y: 10, width: textRect.width + 16 + 11, height: textRect.height + 20)
-                data.textViewFrame = CGRect(x: paddingNumber + 8, y: 11, width: textRect.width + 16, height: textRect.height + 20)
+                data.textMessageBackViewFrame = CGRect(x: paddingNumber, y: 0, width: textRect.width + 16 + 11, height: textRect.height + 20)
+                data.textViewFrame = CGRect(x: paddingNumber + 8, y: 1, width: textRect.width + 16, height: textRect.height + 20)
             }
             data.timeLabelFrame = CGRect(x: data.textMessageBackViewFrame.maxX + 11, y: data.textMessageBackViewFrame.maxY - 10, width: 30, height: 10)
             
@@ -107,11 +117,11 @@ class ColculateCellsDataManager {
         } else {
             if configureWithDate {
                 data.dateLabelFrame = CGRect(x: (UIScreen.main.bounds.width / 2) - 40, y: 10, width: 80, height: 15)
-                data.textMessageBackViewFrame = CGRect(x: UIScreen.main.bounds.width - textRect.width - paddingNumber - 8 - 16, y: 30, width: textRect.width + 16 + 11, height: textRect.height + 20)
-                data.textViewFrame = CGRect(x: UIScreen.main.bounds.width - textRect.width - paddingNumber - 16, y: 31, width: textRect.width + 16, height: textRect.height + 20)
+                data.textMessageBackViewFrame = CGRect(x: UIScreen.main.bounds.width - textRect.width - paddingNumber - 8 - 16, y: 20, width: textRect.width + 16 + 11, height: textRect.height + 20)
+                data.textViewFrame = CGRect(x: UIScreen.main.bounds.width - textRect.width - paddingNumber - 16, y: 21, width: textRect.width + 16, height: textRect.height + 20)
             } else {
-                data.textMessageBackViewFrame = CGRect(x: UIScreen.main.bounds.width - textRect.width - paddingNumber - 8 - 16, y: 10, width: textRect.width + 16 + 11, height: textRect.height + 20)
-                data.textViewFrame = CGRect(x: UIScreen.main.bounds.width - textRect.width - paddingNumber - 16, y: 11, width: textRect.width + 16, height: textRect.height + 20)
+                data.textMessageBackViewFrame = CGRect(x: UIScreen.main.bounds.width - textRect.width - paddingNumber - 8 - 16, y: 0, width: textRect.width + 16 + 11, height: textRect.height + 20)
+                data.textViewFrame = CGRect(x: UIScreen.main.bounds.width - textRect.width - paddingNumber - 16, y: 1, width: textRect.width + 16, height: textRect.height + 20)
             }
             data.timeLabelFrame = CGRect(x: data.textMessageBackViewFrame.minX - 11 - 25, y: data.textMessageBackViewFrame.maxY - 10, width: 30, height: 10)
             data.sendStateViewFrame = CGRect(x: data.timeLabelFrame.minX - 11, y: data.textMessageBackViewFrame.maxY - 6, width: 6, height: 6)

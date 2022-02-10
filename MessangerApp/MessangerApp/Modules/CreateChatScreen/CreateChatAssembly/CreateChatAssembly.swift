@@ -18,6 +18,7 @@ class CreateChatAssembly {
         let secureStorage: SecureStorageService? = ServiceLocator.shared.getService()
         let firebaseService: FirebaseService? = ServiceLocator.shared.getService()
         let chatSignalService: ChatSignalService? = ServiceLocator.shared.getService()
+        let storageService: StorageService? = ServiceLocator.shared.getService()
         
         view.presenter = presenter
         presenter.view = view
@@ -26,6 +27,7 @@ class CreateChatAssembly {
         interactor.secureStorage = secureStorage
         interactor.firebaseService = firebaseService
         interactor.chatSignalService = chatSignalService
+        interactor.storageService = storageService
         router.view = view
         
         return view

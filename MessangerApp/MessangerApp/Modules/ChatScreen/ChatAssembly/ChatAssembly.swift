@@ -20,11 +20,13 @@ class ChatAssembly {
         let presenter = ChatPresenter(chatId: chatId)
         let interactor = ChatInteractor(chatSignalService: chatSignalService)
         let router = ChatRouter()
+        let collectionManager = ChatCollectionViewManager(delegate: presenter)
         
         view.presenter = presenter
         presenter.view = view
         presenter.interactor = interactor
         presenter.router = router
+        presenter.collectionManager = collectionManager
         interactor.secureStorage = secureStorage
         interactor.firebaseService = firebaseService
         interactor.storageService = storageService
