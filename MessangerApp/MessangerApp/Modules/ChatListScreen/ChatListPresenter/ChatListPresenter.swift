@@ -55,8 +55,9 @@ extension ChatListPresenter: ChatListPresenterProtocol {
             .observe(on: MainScheduler.instance)
             .flatMap { [weak self] chatsResponse -> Single<[ChatModel]> in
                 let chatViewModels = chatsResponse.compactMap({ChatViewModel(chatStorageResponse: $0, currentUserId: token)})
+                let sortedChats = chatViewModels.sorted(by: {($1.lastMessageDoubleDate ?? 0) > ($0.lastMessageDoubleDate ?? 0)})
                 self?.view.hideLoader()
-                self?.view.updateChatList(chatModels: chatViewModels)
+                self?.view.updateChatList(chatModels: sortedChats)
                 return chatsObtainer
             }
             .flatMap({ [weak self] chats -> Single<[ChatsStorageResponse]> in

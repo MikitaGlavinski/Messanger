@@ -9,6 +9,7 @@ import UIKit
 
 protocol MessageActivitiesDelegate: AnyObject {
     func openImage(with image: UIImage, of imageView: UIImageView)
+    func loadImage(with stringURL: String, for message: MessageViewModel)
 }
 
 class TextMessageCollectionViewCell: UICollectionViewCell {
@@ -61,7 +62,6 @@ class TextMessageCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
-        contentView.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
     }
     
     required init?(coder: NSCoder) {

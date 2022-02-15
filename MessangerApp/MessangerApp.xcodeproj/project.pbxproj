@@ -46,7 +46,6 @@
 		FA13F80E27B1374600A242C3 /* ImageMessageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA13F80D27B1374600A242C3 /* ImageMessageCollectionViewCell.swift */; };
 		FA13F81327B13DC900A242C3 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = FA13F81227B13DC900A242C3 /* Alamofire */; };
 		FA13F81527B13DE200A242C3 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA13F81427B13DE200A242C3 /* ImageLoader.swift */; };
-		FA13F81727B1423900A242C3 /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA13F81627B1423900A242C3 /* UIImageView+Extension.swift */; };
 		FA13F81927B1573300A242C3 /* DataCacher.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA13F81827B1573300A242C3 /* DataCacher.swift */; };
 		FA26080427A1FD8700093F66 /* ScaledButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA26080327A1FD8700093F66 /* ScaledButton.swift */; };
 		FA68B20627B3BDFF00332F7A /* ColculateCellsDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA68B20527B3BDFF00332F7A /* ColculateCellsDataManager.swift */; };
@@ -143,7 +142,6 @@
 		FA0ADBDF27A6CE8500B87E6F /* ChatAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatAssembly.swift; sourceTree = "<group>"; };
 		FA13F80D27B1374600A242C3 /* ImageMessageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageMessageCollectionViewCell.swift; sourceTree = "<group>"; };
 		FA13F81427B13DE200A242C3 /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
-		FA13F81627B1423900A242C3 /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
 		FA13F81827B1573300A242C3 /* DataCacher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataCacher.swift; sourceTree = "<group>"; };
 		FA26080327A1FD8700093F66 /* ScaledButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaledButton.swift; sourceTree = "<group>"; };
 		FA68B20527B3BDFF00332F7A /* ColculateCellsDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColculateCellsDataManager.swift; sourceTree = "<group>"; };
@@ -610,7 +608,6 @@
 				FA08AAAE27A056F80056BE29 /* UITableViewCell+Extension.swift */,
 				FAFDF45827A7F90B00509779 /* UICollectionViewCell+Extension.swift */,
 				FAFDF45D27A800A400509779 /* String+Extension.swift */,
-				FA13F81627B1423900A242C3 /* UIImageView+Extension.swift */,
 			);
 			path = Extansions;
 			sourceTree = "<group>";
@@ -914,7 +911,6 @@
 				FAFDF45627A7F88D00509779 /* TextMessageCollectionViewCell.swift in Sources */,
 				FA91C71127ABF11500353739 /* SendingService.swift in Sources */,
 				FA7D2537279833E6004F29D4 /* MessageModel.swift in Sources */,
-				FA13F81727B1423900A242C3 /* UIImageView+Extension.swift in Sources */,
 				FAB032DC279F2D3E006F9C48 /* CreateChatPresenter.swift in Sources */,
 				FAA48F7927B28DC50050884F /* ImageViewInput.swift in Sources */,
 				FAB032E2279F2D94006F9C48 /* CreateChatRouter.swift in Sources */,
@@ -1083,7 +1079,7 @@
 				INFOPLIST_FILE = MessangerApp/Source/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1111,7 +1107,7 @@
 				INFOPLIST_FILE = MessangerApp/Source/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (

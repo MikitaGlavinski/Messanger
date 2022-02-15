@@ -19,6 +19,7 @@ struct MessageViewModel {
     var chatId: String
     var type: MessageType
     var fileURL: String?
+    var image: UIImage?
     var localPath: String?
     var date: String
     var doubleDate: Double
@@ -74,8 +75,8 @@ struct MessageViewModel {
         case .image:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageMessageCollectionViewCell.reuseIdentifier, for: indexPath) as! ImageMessageCollectionViewCell
             cell.configureWithDate = showDate
-            cell.configureCell(with: self)
             cell.delegate = delegate
+            cell.configureCell(with: self)
             return cell
         default:
             return UICollectionViewCell()

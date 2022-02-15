@@ -58,7 +58,6 @@ class ImageMessageCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         setupUI()
         setupGestures()
-        contentView.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
     }
     
     required init?(coder: NSCoder) {
@@ -69,7 +68,11 @@ class ImageMessageCollectionViewCell: UICollectionViewCell {
     func configureCell(with model: MessageViewModel) {
         self.messageModel = model
         displayCellData()
-        if let localPath = messageModel.localPath, !localPath.isEmpty {
+        
+        if let image = model.image {
+            imageView.image = image
+            return
+        } else if let localPath = messageModel.localPath, !localPath.isEmpty {
             let documents = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
             let url = documents.appendingPathComponent("chatFiles/%\(model.id)")
             guard
@@ -81,8 +84,9 @@ class ImageMessageCollectionViewCell: UICollectionViewCell {
             imageView.image = image
             return
         }
+        
         guard let fileURL = messageModel.fileURL else { return }
-        imageView.downloadImage(from: fileURL)
+        delegate.loadImage(with: fileURL, for: model)
     }
     
     private func displayCellData() {
@@ -129,9 +133,5 @@ class ImageMessageCollectionViewCell: UICollectionViewCell {
         self.sendStateView.layer.borderColor = UIColor.systemRed.cgColor
         self.imageView.image = nil
         sendStateView.isHidden = false
-        dateLabel.frame = .zero
-        imageView.frame = .zero
-        timeLabel.frame = .zero
-        sendStateView.frame = .zero
     }
 }

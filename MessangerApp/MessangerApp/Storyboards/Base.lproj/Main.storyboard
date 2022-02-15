@@ -383,11 +383,11 @@
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" keyboardDismissMode="onDrag" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="JqN-Ia-9xB">
                                 <rect key="frame" x="0.0" y="88" width="414" height="718"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="WA5-4F-px0">
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Idu-s2-iMS">
                                     <size key="itemSize" width="128" height="128"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="20" maxX="0.0" maxY="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells/>
                             </collectionView>
@@ -542,6 +542,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3CB-7o-dtK">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ki9-Q8-A3b">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <subviews>
@@ -549,7 +553,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                     </imageView>
                                 </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="3Ue-V2-pc6" firstAttribute="top" secondItem="Ki9-Q8-A3b" secondAttribute="top" id="TdD-fE-nLa"/>
                                     <constraint firstAttribute="trailing" secondItem="3Ue-V2-pc6" secondAttribute="trailing" id="lk3-0x-Ddd"/>
@@ -561,10 +565,14 @@
                             </scrollView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="ePO-q4-dDn"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="ePO-q4-dDn" firstAttribute="trailing" secondItem="Ki9-Q8-A3b" secondAttribute="trailing" id="5kJ-dg-bRR"/>
+                            <constraint firstItem="ePO-q4-dDn" firstAttribute="trailing" secondItem="3CB-7o-dtK" secondAttribute="trailing" id="Bfl-ER-yzK"/>
+                            <constraint firstAttribute="bottom" secondItem="3CB-7o-dtK" secondAttribute="bottom" id="OVr-6d-PHn"/>
                             <constraint firstItem="Ki9-Q8-A3b" firstAttribute="leading" secondItem="ePO-q4-dDn" secondAttribute="leading" id="Qal-Mm-jqo"/>
+                            <constraint firstItem="3CB-7o-dtK" firstAttribute="leading" secondItem="ePO-q4-dDn" secondAttribute="leading" id="SIN-by-OAZ"/>
+                            <constraint firstItem="3CB-7o-dtK" firstAttribute="top" secondItem="QDQ-vu-z5L" secondAttribute="top" id="Yja-Jb-mcf"/>
                             <constraint firstItem="Ki9-Q8-A3b" firstAttribute="bottom" secondItem="QDQ-vu-z5L" secondAttribute="bottom" id="YwI-MA-cIt"/>
                             <constraint firstItem="3Ue-V2-pc6" firstAttribute="width" secondItem="QDQ-vu-z5L" secondAttribute="width" id="ghO-nh-NNg"/>
                             <constraint firstItem="3Ue-V2-pc6" firstAttribute="height" secondItem="QDQ-vu-z5L" secondAttribute="height" id="iO2-BF-puw"/>
@@ -572,6 +580,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="backgroundView" destination="3CB-7o-dtK" id="N69-jh-PaF"/>
                         <outlet property="imageView" destination="3Ue-V2-pc6" id="8SL-BT-Ano"/>
                         <outlet property="scrollView" destination="Ki9-Q8-A3b" id="3P8-8A-sJb"/>
                     </connections>

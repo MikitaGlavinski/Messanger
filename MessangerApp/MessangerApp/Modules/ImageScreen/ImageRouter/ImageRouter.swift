@@ -9,13 +9,16 @@ import UIKit
 
 class ImageRouter {
     weak var view: UIViewController!
+    let completion: () -> Void
+    
+    init(completion: @escaping () -> Void) {
+        self.completion = completion
+    }
     
     func dismiss() {
-        UIView.transition(with: view.view.superview!, duration: 0.25, options: [.transitionCrossDissolve]) {
-            self.view.navigationController?.navigationBar.isHidden = false
-            self.view.view.removeFromSuperview()
-            self.view.removeFromParent()
-            self.view.didMove(toParent: nil)
-        }
+        view.view.removeFromSuperview()
+        view.removeFromParent()
+        view.didMove(toParent: nil)
+        completion()
     }
 }

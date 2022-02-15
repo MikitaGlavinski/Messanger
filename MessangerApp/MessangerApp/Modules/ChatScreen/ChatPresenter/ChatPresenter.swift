@@ -197,8 +197,8 @@ extension ChatPresenter: ChatPresenterProtocol {
 }
 
 extension ChatPresenter: ChatCollectionViewManagerDelegate {
-    func openImage(with image: UIImage) {
-        router.openImageMessage(with: image)
+    func openImage(with image: UIImage, superViewImageRect: CGRect, completion: @escaping () -> Void) {
+        router.openImageMessage(with: image,superViewImageRect: superViewImageRect, completion: completion)
     }
 }
 

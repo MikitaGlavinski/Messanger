@@ -13,6 +13,9 @@ class ImageViewController: UIViewController {
     
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var backgroundView: UIView!
+    
+    private var superviewImageRect: CGRect!
     
     private lazy var zoomTap: UITapGestureRecognizer = {
         let tap = UITapGestureRecognizer(target: self, action: #selector(zoomingTap))
@@ -22,7 +25,12 @@ class ImageViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.navigationBar.isHidden = true
+//        navigationController?.navigationBar.alpha = 0
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        navigationController?.navigationBar.alpha = 0
     }
 
     override func viewDidLoad() {
@@ -32,7 +40,6 @@ class ImageViewController: UIViewController {
     }
     
     private func setupUI() {
-        view.backgroundColor = .black
         scrollView.delegate = self
         scrollView.minimumZoomScale = 1.0
         scrollView.maximumZoomScale = 6.0
@@ -76,12 +83,21 @@ class ImageViewController: UIViewController {
     }
     
     private func handleImagePanHide() {
+        let parentRect = view.convert(imageView.frame, from: imageView.superview)
+        
+        let animatedImageView = UIImageView()
+        animatedImageView.contentMode = .scaleAspectFit
+        animatedImageView.image = imageView.image
+        animatedImageView.frame = parentRect
+        animatedImageView.layer.cornerRadius = 15
+        animatedImageView.clipsToBounds = true
+        
+        view.addSubview(animatedImageView)
+        navigationController?.navigationBar.alpha = 1
+        self.imageView.removeFromSuperview()
         UIView.animate(withDuration: 0.2) {
-            if self.imageView.center.y < self.scrollView.center.y {
-                self.imageView.frame.origin.y = -self.imageView.frame.height
-            } else {
-                self.imageView.frame.origin.y = self.imageView.frame.height
-            }
+            self.backgroundView.alpha = 0
+            animatedImageView.frame = self.superviewImageRect
         } completion: { _ in
             self.presenter.dismissView()
         }
@@ -116,8 +132,9 @@ class ImageViewController: UIViewController {
 
 extension ImageViewController: ImageViewInput {
     
-    func presentImage(_ image: UIImage) {
+    func presentImage(_ image: UIImage, superviewImageRect: CGRect) {
         imageView.image = image
+        self.superviewImageRect = superviewImageRect
     }
 }
 

@@ -36,10 +36,9 @@ class ChatViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.navigationBar.isHidden = false
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboard), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
-        collectionView.transform = CGAffineTransform(rotationAngle: -CGFloat.pi)
+        collectionView.transform = CGAffineTransform(scaleX: 1, y: -1)
     }
     
     override func viewDidDisappear(_ animated: Bool) {

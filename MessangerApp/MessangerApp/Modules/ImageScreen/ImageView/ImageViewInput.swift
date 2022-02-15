@@ -8,5 +8,5 @@
 import UIKit
 
 protocol ImageViewInput: AnyObject {
-    func presentImage(_ image: UIImage)
+    func presentImage(_ image: UIImage, superviewImageRect: CGRect)
 }
