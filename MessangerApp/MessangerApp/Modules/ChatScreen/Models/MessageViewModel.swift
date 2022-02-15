@@ -14,11 +14,10 @@ enum MessageType: Int {
 struct MessageViewModel {
     var id: String
     var text: String?
-    var peerId: String
-    var senderId: String
     var chatId: String
     var type: MessageType
     var fileURL: String?
+    var previewURL: String?
     var image: UIImage?
     var localPath: String?
     var date: String
@@ -33,10 +32,9 @@ struct MessageViewModel {
     init(messageModel: MessageModel, userId: String) {
         self.id = messageModel.id
         self.text = messageModel.text
-        self.peerId = messageModel.peerId
-        self.senderId = messageModel.senderId
         self.chatId = messageModel.chatId
         self.fileURL = messageModel.fileURL
+        self.previewURL = messageModel.previewURL
         self.isRead = messageModel.isRead
         self.isOwner = messageModel.senderId == userId
         self.date = DateFormatterService.shared.formatDate(doubleDate: messageModel.date, format: "HH:mm")
@@ -50,10 +48,9 @@ struct MessageViewModel {
     init(messageModel: MessageStorageAdapter, userId: String) {
         self.id = messageModel.id
         self.text = messageModel.text
-        self.peerId = messageModel.peerId
-        self.senderId = messageModel.senderId
         self.chatId = messageModel.chatId
         self.fileURL = messageModel.fileURL
+        self.previewURL = messageModel.previewURL
         self.localPath = messageModel.localPath
         self.isRead = messageModel.isRead
         self.isOwner = messageModel.senderId == userId
@@ -78,8 +75,12 @@ struct MessageViewModel {
             cell.delegate = delegate
             cell.configureCell(with: self)
             return cell
-        default:
-            return UICollectionViewCell()
+        case .video:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: VideoMessageCollectionViewCell.reuseIdentifier, for: indexPath) as! VideoMessageCollectionViewCell
+            cell.configureWithDate = showDate
+            cell.delegate = delegate
+            cell.configureCell(with: self)
+            return cell
         }
     }
 }

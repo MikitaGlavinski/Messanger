@@ -45,7 +45,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let authService = AuthService()
         let firebaseService = FirebaseService()
         let chatSignalService = ChatSignalService()
-        let imageLoader = ImageLoader()
+        let imageLoader = FileLoader()
         let dataCacher = DataCacher()
         
         ServiceLocator.shared.addService(service: secureStorage)

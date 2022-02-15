@@ -7,6 +7,7 @@
 
 import RxSwift
 import UIKit
+import AVFoundation
 
 class ChatPresenter: NSObject {
     weak var view: ChatViewInput!
@@ -69,6 +70,14 @@ class ChatPresenter: NSObject {
             }, onFailure: { error in
                 print(error.localizedDescription)
             }).disposed(by: disposeBag)
+    }
+    
+    private func createVideoPreview(from url: URL) -> UIImage? {
+        let asset = AVURLAsset(url: url)
+        let imageGenerator = AVAssetImageGenerator(asset: asset)
+        guard let cgImage = try? imageGenerator.copyCGImage(at: CMTimeMake(value: 0, timescale: 1), actualTime: nil) else { return nil }
+        let image = UIImage(cgImage: cgImage)
+        return image
     }
 }
 
@@ -145,6 +154,7 @@ extension ChatPresenter: ChatPresenterProtocol {
             chatId: chatId,
             type: 0,
             fileURL: "",
+            previewURL: "",
             localPath: "",
             date: Date().timeIntervalSince1970,
             isRead: false,
@@ -177,6 +187,7 @@ extension ChatPresenter: ChatPresenterProtocol {
             chatId: self.chatId,
             type: 1,
             fileURL: "",
+            previewURL: "",
             localPath: localPath,
             date: Date().timeIntervalSince1970,
             isRead: false,
@@ -191,14 +202,66 @@ extension ChatPresenter: ChatPresenterProtocol {
         interactor.signalizeToSend(messageId: messageAdapter.id)
     }
     
+    func sendVideoMessage(videoURL: URL) {
+        let videoUUID = UUID().uuidString
+        guard
+            let peerId = self.peerId,
+            let senderId = self.senderId,
+            let videoData = try? Data(contentsOf: videoURL),
+            let _ = interactor.cacheData(videoData, id: "%\(videoUUID)"),
+            let previewImage = createVideoPreview(from: videoURL),
+            let previewData = previewImage.jpegData(compressionQuality: 0.1),
+            let previewLocalPath = interactor.cacheData(previewData, id: "%preview\(videoUUID)")
+        else { return }
+        
+        let scaledSize = previewImage.scaledSize(size: CGSize(width: 250, height: 350))
+        let messageAdapter = MessageStorageAdapter(
+            id: videoUUID,
+            text: "",
+            peerId: peerId,
+            senderId: senderId,
+            chatId: self.chatId,
+            type: 2,
+            fileURL: "",
+            previewURL: "",
+            localPath: previewLocalPath,
+            date: Date().timeIntervalSince1970,
+            isRead: false,
+            isSent: false,
+            previewWidth: Double(scaledSize.width),
+            previewHeight: Double(scaledSize.height)
+        )
+        interactor.storeMessages(messageAdapters: [messageAdapter])
+        let viewModel = MessageViewModel(messageModel: messageAdapter, userId: senderId)
+        collectionManager.addMessage(message: viewModel)
+        interactor.signalizeChatList()
+        interactor.signalizeToSend(messageId: messageAdapter.id)
+    }
+    
     func pickPhoto() {
-        router.pickLibraryPhoto(delegate: self)
+        router.getPhoto(sourceType: .photoLibrary, delegate: self)
+    }
+    
+    func takePhoto() {
+        router.getPhoto(sourceType: .camera, delegate: self)
+    }
+    
+    func pickVideo() {
+        router.getVideo(sourceType: .photoLibrary, delegate: self)
+    }
+    
+    func takeVideo() {
+        router.getVideo(sourceType: .camera, delegate: self)
     }
 }
 
 extension ChatPresenter: ChatCollectionViewManagerDelegate {
     func openImage(with image: UIImage, superViewImageRect: CGRect, completion: @escaping () -> Void) {
         router.openImageMessage(with: image,superViewImageRect: superViewImageRect, completion: completion)
+    }
+    
+    func openVideo(with url: URL) {
+        router.playVideo(with: url)
     }
 }
 
@@ -213,8 +276,12 @@ extension ChatPresenter: ChatPresenterInput {
 extension ChatPresenter: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if let image = info[.originalImage] as? UIImage {
-            sendImageMessage(image: image)
+        if let type = info[.mediaType] as? String {
+            if type == "public.image", let image = info[.originalImage] as? UIImage {
+                sendImageMessage(image: image)
+            } else if type == "public.movie", let videoURL = info[.mediaURL] as? URL {
+                sendVideoMessage(videoURL: videoURL)
+            }
         }
         picker.dismiss(animated: true, completion: nil)
     }

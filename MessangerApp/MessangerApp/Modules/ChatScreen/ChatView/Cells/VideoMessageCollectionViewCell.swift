@@ -1,16 +1,15 @@
 //
-//  ImageMessageCollectionViewCell.swift
+//  VideoMessageCollectionViewCell.swift
 //  MessangerApp
 //
-//  Created by Mikita Glavinski on 2/7/22.
+//  Created by Mikita Glavinski on 2/15/22.
 //
 
 import UIKit
 import RxCocoa
 import RxSwift
 
-class ImageMessageCollectionViewCell: UICollectionViewCell {
-    
+class VideoMessageCollectionViewCell: UICollectionViewCell {
     private var messageModel: MessageViewModel!
     var configureWithDate: Bool!
     weak var delegate: MessageActivitiesDelegate!
@@ -23,6 +22,14 @@ class ImageMessageCollectionViewCell: UICollectionViewCell {
         imageView.clipsToBounds = true
         imageView.backgroundColor = .clear
         imageView.isUserInteractionEnabled = true
+        return imageView
+    }()
+    
+    private lazy var playImage: UIImageView = {
+        let imageView = UIImageView(image: UIImage(systemName: "play.circle"))
+        imageView.contentMode = .scaleAspectFit
+        imageView.frame.size = CGSize(width: 40, height: 40)
+        imageView.tintColor = .white
         return imageView
     }()
     
@@ -74,7 +81,7 @@ class ImageMessageCollectionViewCell: UICollectionViewCell {
             return
         } else if let localPath = messageModel.localPath, !localPath.isEmpty {
             let documents = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-            let url = documents.appendingPathComponent("chatFiles/%\(model.id)")
+            let url = documents.appendingPathComponent("chatFiles/%preview\(model.id)")
             guard
                 let data = try? Data(contentsOf: url),
                 let image = UIImage(data: data)
@@ -85,8 +92,8 @@ class ImageMessageCollectionViewCell: UICollectionViewCell {
             return
         }
         
-        guard let fileURL = messageModel.fileURL else { return }
-        delegate.loadImage(with: fileURL, for: model)
+        guard let previewURL = messageModel.previewURL else { return }
+        delegate.loadImage(with: previewURL, for: model)
     }
     
     private func displayCellData() {
@@ -98,6 +105,7 @@ class ImageMessageCollectionViewCell: UICollectionViewCell {
         dateLabel.text = cellData.dateLabelText
         dateLabel.frame = cellData.dateLabelFrame ?? .zero
         imageView.frame = cellData.imageViewFrame
+        playImage.frame = CGRect(x: imageView.frame.midX - 20, y: imageView.frame.midY - 20, width: 40, height: 40)
         timeLabel.frame = cellData.timeLabelFrame
         sendStateView.frame = cellData.sendStateViewFrame
         sendStateView.isHidden = cellData.isSendStateHidden
@@ -107,6 +115,7 @@ class ImageMessageCollectionViewCell: UICollectionViewCell {
     
     private func setupUI() {
         contentView.addSubview(imageView)
+        contentView.addSubview(playImage)
         contentView.addSubview(sendStateView)
         contentView.addSubview(timeLabel)
     }
@@ -115,9 +124,12 @@ class ImageMessageCollectionViewCell: UICollectionViewCell {
         let imageTap = UITapGestureRecognizer()
         imageTap.rx.event.bind { [weak self] _ in
             guard
-                let imageView = self?.imageView,
-                let image = self?.imageView.image else { return }
-            self?.delegate.openImage(with: image, of: imageView)
+                let self = self,
+                let videoStringURL = self.messageModel.fileURL
+            else { return }
+            self.delegate.openVideo(with: videoStringURL) {
+                
+            }
         }.disposed(by: disposeBag)
         imageView.addGestureRecognizer(imageTap)
     }

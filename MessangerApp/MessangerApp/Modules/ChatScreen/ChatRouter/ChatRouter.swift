@@ -6,15 +6,24 @@
 //
 
 import UIKit
+import AVKit
 
 class ChatRouter {
     weak var view: UIViewController!
     
-    func pickLibraryPhoto(delegate: (UIImagePickerControllerDelegate & UINavigationControllerDelegate)) {
+    func getPhoto(sourceType: UIImagePickerController.SourceType, delegate: (UIImagePickerControllerDelegate & UINavigationControllerDelegate)) {
         let picker = UIImagePickerController()
         picker.delegate = delegate
         picker.mediaTypes = ["public.image"]
-        picker.sourceType = .photoLibrary
+        picker.sourceType = sourceType
+        view.present(picker, animated: true, completion: nil)
+    }
+    
+    func getVideo(sourceType: UIImagePickerController.SourceType, delegate: (UIImagePickerControllerDelegate & UINavigationControllerDelegate)) {
+        let picker = UIImagePickerController()
+        picker.delegate = delegate
+        picker.sourceType = sourceType
+        picker.mediaTypes = ["public.movie"]
         view.present(picker, animated: true, completion: nil)
     }
     
@@ -24,6 +33,15 @@ class ChatRouter {
             imageView.willMove(toParent: self.view)
             self.view.addChild(imageView)
             self.view.view.addSubview(imageView.view)
+        }
+    }
+    
+    func playVideo(with url: URL) {
+        let playerController = AVPlayerViewController()
+        let player = AVPlayer(url: url)
+        playerController.player = player
+        view.present(playerController, animated: true) {
+            playerController.player?.play()
         }
     }
 }

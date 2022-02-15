@@ -7,11 +7,6 @@
 
 import UIKit
 
-protocol MessageActivitiesDelegate: AnyObject {
-    func openImage(with image: UIImage, of imageView: UIImageView)
-    func loadImage(with stringURL: String, for message: MessageViewModel)
-}
-
 class TextMessageCollectionViewCell: UICollectionViewCell {
 
     private var messageModel: MessageViewModel!

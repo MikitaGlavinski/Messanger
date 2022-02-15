@@ -89,10 +89,30 @@ class ChatViewController: BaseViewController {
             let libraryAction = UIAlertAction(title: "Photo Library", style: .default) { _ in
                 self.presenter.pickPhoto()
             }
+            let cameraAction = UIAlertAction(title: "Camera", style: .default) { _ in
+                self.presenter.takePhoto()
+            }
             actionSheet.addAction(libraryAction)
+            actionSheet.addAction(cameraAction)
+            actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            self.present(actionSheet, animated: true, completion: nil)
+        }
+        let videoAction = UIAlertAction(title: "Video", style: .default) { _ in
+            let actionSheet = UIAlertController(title: "Pick Media", message: nil, preferredStyle: .actionSheet)
+            let libraryAction = UIAlertAction(title: "Photo Library", style: .default) { _ in
+                self.presenter.pickVideo()
+            }
+            let cameraAction = UIAlertAction(title: "Camera", style: .default) { _ in
+                self.presenter.takeVideo()
+            }
+            actionSheet.addAction(libraryAction)
+            actionSheet.addAction(cameraAction)
+            actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
             self.present(actionSheet, animated: true, completion: nil)
         }
         actionSheet.addAction(photoAction)
+        actionSheet.addAction(videoAction)
+        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         present(actionSheet, animated: true, completion: nil)
     }
     

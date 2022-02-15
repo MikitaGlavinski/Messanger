@@ -68,6 +68,7 @@ class StorageService {
                 t.column("chatId", .text).notNull().indexed()
                 t.column("type", .integer).notNull()
                 t.column("fileURL", .text)
+                t.column("previewURL", .text)
                 t.column("localPath", .text)
                 t.column("date", .double).notNull()
                 t.column("isRead", .boolean).notNull()

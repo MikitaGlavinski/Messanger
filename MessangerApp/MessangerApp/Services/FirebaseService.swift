@@ -10,7 +10,7 @@ import RxSwift
 import Firebase
 
 protocol FirebaseServiceProtocol {
-    func uploadImage(path: String, image: UIImage) -> Single<String>
+    func uploadFile(path: String, data: Data, mimeType: String) -> Single<String>
     func addMessagesListener(chatId: String, date: Double, updateClosure: @escaping (Result<[MessageModel], Error>) -> ())
     func addAllMessagesListener(date: Double, updateClosure: @escaping (Result<[MessageModel], Error>) -> ())
     func createUser(user: UserModel) -> Single<UserModel>
@@ -133,16 +133,17 @@ class FirebaseService {
 
 extension FirebaseService: FirebaseServiceProtocol {
     
-    func uploadImage(path: String, image: UIImage) -> Single<String> {
+    func uploadFile(path: String, data: Data, mimeType: String) -> Single<String> {
         Single<String>.create { [weak self] observer -> Disposable in
             guard
-                let data = image.jpegData(compressionQuality: 0.1),
                 let putRef = self?.storageRef.child(path)
             else {
                 observer(.failure(NetworkError.noData))
                 return Disposables.create()
             }
-            putRef.putData(data, metadata: nil, completion: { metadata, error in
+            let metadata = StorageMetadata()
+            metadata.contentType = mimeType
+            putRef.putData(data, metadata: metadata, completion: { metadata, error in
                 if let error = error {
                     observer(.failure(error))
                     return

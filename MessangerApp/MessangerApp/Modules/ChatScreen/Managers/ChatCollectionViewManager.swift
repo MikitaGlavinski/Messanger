@@ -32,8 +32,15 @@ protocol ChatCollectionViewManagerProtocol {
     func updateMessage(message: MessageViewModel)
 }
 
+protocol MessageActivitiesDelegate: AnyObject {
+    func openImage(with image: UIImage, of imageView: UIImageView)
+    func loadImage(with stringURL: String, for message: MessageViewModel)
+    func openVideo(with stringURL: String, completion: @escaping () -> Void)
+}
+
 protocol ChatCollectionViewManagerDelegate: AnyObject {
     func openImage(with image: UIImage, superViewImageRect: CGRect, completion: @escaping () -> Void)
+    func openVideo(with url: URL)
 }
 
 class ChatCollectionViewManager: NSObject {
@@ -41,11 +48,11 @@ class ChatCollectionViewManager: NSObject {
     private var messages = [MessageViewModel]()
     private weak var delegate: ChatCollectionViewManagerDelegate!
     private let calculateManager = ColculateCellsDataManager()
-    private let imageLoader: ImageLoaderProtocol!
+    private let fileLoader: FileLoaderProtocol!
     
-    init(delegate: ChatCollectionViewManagerDelegate, imageLoader: ImageLoader? = ServiceLocator.shared.getService()) {
+    init(delegate: ChatCollectionViewManagerDelegate, fileLoader: FileLoader? = ServiceLocator.shared.getService()) {
         self.delegate = delegate
-        self.imageLoader = imageLoader
+        self.fileLoader = fileLoader
     }
 }
 
@@ -60,6 +67,7 @@ extension ChatCollectionViewManager: ChatCollectionViewManagerProtocol {
         collectionView.alwaysBounceVertical = true
         collectionView.register(TextMessageCollectionViewCell.self, forCellWithReuseIdentifier: TextMessageCollectionViewCell.reuseIdentifier)
         collectionView.register(ImageMessageCollectionViewCell.self, forCellWithReuseIdentifier: ImageMessageCollectionViewCell.reuseIdentifier)
+        collectionView.register(VideoMessageCollectionViewCell.self, forCellWithReuseIdentifier: VideoMessageCollectionViewCell.reuseIdentifier)
         collectionView.dataSource = self
         collectionView.delegate = self
     }
@@ -91,7 +99,8 @@ extension ChatCollectionViewManager: ChatCollectionViewManagerProtocol {
     
     func updateMessage(message: MessageViewModel) {
         guard let index = messages.firstIndex(where: {$0.id == message.id}) else { return }
-        calculateManager.handleMessages([message], lastMessageData: messages[index + 1].doubleDate) { messages in
+        let lastMessageDate = messages.count > 1 ? messages[index + 1].doubleDate : 0
+        calculateManager.handleMessages([message], lastMessageData: lastMessageDate) { messages in
             guard let handledMessage = messages.first else { return }
             self.messages[index] = handledMessage
             self.collectionView.reloadItems(at: [IndexPath(item: index, section: 0)])
@@ -143,12 +152,15 @@ extension ChatCollectionViewManager: MessageActivitiesDelegate {
     }
     
     func loadImage(with stringURL: String, for message: MessageViewModel) {
-        imageLoader?.fetchImage(with: stringURL, completion: { [weak self] image in
+        fileLoader?.fetchImage(with: stringURL, completion: { [weak self] image in
             guard let index = self?.messages.firstIndex(where: {$0.id == message.id}) else { return }
             self?.messages[index].image = image
-//            var updatedMessage = message
-//            updatedMessage.image = image
             self?.collectionView.reloadItems(at: [IndexPath(item: index, section: 0)])
         })
+    }
+    
+    func openVideo(with stringURL: String, completion: @escaping () -> Void) {
+        guard let url = URL(string: stringURL) else { return }
+        self.delegate.openVideo(with: url)
     }
 }

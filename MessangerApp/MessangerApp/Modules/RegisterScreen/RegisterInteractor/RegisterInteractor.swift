@@ -27,7 +27,8 @@ extension RegisterInteractor: RegisterInteractorInput {
     }
     
     func uploadImage(image: UIImage) -> Single<String>? {
-        firebaseService.uploadImage(path: "avatars/\(UUID().uuidString)", image: image)
+        guard let data = image.jpegData(compressionQuality: 0.1) else { return nil }
+        return firebaseService.uploadFile(path: "avatars/\(UUID().uuidString)", data: data, mimeType: "image/jpeg")
             .subscribe(on: SerialDispatchQueueScheduler(qos: .background))
     }
     

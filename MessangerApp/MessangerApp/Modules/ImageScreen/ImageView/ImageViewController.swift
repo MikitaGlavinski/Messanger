@@ -22,19 +22,10 @@ class ImageViewController: UIViewController {
         tap.numberOfTapsRequired = 2
         return tap
     }()
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-//        navigationController?.navigationBar.alpha = 0
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        navigationController?.navigationBar.alpha = 0
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.navigationBar.alpha = 0
         presenter.viewDidLoad()
         setupUI()
     }
@@ -101,6 +92,10 @@ class ImageViewController: UIViewController {
         } completion: { _ in
             self.presenter.dismissView()
         }
+    }
+    
+    @IBAction func closeImage(_ sender: Any) {
+        handleImagePanHide()
     }
     
     @objc private func zoomingTap(sender: UITapGestureRecognizer) {

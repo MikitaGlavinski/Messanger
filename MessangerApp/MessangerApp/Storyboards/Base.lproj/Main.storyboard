@@ -552,6 +552,19 @@
                                     <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="3Ue-V2-pc6">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                     </imageView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DK1-hm-8ZI">
+                                        <rect key="frame" x="8" y="52" width="35" height="35"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="35" id="Pe6-9T-gSt"/>
+                                            <constraint firstAttribute="width" constant="35" id="odq-4n-MxA"/>
+                                        </constraints>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" image="xmark" catalog="system"/>
+                                        <connections>
+                                            <action selector="closeImage:" destination="RlE-bu-Y9k" eventType="touchUpInside" id="R5b-d3-DCX"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
@@ -572,11 +585,13 @@
                             <constraint firstAttribute="bottom" secondItem="3CB-7o-dtK" secondAttribute="bottom" id="OVr-6d-PHn"/>
                             <constraint firstItem="Ki9-Q8-A3b" firstAttribute="leading" secondItem="ePO-q4-dDn" secondAttribute="leading" id="Qal-Mm-jqo"/>
                             <constraint firstItem="3CB-7o-dtK" firstAttribute="leading" secondItem="ePO-q4-dDn" secondAttribute="leading" id="SIN-by-OAZ"/>
+                            <constraint firstItem="DK1-hm-8ZI" firstAttribute="top" secondItem="ePO-q4-dDn" secondAttribute="top" constant="8" id="XA6-pV-DYj"/>
                             <constraint firstItem="3CB-7o-dtK" firstAttribute="top" secondItem="QDQ-vu-z5L" secondAttribute="top" id="Yja-Jb-mcf"/>
                             <constraint firstItem="Ki9-Q8-A3b" firstAttribute="bottom" secondItem="QDQ-vu-z5L" secondAttribute="bottom" id="YwI-MA-cIt"/>
                             <constraint firstItem="3Ue-V2-pc6" firstAttribute="width" secondItem="QDQ-vu-z5L" secondAttribute="width" id="ghO-nh-NNg"/>
                             <constraint firstItem="3Ue-V2-pc6" firstAttribute="height" secondItem="QDQ-vu-z5L" secondAttribute="height" id="iO2-BF-puw"/>
                             <constraint firstAttribute="top" secondItem="Ki9-Q8-A3b" secondAttribute="top" id="uJH-3n-Xvs"/>
+                            <constraint firstItem="DK1-hm-8ZI" firstAttribute="leading" secondItem="ePO-q4-dDn" secondAttribute="leading" constant="8" id="x4n-Id-EVo"/>
                         </constraints>
                     </view>
                     <connections>
@@ -662,6 +677,7 @@
     <resources>
         <image name="paperclip" catalog="system" width="121" height="128"/>
         <image name="plus" catalog="system" width="128" height="113"/>
+        <image name="xmark" catalog="system" width="128" height="113"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
