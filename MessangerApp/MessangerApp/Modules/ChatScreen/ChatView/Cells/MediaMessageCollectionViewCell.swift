@@ -22,6 +22,7 @@ class MediaMessageCollectionViewCell: UICollectionViewCell {
         imageView.clipsToBounds = true
         imageView.backgroundColor = .clear
         imageView.isUserInteractionEnabled = true
+        imageView.backgroundColor = .lightGray
         return imageView
     }()
     

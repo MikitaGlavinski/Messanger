@@ -28,7 +28,7 @@ protocol ChatCollectionViewManagerProtocol {
     func setup(with collectionView: UICollectionView)
     func setupMessages(messages: [MessageViewModel])
     func addMessage(message: MessageViewModel)
-    func updateMessage(message: MessageViewModel)
+    func updateMessage(message: MessageViewModel, withHandle: Bool!)
 }
 
 protocol MessageActivitiesDelegate: AnyObject {
@@ -72,6 +72,7 @@ extension ChatCollectionViewManager: ChatCollectionViewManagerProtocol {
     
     func setupMessages(messages: [MessageViewModel]) {
         let changeNumber = messages.count - self.messages.count
+        let oldMessages = self.messages
         calculateManager.handleMessages(messages) { handledMessages in
             self.messages = handledMessages
             if changeNumber > 0 {
@@ -81,7 +82,18 @@ extension ChatCollectionViewManager: ChatCollectionViewManagerProtocol {
                 }
                 self.collectionView.insertItems(at: indexSet)
             } else {
-                self.collectionView.reloadData()
+                var forUpdate: Bool = false
+                for message in handledMessages {
+                    guard let index = oldMessages.firstIndex(where: {$0.id == message.id}) else { return }
+                    let oldMessage = oldMessages[index]
+                    if oldMessage.isSent != message.isSent || oldMessage.isRead != message.isRead {
+                        forUpdate = true
+                        self.updateMessage(message: message, withHandle: false)
+                    }
+                }
+                if !forUpdate {
+                    self.collectionView.reloadData()
+                }
             }
         }
     }
@@ -95,13 +107,18 @@ extension ChatCollectionViewManager: ChatCollectionViewManagerProtocol {
         }
     }
     
-    func updateMessage(message: MessageViewModel) {
+    func updateMessage(message: MessageViewModel, withHandle: Bool! = true) {
         guard let index = messages.firstIndex(where: {$0.id == message.id}) else { return }
         let lastMessageDate = messages.count > 1 ? messages[index + 1].doubleDate : 0
-        calculateManager.handleMessages([message], lastMessageData: lastMessageDate) { messages in
-            guard let handledMessage = messages.first else { return }
-            self.messages[index] = handledMessage
-            self.collectionView.reloadItems(at: [IndexPath(item: index, section: 0)])
+        if !withHandle {
+            messages[index] = message
+            collectionView.reloadItems(at: [IndexPath(item: index, section: 0)])
+        } else {
+            calculateManager.handleMessages([message], lastMessageData: lastMessageDate) { messages in
+                guard let handledMessage = messages.first else { return }
+                self.messages[index] = handledMessage
+                self.collectionView.reloadItems(at: [IndexPath(item: index, section: 0)])
+            }
         }
     }
 }

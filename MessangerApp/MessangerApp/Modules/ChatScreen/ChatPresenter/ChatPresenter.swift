@@ -261,7 +261,7 @@ extension ChatPresenter: ChatPresenterInput {
     func updateChat(message: MessageModel) {
         guard let senderId = self.senderId else { return }
         let viewMessageModel = MessageViewModel(messageModel: message, userId: senderId)
-        collectionManager.updateMessage(message: viewMessageModel)
+        collectionManager.updateMessage(message: viewMessageModel, withHandle: true)
     }
 }
 
