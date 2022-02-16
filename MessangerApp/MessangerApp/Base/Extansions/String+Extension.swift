@@ -26,16 +26,32 @@ extension String {
     var emojis: [Character] { filter { $0.isEmoji } }
     
     var emojiScalars: [UnicodeScalar] { filter { $0.isEmoji }.flatMap { $0.unicodeScalars } }
+    
+    enum MimeType {
+        static var image: String { "image/jpeg" }
+        static var video: String { "video/quicktime" }
+    }
+    
+    enum Titles {
+        static var chats: String { "Chats" }
+        static var updating: String { "updating..." }
+        static var photo: String { "Photo" }
+        static var video: String { "Video" }
+        static var cancel: String { "Cancel" }
+        static var photoLibrary: String { "Photo library" }
+        static var camera: String { "Camera" }
+        static var pickMedia: String { "Pick Media" }
+        static var error: String { "Error" }
+        static var ok: String { "Ok" }
+    }
 }
 
 extension Character {
-    /// A simple emoji is one scalar and presented to the user as an Emoji
     var isSimpleEmoji: Bool {
         guard let firstScalar = unicodeScalars.first else { return false }
         return firstScalar.properties.isEmoji && firstScalar.value > 0x238C
     }
     
-    /// Checks if the scalars will be merged into an emoji
     var isCombinedIntoEmoji: Bool { unicodeScalars.count > 1 && unicodeScalars.first?.properties.isEmoji ?? false }
     
     var isEmoji: Bool { isSimpleEmoji || isCombinedIntoEmoji }

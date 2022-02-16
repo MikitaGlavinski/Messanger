@@ -175,7 +175,7 @@ extension ChatPresenter: ChatPresenterProtocol {
             let peerId = self.peerId,
             let senderId = self.senderId,
             let imageData = image.jpegData(compressionQuality: 0.1),
-            let localPath = interactor.cacheData(imageData, id: "%\(imageUUID)")
+            let localPath = interactor.cacheOriginalData(imageData, id: imageUUID)
         else { return }
         
         let scaledSize = image.scaledSize(size: CGSize(width: 250, height: 350))
@@ -208,10 +208,10 @@ extension ChatPresenter: ChatPresenterProtocol {
             let peerId = self.peerId,
             let senderId = self.senderId,
             let videoData = try? Data(contentsOf: videoURL),
-            let _ = interactor.cacheData(videoData, id: "%\(videoUUID)"),
+            let _ = interactor.cacheOriginalData(videoData, id: videoUUID),
             let previewImage = createVideoPreview(from: videoURL),
             let previewData = previewImage.jpegData(compressionQuality: 0.1),
-            let previewLocalPath = interactor.cacheData(previewData, id: "%preview\(videoUUID)")
+            let previewLocalPath = interactor.cachePreviewData(previewData, id: videoUUID)
         else { return }
         
         let scaledSize = previewImage.scaledSize(size: CGSize(width: 250, height: 350))
@@ -238,20 +238,12 @@ extension ChatPresenter: ChatPresenterProtocol {
         interactor.signalizeToSend(messageId: messageAdapter.id)
     }
     
-    func pickPhoto() {
-        router.getPhoto(sourceType: .photoLibrary, delegate: self)
+    func pickPhoto(sourceType: UIImagePickerController.SourceType) {
+        router.getPhoto(sourceType: sourceType, delegate: self)
     }
     
-    func takePhoto() {
-        router.getPhoto(sourceType: .camera, delegate: self)
-    }
-    
-    func pickVideo() {
-        router.getVideo(sourceType: .photoLibrary, delegate: self)
-    }
-    
-    func takeVideo() {
-        router.getVideo(sourceType: .camera, delegate: self)
+    func pickVideo(sourceType: UIImagePickerController.SourceType) {
+        router.getVideo(sourceType: sourceType, delegate: self)
     }
 }
 

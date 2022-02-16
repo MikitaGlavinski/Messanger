@@ -32,7 +32,7 @@ class ColculateCellsDataManager {
                 
                 guard let messageText = messages[indexPath].text, messageText.count > 0 else {
                     let cellHeight = (messageModel.previewHeight ?? 0) + additionalHeight + 5
-                    var data = self.handleImageMessage(with: messageModel, configureWithDate: configureWithDate)
+                    var data = self.handleMediaMessage(with: messageModel, configureWithDate: configureWithDate)
                     data?.cellHeight = cellHeight
                     data?.showDate = configureWithDate
                     var newMessageModel = messageModel
@@ -56,7 +56,7 @@ class ColculateCellsDataManager {
         }
     }
     
-    private func handleImageMessage(with messageModel: MessageViewModel, configureWithDate: Bool) -> ImageCellData? {
+    private func handleMediaMessage(with messageModel: MessageViewModel, configureWithDate: Bool) -> ImageCellData? {
         var data = ImageCellData()
         data.timeLabelText = messageModel.date
 

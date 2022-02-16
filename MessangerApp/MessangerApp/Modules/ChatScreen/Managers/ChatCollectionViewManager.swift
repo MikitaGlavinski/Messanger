@@ -22,7 +22,6 @@ class InvertedCollectionViewFlowLayout: UICollectionViewFlowLayout {
         })
         return attrList
     }
-    
 }
 
 protocol ChatCollectionViewManagerProtocol {
@@ -66,8 +65,7 @@ extension ChatCollectionViewManager: ChatCollectionViewManagerProtocol {
         collectionView.collectionViewLayout = layout
         collectionView.alwaysBounceVertical = true
         collectionView.register(TextMessageCollectionViewCell.self, forCellWithReuseIdentifier: TextMessageCollectionViewCell.reuseIdentifier)
-        collectionView.register(ImageMessageCollectionViewCell.self, forCellWithReuseIdentifier: ImageMessageCollectionViewCell.reuseIdentifier)
-        collectionView.register(VideoMessageCollectionViewCell.self, forCellWithReuseIdentifier: VideoMessageCollectionViewCell.reuseIdentifier)
+        collectionView.register(MediaMessageCollectionViewCell.self, forCellWithReuseIdentifier: MediaMessageCollectionViewCell.reuseIdentifier)
         collectionView.dataSource = self
         collectionView.delegate = self
     }

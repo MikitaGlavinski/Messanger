@@ -31,8 +31,8 @@ class ChatListTableViewCell: UITableViewCell {
             unreadCountLabel.isHidden = chatModel.unreadMessageCount == 0
             switch chatModel.lastMessageType {
             case 0: lastMessageLabel.text = chatModel.lastMessageText
-            case 1: lastMessageLabel.text = "Photo"
-            case 2: lastMessageLabel.text = "Video"
+            case 1: lastMessageLabel.text = String.Titles.photo
+            case 2: lastMessageLabel.text = String.Titles.video
             default: break
             }
         }

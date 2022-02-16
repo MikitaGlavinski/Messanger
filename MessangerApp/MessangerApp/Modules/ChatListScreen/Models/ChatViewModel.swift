@@ -41,7 +41,7 @@ struct ChatViewModel {
         self.unreadMessageCount = chatStorageResponse.messages.filter({$0.isRead == false && $0.senderId != currentUserId}).count
         self.lastMessageText = filteredMessages.last?.text
         self.lastMessageType = filteredMessages.last?.type
-        if let doubleDate = chatStorageResponse.messages.last?.date {
+        if let doubleDate = filteredMessages.last?.date {
             self.lastMessageDoubleDate = doubleDate
             self.lastMessageDate = self.dateForChat(doubleDate)
         }

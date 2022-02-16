@@ -92,7 +92,11 @@ extension ChatInteractor: ChatInteractorInput {
         chatSignalService.signalSendMessage(messageId: messageId)
     }
     
-    func cacheData(_ data: Data, id: String) -> String? {
-        return dataCacher.cacheData(data, id: id)
+    func cacheOriginalData(_ data: Data, id: String) -> String? {
+        return dataCacher.cacheOriginalData(data, id: id)
+    }
+    
+    func cachePreviewData(_ data: Data, id: String) -> String? {
+        return dataCacher.cacheDataPreview(data, id: id)
     }
 }

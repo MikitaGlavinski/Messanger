@@ -23,5 +23,6 @@ protocol ChatInteractorInput {
     func readAllStoredMessages(chatId: String, senderId: String)
     func readAllRemoteMessages(chatId: String, peerId: String) -> Single<String>?
     func signalizeToSend(messageId: String)
-    func cacheData(_ data: Data, id: String) -> String?
+    func cacheOriginalData(_ data: Data, id: String) -> String?
+    func cachePreviewData(_ data: Data, id: String) -> String?
 }

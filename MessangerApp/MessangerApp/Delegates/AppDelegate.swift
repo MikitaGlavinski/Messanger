@@ -45,8 +45,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let authService = AuthService()
         let firebaseService = FirebaseService()
         let chatSignalService = ChatSignalService()
-        let imageLoader = FileLoader()
         let dataCacher = DataCacher()
+        let imageLoader = FileLoader(dataCacher: dataCacher)
         
         ServiceLocator.shared.addService(service: secureStorage)
         ServiceLocator.shared.addService(service: authService)
@@ -55,12 +55,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         ServiceLocator.shared.addService(service: imageLoader)
         ServiceLocator.shared.addService(service: dataCacher)
         guard let dbURL = try? FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
-                .appendingPathComponent("MessangerDB.sqlite") else { return }
+                .appendingPathComponent("MessangerDB.sqlite")
+        else { return }
+        
         let storageService = StorageService(path: dbURL.path)
         let sendingService = SendingService(
             firebaseService: firebaseService,
             storageService: storageService,
-            chatSignalService: chatSignalService
+            chatSignalService: chatSignalService,
+            dataCacher: dataCacher
         )
         ServiceLocator.shared.addService(service: storageService)
         ServiceLocator.shared.addService(service: sendingService)

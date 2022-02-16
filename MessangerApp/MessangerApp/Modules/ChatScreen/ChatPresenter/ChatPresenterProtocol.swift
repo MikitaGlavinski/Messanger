@@ -12,10 +12,8 @@ protocol ChatPresenterProtocol {
     func addMessagesListener()
     func setupCollectionView(_ collectionView: UICollectionView)
     func sendTextMessage(text: String)
-    func pickPhoto()
-    func takePhoto()
-    func pickVideo()
-    func takeVideo()
+    func pickPhoto(sourceType: UIImagePickerController.SourceType)
+    func pickVideo(sourceType: UIImagePickerController.SourceType)
 }
 
 protocol ChatPresenterInput: AnyObject {

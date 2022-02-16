@@ -16,25 +16,23 @@ protocol FileLoaderProtocol {
 class FileLoader: FileLoaderProtocol {
     
     private let queue = DispatchQueue.global(qos: .userInteractive)
+    private let dataCacher: DataCacherProtocol
+    
+    init(dataCacher: DataCacherProtocol) {
+        self.dataCacher = dataCacher
+    }
     
     private func fetchFile(with stringURL: String, completion: @escaping (URL?) -> Void) {
         queue.async {
-            let firstComponent = stringURL.components(separatedBy: "%").last ?? ""
-            var fileUUID = firstComponent.components(separatedBy: "?").first ?? ""
-            fileUUID.removeFirst()
-            fileUUID.removeFirst()
-            let imagePath = "%\(fileUUID)"
-            var documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-            documentsURL.appendPathComponent("chatFiles")
-            documentsURL.appendPathComponent(imagePath)
+            let fileURL = self.dataCacher.obtainFileURLFromRemoteURL(stringURL: stringURL)
             
-            if FileManager.default.fileExists(atPath: documentsURL.path) {
-                completion(documentsURL)
+            if FileManager.default.fileExists(atPath: fileURL.path) {
+                completion(fileURL)
                 return
             }
 
             let destination: DownloadRequest.Destination = { _, _ in
-                return (documentsURL, [.removePreviousFile, .createIntermediateDirectories])
+                return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
             }
             
             AF.download(stringURL, to: destination).response { response in

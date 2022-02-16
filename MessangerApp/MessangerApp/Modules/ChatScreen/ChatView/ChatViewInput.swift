@@ -14,7 +14,4 @@ protocol ChatViewInput: AnyObject {
     func showUpdating()
     func hideUpdating()
     func setupChat(peerEmail: String, peerImageURL: String)
-//    func setupMessages(messages: [MessageViewModel])
-//    func addMessage(message: MessageViewModel)
-//    func updateMessage(message: MessageViewModel)
 }

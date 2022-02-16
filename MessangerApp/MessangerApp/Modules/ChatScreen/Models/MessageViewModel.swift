@@ -69,14 +69,8 @@ struct MessageViewModel {
             cell.configureWithDate = showDate
             cell.configureCell(with: self)
             return cell
-        case .image:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageMessageCollectionViewCell.reuseIdentifier, for: indexPath) as! ImageMessageCollectionViewCell
-            cell.configureWithDate = showDate
-            cell.delegate = delegate
-            cell.configureCell(with: self)
-            return cell
-        case .video:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: VideoMessageCollectionViewCell.reuseIdentifier, for: indexPath) as! VideoMessageCollectionViewCell
+        default:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MediaMessageCollectionViewCell.reuseIdentifier, for: indexPath) as! MediaMessageCollectionViewCell
             cell.configureWithDate = showDate
             cell.delegate = delegate
             cell.configureCell(with: self)

@@ -9,7 +9,7 @@ import UIKit
 import RxCocoa
 import RxSwift
 
-class VideoMessageCollectionViewCell: UICollectionViewCell {
+class MediaMessageCollectionViewCell: UICollectionViewCell {
     private var messageModel: MessageViewModel!
     var configureWithDate: Bool!
     weak var delegate: MessageActivitiesDelegate!
@@ -28,8 +28,8 @@ class VideoMessageCollectionViewCell: UICollectionViewCell {
     private lazy var playImage: UIImageView = {
         let imageView = UIImageView(image: UIImage(systemName: "play.circle"))
         imageView.contentMode = .scaleAspectFit
-        imageView.frame.size = CGSize(width: 40, height: 40)
         imageView.tintColor = .white
+        imageView.isHidden = true
         return imageView
     }()
     
@@ -64,7 +64,6 @@ class VideoMessageCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
-        setupGestures()
     }
     
     required init?(coder: NSCoder) {
@@ -74,6 +73,7 @@ class VideoMessageCollectionViewCell: UICollectionViewCell {
     
     func configureCell(with model: MessageViewModel) {
         self.messageModel = model
+        setupGestures()
         displayCellData()
         
         if let image = model.image {
@@ -81,7 +81,7 @@ class VideoMessageCollectionViewCell: UICollectionViewCell {
             return
         } else if let localPath = messageModel.localPath, !localPath.isEmpty {
             let documents = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-            let url = documents.appendingPathComponent("chatFiles/%preview\(model.id)")
+            let url = documents.appendingPathComponent(model.type == .video ? "chatFiles/%preview\(model.id)" : "chatFiles/%\(model.id)")
             guard
                 let data = try? Data(contentsOf: url),
                 let image = UIImage(data: data)
@@ -92,12 +92,13 @@ class VideoMessageCollectionViewCell: UICollectionViewCell {
             return
         }
         
-        guard let previewURL = messageModel.previewURL else { return }
+        guard let previewURL = model.type == .video ? messageModel.previewURL : messageModel.fileURL else { return }
         delegate.loadImage(with: previewURL, for: model)
     }
     
     private func displayCellData() {
         guard let cellData = messageModel.cellData as? ImageCellData else { return }
+        playImage.isHidden = messageModel.type == .image
         if configureWithDate {
             contentView.addSubview(dateLabel)
         }
@@ -121,8 +122,8 @@ class VideoMessageCollectionViewCell: UICollectionViewCell {
     }
     
     private func setupGestures() {
-        let imageTap = UITapGestureRecognizer()
-        imageTap.rx.event.bind { [weak self] _ in
+        let videoTap = UITapGestureRecognizer()
+        videoTap.rx.event.bind { [weak self] _ in
             guard
                 let self = self,
                 let videoStringURL = self.messageModel.fileURL
@@ -131,7 +132,16 @@ class VideoMessageCollectionViewCell: UICollectionViewCell {
                 
             }
         }.disposed(by: disposeBag)
-        imageView.addGestureRecognizer(imageTap)
+        
+        let imageTap = UITapGestureRecognizer()
+        imageTap.rx.event.bind { [weak self] _ in
+            guard
+                let imageView = self?.imageView,
+                let image = self?.imageView.image else { return }
+            self?.delegate.openImage(with: image, of: imageView)
+        }.disposed(by: disposeBag)
+        
+        imageView.addGestureRecognizer(messageModel.type == .video ? videoTap : imageTap)
     }
     
     override func prepareForReuse() {

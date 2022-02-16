@@ -15,7 +15,7 @@ class ChatListViewController: BaseViewController {
     
     private lazy var chatTitleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Chats"
+        label.text = String.Titles.chats
         label.textAlignment = .center
         label.font = UIFont.systemFont(ofSize: 20)
         return label
@@ -23,7 +23,7 @@ class ChatListViewController: BaseViewController {
     
     private lazy var updatingLabel: UILabel = {
         let label = UILabel()
-        label.text = "updating..."
+        label.text = String.Titles.updating
         label.textAlignment = .center
         label.textColor = .lightGray
         label.font = UIFont.systemFont(ofSize: 15)

@@ -83,36 +83,36 @@ class ChatViewController: BaseViewController {
     }
     
     @IBAction func addAttachment(_ sender: Any) {
-        let actionSheet = UIAlertController(title: "Pick Media", message: nil, preferredStyle: .actionSheet)
-        let photoAction = UIAlertAction(title: "Photo", style: .default) { _ in
-            let actionSheet = UIAlertController(title: "Pick Media", message: nil, preferredStyle: .actionSheet)
-            let libraryAction = UIAlertAction(title: "Photo Library", style: .default) { _ in
-                self.presenter.pickPhoto()
+        let actionSheet = UIAlertController(title: String.Titles.pickMedia, message: nil, preferredStyle: .actionSheet)
+        let photoAction = UIAlertAction(title: String.Titles.photo, style: .default) { _ in
+            let actionSheet = UIAlertController(title: String.Titles.pickMedia, message: nil, preferredStyle: .actionSheet)
+            let libraryAction = UIAlertAction(title: String.Titles.photoLibrary, style: .default) { _ in
+                self.presenter.pickPhoto(sourceType: .photoLibrary)
             }
-            let cameraAction = UIAlertAction(title: "Camera", style: .default) { _ in
-                self.presenter.takePhoto()
+            let cameraAction = UIAlertAction(title: String.Titles.camera, style: .default) { _ in
+                self.presenter.pickPhoto(sourceType: .camera)
             }
             actionSheet.addAction(libraryAction)
             actionSheet.addAction(cameraAction)
-            actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            actionSheet.addAction(UIAlertAction(title: String.Titles.cancel, style: .cancel, handler: nil))
             self.present(actionSheet, animated: true, completion: nil)
         }
-        let videoAction = UIAlertAction(title: "Video", style: .default) { _ in
-            let actionSheet = UIAlertController(title: "Pick Media", message: nil, preferredStyle: .actionSheet)
-            let libraryAction = UIAlertAction(title: "Photo Library", style: .default) { _ in
-                self.presenter.pickVideo()
+        let videoAction = UIAlertAction(title: String.Titles.video, style: .default) { _ in
+            let actionSheet = UIAlertController(title: String.Titles.pickMedia, message: nil, preferredStyle: .actionSheet)
+            let libraryAction = UIAlertAction(title: String.Titles.photoLibrary, style: .default) { _ in
+                self.presenter.pickVideo(sourceType: .photoLibrary)
             }
-            let cameraAction = UIAlertAction(title: "Camera", style: .default) { _ in
-                self.presenter.takeVideo()
+            let cameraAction = UIAlertAction(title: String.Titles.camera, style: .default) { _ in
+                self.presenter.pickVideo(sourceType: .camera)
             }
             actionSheet.addAction(libraryAction)
             actionSheet.addAction(cameraAction)
-            actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            actionSheet.addAction(UIAlertAction(title: String.Titles.cancel, style: .cancel, handler: nil))
             self.present(actionSheet, animated: true, completion: nil)
         }
         actionSheet.addAction(photoAction)
         actionSheet.addAction(videoAction)
-        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        actionSheet.addAction(UIAlertAction(title: String.Titles.cancel, style: .cancel, handler: nil))
         present(actionSheet, animated: true, completion: nil)
     }
     

@@ -9,6 +9,7 @@ class SendingService: SendingServiceProtocol {
     private let firebaseService: FirebaseServiceProtocol
     private let storageService: StorageServiceProtocol
     private let chatSignalService: ChatSignalServiceProtocol
+    private let dataCacher: DataCacherProtocol
     
     private let disposeBag = DisposeBag()
     private let queue = DispatchQueue(label: "SendingService")
@@ -16,11 +17,13 @@ class SendingService: SendingServiceProtocol {
     init(
         firebaseService: FirebaseServiceProtocol,
         storageService: StorageServiceProtocol,
-        chatSignalService: ChatSignalServiceProtocol
+        chatSignalService: ChatSignalServiceProtocol,
+        dataCacher: DataCacherProtocol
     ) {
         self.firebaseService = firebaseService
         self.storageService = storageService
         self.chatSignalService = chatSignalService
+        self.dataCacher = dataCacher
         
         chatSignalService.getStartSendingListener().bind { [weak self] _ in
             self?.start()
@@ -74,11 +77,10 @@ class SendingService: SendingServiceProtocol {
     }
     
     private func sendImageMessage(messageAdapter: MessageStorageAdapter) {
-        let documents = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        let url = documents.appendingPathComponent("chatFiles/%\(messageAdapter.id)")
+        let imageURL = dataCacher.obtainFileURL(fileId: messageAdapter.id)
         
-        guard let data = try? Data(contentsOf: url) else { return }
-        let imageUploader = firebaseService.uploadFile(path: "chat/\(messageAdapter.id)", data: data, mimeType: "image/jpeg")
+        guard let data = try? Data(contentsOf: imageURL) else { return }
+        let imageUploader = firebaseService.uploadFile(path: "chat/\(messageAdapter.id)", data: data, mimeType: String.MimeType.image)
         
         imageUploader
             .flatMap { [weak self] imageURL -> Single<MessageModel> in
@@ -100,16 +102,15 @@ class SendingService: SendingServiceProtocol {
     }
     
     private func sendVideoMessage(messageAdapter: MessageStorageAdapter) {
-        let documents = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        let videoURL = documents.appendingPathComponent("chatFiles/%\(messageAdapter.id)")
-        let previewURL = documents.appendingPathComponent("chatFiles/%preview\(messageAdapter.id)")
+        let videoURL = dataCacher.obtainFileURL(fileId: messageAdapter.id)
+        let previewURL = dataCacher.obtainFilePreviewURL(fileId: messageAdapter.id)
         
         guard
             let videoData = try? Data(contentsOf: videoURL),
             let previewData = try? Data(contentsOf: previewURL)
         else { return }
-        let videoUploader = firebaseService.uploadFile(path: "chat/\(messageAdapter.id)", data: videoData, mimeType: "video/quicktime")
-        let previewUploader = firebaseService.uploadFile(path: "chat/preview\(messageAdapter.id)", data: previewData, mimeType: "image/jpeg")
+        let videoUploader = firebaseService.uploadFile(path: "chat/\(messageAdapter.id)", data: videoData, mimeType: String.MimeType.video)
+        let previewUploader = firebaseService.uploadFile(path: "chat/preview\(messageAdapter.id)", data: previewData, mimeType: String.MimeType.image)
         var messageModel = MessageModel(messageAdapter: messageAdapter)
         videoUploader
             .flatMap { videoURL -> Single<String> in
@@ -126,7 +127,7 @@ class SendingService: SendingServiceProtocol {
             }
             .subscribe(onSuccess: { [weak self] message in
                 do {
-                    try FileManager.default.removeItem(at: videoURL)
+                    try self?.dataCacher.deleteFileAt(url: videoURL)
                 } catch let error {
                     print(error.localizedDescription)
                 }
