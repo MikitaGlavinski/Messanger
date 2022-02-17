@@ -35,11 +35,13 @@ protocol MessageActivitiesDelegate: AnyObject {
     func openImage(with image: UIImage, of imageView: UIImageView)
     func loadImage(with stringURL: String, for message: MessageViewModel)
     func openVideo(with stringURL: String, completion: @escaping () -> Void)
+    func deleteMessage(with id: String)
 }
 
 protocol ChatCollectionViewManagerDelegate: AnyObject {
     func openImage(with image: UIImage, superViewImageRect: CGRect, completion: @escaping () -> Void)
     func openVideo(with url: URL)
+    func deleteMessage(with id: String)
 }
 
 class ChatCollectionViewManager: NSObject {
@@ -52,6 +54,16 @@ class ChatCollectionViewManager: NSObject {
     init(delegate: ChatCollectionViewManagerDelegate, fileLoader: FileLoader? = ServiceLocator.shared.getService()) {
         self.delegate = delegate
         self.fileLoader = fileLoader
+    }
+    
+    private func menuConfiguration(messageId: String) -> UIContextMenuConfiguration {
+        let context = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { action -> UIMenu? in
+            let delete = UIAction(title: "Delete", image: UIImage(systemName: "trash.fill"), identifier: nil, discoverabilityTitle: nil, state: .off) { _ in
+                self.deleteMessage(with: messageId)
+            }
+            return UIMenu(title: "Options", image: nil, identifier: nil, options: .displayInline, children: [delete])
+        }
+        return context
     }
 }
 
@@ -138,6 +150,11 @@ extension ChatCollectionViewManager: UICollectionViewDataSource, UICollectionVie
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: collectionView.bounds.width, height: messages[indexPath.item].cellData?.cellHeight ?? 350)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+        guard messages[indexPath.item].type == .text else { return nil }
+        return menuConfiguration(messageId: messages[indexPath.item].id)
+    }
 }
 
 extension ChatCollectionViewManager: MessageActivitiesDelegate {
@@ -177,5 +194,12 @@ extension ChatCollectionViewManager: MessageActivitiesDelegate {
     func openVideo(with stringURL: String, completion: @escaping () -> Void) {
         guard let url = URL(string: stringURL) else { return }
         self.delegate.openVideo(with: url)
+    }
+    
+    func deleteMessage(with id: String) {
+        guard let index = messages.firstIndex(where: {$0.id == id}) else { return }
+        messages.remove(at: index)
+        collectionView.deleteItems(at: [IndexPath(item: index, section: 0)])
+        delegate.deleteMessage(with: id)
     }
 }

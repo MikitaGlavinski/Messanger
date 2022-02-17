@@ -43,6 +43,8 @@ extension String {
         static var pickMedia: String { "Pick Media" }
         static var error: String { "Error" }
         static var ok: String { "Ok" }
+        static var delete: String { "Delete" }
+        static var options: String { "Options" }
     }
 }
 

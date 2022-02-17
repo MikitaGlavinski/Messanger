@@ -22,6 +22,7 @@ protocol FirebaseServiceProtocol {
     func addMessage(message: MessageModel) -> Single<MessageModel>
     func getChat(by chatId: String) -> Single<ChatModel>
     func readAllMessages(chatId: String, peerId: String) -> Single<String>
+    func deleteMessage(with id: String) -> Single<String>
 }
 
 class FirebaseService {
@@ -69,6 +70,19 @@ class FirebaseService {
                 }
                 observer(.success(model))
             })
+            return Disposables.create()
+        }
+    }
+    
+    private func deleteData(at path: String) -> Single<String> {
+        Single<String>.create { [weak self] observer -> Disposable in
+            self?.db.document(path).delete() { error in
+                if let error = error {
+                    observer(.failure(error))
+                    return
+                }
+                observer(.success("Ok"))
+            }
             return Disposables.create()
         }
     }
@@ -264,5 +278,9 @@ extension FirebaseService: FirebaseServiceProtocol {
     
     func getChat(by chatId: String) -> Single<ChatModel> {
         getData(at: "chats/\(chatId)", decodeType: ChatModel.self)
+    }
+    
+    func deleteMessage(with id: String) -> Single<String> {
+        deleteData(at: "messages/\(id)")
     }
 }

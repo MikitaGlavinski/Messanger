@@ -22,6 +22,7 @@ protocol StorageServiceProtocol {
     func obtainSendingMessages() -> Single<[MessageStorageAdapter]>
     func obtainFirstSendingMessage() -> MessageStorageAdapter?
     func obtainMessageBy(messageId: String) -> MessageStorageAdapter?
+    func deleteMessage(messageId: String)
 }
 
 class StorageService {
@@ -295,6 +296,18 @@ extension StorageService: StorageServiceProtocol {
             return message
         } catch {
             return nil
+        }
+    }
+    
+    func deleteMessage(messageId: String) {
+        do {
+            let deletedCount = try self.db.write({ db in
+                try MessageStorageAdapter
+                    .filter(Column("id") == messageId).deleteAll(db)
+            })
+            print("Deleted count: \(deletedCount)")
+        } catch let error {
+            print(error.localizedDescription)
         }
     }
 }

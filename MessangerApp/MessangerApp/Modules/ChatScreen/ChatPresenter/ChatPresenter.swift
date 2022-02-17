@@ -255,6 +255,24 @@ extension ChatPresenter: ChatCollectionViewManagerDelegate {
     func openVideo(with url: URL) {
         router.playVideo(with: url)
     }
+    
+    func deleteMessage(with id: String) {
+        guard let messageDeleter = interactor.deleteMessage(with: id),
+              let storedMessage = interactor.obtainStoredMessage(with: id)
+        else { return }
+        
+        self.interactor.deleteStoredMessage(with: id)
+        
+        messageDeleter
+            .observe(on: MainScheduler.instance)
+            .subscribe(onSuccess: { complete in
+                print(complete)
+            }, onFailure: { [weak self] error in
+                self?.interactor.storeMessages(messageAdapters: [storedMessage])
+                self?.updateMessages(messages: [])
+                self?.view.showError(error: error)
+            }).disposed(by: disposeBag)
+    }
 }
 
 extension ChatPresenter: ChatPresenterInput {

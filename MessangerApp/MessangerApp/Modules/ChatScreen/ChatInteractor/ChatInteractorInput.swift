@@ -25,4 +25,7 @@ protocol ChatInteractorInput {
     func signalizeToSend(messageId: String)
     func cacheOriginalData(_ data: Data, id: String) -> String?
     func cachePreviewData(_ data: Data, id: String) -> String?
+    func deleteMessage(with id: String) -> Single<String>?
+    func deleteStoredMessage(with id: String)
+    func obtainStoredMessage(with id: String) -> MessageStorageAdapter?
 }

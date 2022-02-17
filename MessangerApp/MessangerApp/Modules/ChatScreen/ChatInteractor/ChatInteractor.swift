@@ -99,4 +99,17 @@ extension ChatInteractor: ChatInteractorInput {
     func cachePreviewData(_ data: Data, id: String) -> String? {
         return dataCacher.cacheDataPreview(data, id: id)
     }
+    
+    func deleteMessage(with id: String) -> Single<String>? {
+        firebaseService.deleteMessage(with: id)
+            .subscribe(on: SerialDispatchQueueScheduler(qos: .background))
+    }
+    
+    func deleteStoredMessage(with id: String) {
+        storageService.deleteMessage(messageId: id)
+    }
+    
+    func obtainStoredMessage(with id: String) -> MessageStorageAdapter? {
+        storageService.obtainMessageBy(messageId: id)
+    }
 }

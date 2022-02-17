@@ -65,6 +65,7 @@ class MediaMessageCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
+        addContextMenu()
     }
     
     required init?(coder: NSCoder) {
@@ -122,6 +123,11 @@ class MediaMessageCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(timeLabel)
     }
     
+    private func addContextMenu() {
+        let contextMenuInteraction = UIContextMenuInteraction(delegate: self)
+        imageView.addInteraction(contextMenuInteraction)
+    }
+    
     private func setupGestures() {
         let videoTap = UITapGestureRecognizer()
         videoTap.rx.event.bind { [weak self] _ in
@@ -152,5 +158,18 @@ class MediaMessageCollectionViewCell: UICollectionViewCell {
         self.sendStateView.layer.borderColor = UIColor.systemRed.cgColor
         self.imageView.image = nil
         sendStateView.isHidden = false
+    }
+}
+
+extension MediaMessageCollectionViewCell: UIContextMenuInteractionDelegate {
+    
+    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
+        let context = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { action -> UIMenu? in
+            let delete = UIAction(title: "Delete", image: UIImage(systemName: "trash.fill"), identifier: nil, discoverabilityTitle: nil, state: .off) { _ in
+                self.delegate.deleteMessage(with: self.messageModel.id)
+            }
+            return UIMenu(title: "Options", image: nil, identifier: nil, options: .displayInline, children: [delete])
+        }
+        return context
     }
 }

@@ -15,6 +15,7 @@ class TextMessageCollectionViewCell: UICollectionViewCell {
     private lazy var messageView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 15
+        view.isUserInteractionEnabled = true
         return view
     }()
     
@@ -23,6 +24,10 @@ class TextMessageCollectionViewCell: UICollectionViewCell {
         textView.backgroundColor = .clear
         textView.font = UIFont.systemFont(ofSize: 16)
         textView.isEditable = false
+        textView.linkTextAttributes = [.foregroundColor: UIColor.systemBlue]
+        textView.isSelectable = true
+        textView.isUserInteractionEnabled = true
+        textView.dataDetectorTypes = .link
         return textView
     }()
     
