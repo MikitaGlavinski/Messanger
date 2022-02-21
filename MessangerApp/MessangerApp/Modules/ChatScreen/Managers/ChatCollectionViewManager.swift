@@ -55,16 +55,6 @@ class ChatCollectionViewManager: NSObject {
         self.delegate = delegate
         self.fileLoader = fileLoader
     }
-    
-    private func menuConfiguration(messageId: String) -> UIContextMenuConfiguration {
-        let context = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { action -> UIMenu? in
-            let delete = UIAction(title: "Delete", image: UIImage(systemName: "trash.fill"), identifier: nil, discoverabilityTitle: nil, state: .off) { _ in
-                self.deleteMessage(with: messageId)
-            }
-            return UIMenu(title: "Options", image: nil, identifier: nil, options: .displayInline, children: [delete])
-        }
-        return context
-    }
 }
 
 extension ChatCollectionViewManager: ChatCollectionViewManagerProtocol {
@@ -152,8 +142,53 @@ extension ChatCollectionViewManager: UICollectionViewDataSource, UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
-        guard messages[indexPath.item].type == .text else { return nil }
-        return menuConfiguration(messageId: messages[indexPath.item].id)
+        let context = UIContextMenuConfiguration(identifier: "\(indexPath.item)" as NSString, previewProvider: nil) { action -> UIMenu? in
+            let delete = UIAction(title: "Delete", image: UIImage(systemName: "trash.fill"), identifier: nil, discoverabilityTitle: nil, state: .off) { _ in
+                self.deleteMessage(with: self.messages[indexPath.item].id)
+            }
+            return UIMenu(title: "Options", image: nil, identifier: nil, options: .displayInline, children: [delete])
+        }
+        return context
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, previewForHighlightingContextMenuWithConfiguration configuration: UIContextMenuConfiguration) -> UITargetedPreview? {
+        guard
+            let identifier = configuration.identifier as? String,
+            let index = Int(identifier)
+        else { return nil }
+        
+        let messageType = messages[index].type
+        return messageType == .text ? previewForText(from: configuration, index: index) : previewForImage(from: configuration, index: index)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, previewForDismissingContextMenuWithConfiguration configuration: UIContextMenuConfiguration) -> UITargetedPreview? {
+        guard
+            let identifier = configuration.identifier as? String,
+            let index = Int(identifier)
+        else { return nil }
+        
+        let messageType = messages[index].type
+        return messageType == .text ? previewForText(from: configuration, index: index) : previewForImage(from: configuration, index: index)
+    }
+    
+    private func previewForText(from configuration: UIContextMenuConfiguration, index: Int) -> UITargetedPreview? {
+        guard let cell = collectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? TextMessageCollectionViewCell else { return nil }
+        
+        let parameters = UIPreviewParameters()
+        parameters.backgroundColor = .clear
+        parameters.visiblePath = UIBezierPath(roundedRect: cell.messageView.bounds, cornerRadius: 15)
+        let targetView = UITargetedPreview(view: cell.messageView, parameters: parameters)
+        return targetView
+    }
+    
+    private func previewForImage(from configuration: UIContextMenuConfiguration, index: Int) -> UITargetedPreview? {
+        guard let cell = collectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? MediaMessageCollectionViewCell else { return nil }
+        
+        let parameters = UIPreviewParameters()
+        parameters.backgroundColor = .clear
+        parameters.visiblePath = UIBezierPath(roundedRect: cell.imageView.bounds, cornerRadius: 15)
+        let targetView = UITargetedPreview(view: cell.imageView, parameters: parameters)
+        return targetView
     }
 }
 

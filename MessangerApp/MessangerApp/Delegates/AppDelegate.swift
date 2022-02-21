@@ -43,13 +43,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private func setupServiceLocator() {
         let secureStorage = SecureStorageService()
         let authService = AuthService()
-        let firebaseService = FirebaseService()
         let chatSignalService = ChatSignalService()
         let dataCacher = DataCacher()
+        let reachabilityService = ReachabilityService(chatSignalService: chatSignalService)
+        let firebaseService = FirebaseService(reachabilityService: reachabilityService)
         let imageLoader = FileLoader(dataCacher: dataCacher)
         
         ServiceLocator.shared.addService(service: secureStorage)
         ServiceLocator.shared.addService(service: authService)
+        ServiceLocator.shared.addService(service: reachabilityService)
         ServiceLocator.shared.addService(service: firebaseService)
         ServiceLocator.shared.addService(service: chatSignalService)
         ServiceLocator.shared.addService(service: imageLoader)

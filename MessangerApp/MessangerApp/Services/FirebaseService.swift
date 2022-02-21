@@ -30,11 +30,14 @@ class FirebaseService {
     private let db: Firestore
     private let storageRef = Storage.storage().reference()
     
-    init() {
+    private let reachabilityService: ReachabilityServiceProtocol
+    
+    init(reachabilityService: ReachabilityService) {
         self.db = Firestore.firestore()
         let settings = FirestoreSettings()
         settings.isPersistenceEnabled = false
         self.db.settings = settings
+        self.reachabilityService = reachabilityService
     }
     
     private func setData<T: Encodable>(at path: String, model: T) -> Single<T> {
@@ -76,7 +79,14 @@ class FirebaseService {
     
     private func deleteData(at path: String) -> Single<String> {
         Single<String>.create { [weak self] observer -> Disposable in
-            self?.db.document(path).delete() { error in
+            guard let self = self else { return Disposables.create() }
+            
+            if !self.reachabilityService.isReachable() {
+                observer(.failure(NetworkError.noConnection))
+                return Disposables.create()
+            }
+            
+            self.db.document(path).delete() { error in
                 if let error = error {
                     observer(.failure(error))
                     return

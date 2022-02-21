@@ -9,6 +9,7 @@ import Foundation
 
 enum NetworkError: String, Error {
     case noData = "No data"
+    case noConnection = "No connection"
     case requestError = "Request Error"
     case decodeError = "Can't decode"
     case invalidEmail = "Invalid Email"

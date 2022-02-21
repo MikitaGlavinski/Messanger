@@ -12,14 +12,14 @@ class TextMessageCollectionViewCell: UICollectionViewCell {
     private var messageModel: MessageViewModel!
     var configureWithDate: Bool!
     
-    private lazy var messageView: UIView = {
+    lazy var messageView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 15
         view.isUserInteractionEnabled = true
         return view
     }()
     
-    private lazy var textView: UITextView = {
+    lazy var textView: UITextView = {
         let textView = UITextView()
         textView.backgroundColor = .clear
         textView.font = UIFont.systemFont(ofSize: 16)

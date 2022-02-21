@@ -47,6 +47,7 @@
 		FA13F81527B13DE200A242C3 /* FileLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA13F81427B13DE200A242C3 /* FileLoader.swift */; };
 		FA13F81927B1573300A242C3 /* DataCacher.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA13F81827B1573300A242C3 /* DataCacher.swift */; };
 		FA26080427A1FD8700093F66 /* ScaledButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA26080327A1FD8700093F66 /* ScaledButton.swift */; };
+		FA671C6F27C3DA6C00304026 /* ReachabilityService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA671C6E27C3DA6C00304026 /* ReachabilityService.swift */; };
 		FA68B20627B3BDFF00332F7A /* ColculateCellsDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA68B20527B3BDFF00332F7A /* ColculateCellsDataManager.swift */; };
 		FA68B20827B3BE5200332F7A /* CellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA68B20727B3BE5200332F7A /* CellData.swift */; };
 		FA68B8F027A18562004A5655 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA68B8EF27A18562004A5655 /* StorageService.swift */; };
@@ -143,6 +144,7 @@
 		FA13F81427B13DE200A242C3 /* FileLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileLoader.swift; sourceTree = "<group>"; };
 		FA13F81827B1573300A242C3 /* DataCacher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataCacher.swift; sourceTree = "<group>"; };
 		FA26080327A1FD8700093F66 /* ScaledButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaledButton.swift; sourceTree = "<group>"; };
+		FA671C6E27C3DA6C00304026 /* ReachabilityService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReachabilityService.swift; sourceTree = "<group>"; };
 		FA68B20527B3BDFF00332F7A /* ColculateCellsDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColculateCellsDataManager.swift; sourceTree = "<group>"; };
 		FA68B20727B3BE5200332F7A /* CellData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellData.swift; sourceTree = "<group>"; };
 		FA68B8EF27A18562004A5655 /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
@@ -369,6 +371,7 @@
 				FA91C71027ABF11500353739 /* SendingService.swift */,
 				FA13F81427B13DE200A242C3 /* FileLoader.swift */,
 				FA13F81827B1573300A242C3 /* DataCacher.swift */,
+				FA671C6E27C3DA6C00304026 /* ReachabilityService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -861,6 +864,7 @@
 				FAFDF45927A7F90B00509779 /* UICollectionViewCell+Extension.swift in Sources */,
 				FAB032E4279F2DF9006F9C48 /* CreateChatAssembly.swift in Sources */,
 				FAB032DE279F2D68006F9C48 /* CreateChatInteractorInput.swift in Sources */,
+				FA671C6F27C3DA6C00304026 /* ReachabilityService.swift in Sources */,
 				FA8BDAA32796A8860095EB5B /* RegisterPresenterProtocol.swift in Sources */,
 				FA0ADBDA27A6CDF200B87E6F /* ChatInteractorInput.swift in Sources */,
 				FA8BDAB82796FB020095EB5B /* UserModel.swift in Sources */,

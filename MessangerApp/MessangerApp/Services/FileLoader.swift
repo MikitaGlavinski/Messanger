@@ -15,7 +15,7 @@ protocol FileLoaderProtocol {
 
 class FileLoader: FileLoaderProtocol {
     
-    private let queue = DispatchQueue.global(qos: .userInteractive)
+    private let queue = DispatchQueue.global(qos: .background)
     private let dataCacher: DataCacherProtocol
     
     init(dataCacher: DataCacherProtocol) {
