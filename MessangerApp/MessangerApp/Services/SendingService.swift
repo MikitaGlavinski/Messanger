@@ -109,6 +109,7 @@ class SendingService: SendingServiceProtocol {
             let videoData = try? Data(contentsOf: videoURL),
             let previewData = try? Data(contentsOf: previewURL)
         else { return }
+        
         let videoUploader = firebaseService.uploadFile(path: "chat/\(messageAdapter.id)", data: videoData, mimeType: String.MimeType.video)
         let previewUploader = firebaseService.uploadFile(path: "chat/preview\(messageAdapter.id)", data: previewData, mimeType: String.MimeType.image)
         var messageModel = MessageModel(messageAdapter: messageAdapter)

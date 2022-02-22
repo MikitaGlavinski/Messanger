@@ -23,9 +23,9 @@ class ReachabilityService: ReachabilityServiceProtocol {
     }
     
     private func setupReachability() {
-        reachability.whenReachable = { reachability in
-            let chatSignalService: ChatSignalService? = ServiceLocator.shared.getService()
-            chatSignalService?.signalStartSending()
+        reachability.whenReachable = { [weak self] reachability in
+            guard let self = self else { return }
+            self.chatSignalService.signalStartSending()
         }
         
         do {

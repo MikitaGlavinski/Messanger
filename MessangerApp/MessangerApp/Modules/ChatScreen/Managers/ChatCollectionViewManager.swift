@@ -35,13 +35,14 @@ protocol MessageActivitiesDelegate: AnyObject {
     func openImage(with image: UIImage, of imageView: UIImageView)
     func loadImage(with stringURL: String, for message: MessageViewModel)
     func openVideo(with stringURL: String, completion: @escaping () -> Void)
-    func deleteMessage(with id: String)
 }
 
 protocol ChatCollectionViewManagerDelegate: AnyObject {
     func openImage(with image: UIImage, superViewImageRect: CGRect, completion: @escaping () -> Void)
     func openVideo(with url: URL)
-    func deleteMessage(with id: String)
+    func deleteTextMessage(with id: String)
+    func deleteImageMessage(with id: String)
+    func deleteVideoMessage(with id: String)
 }
 
 class ChatCollectionViewManager: NSObject {
@@ -54,6 +55,17 @@ class ChatCollectionViewManager: NSObject {
     init(delegate: ChatCollectionViewManagerDelegate, fileLoader: FileLoader? = ServiceLocator.shared.getService()) {
         self.delegate = delegate
         self.fileLoader = fileLoader
+    }
+    
+    private func deleteMessage(_ message: MessageViewModel) {
+        guard let index = messages.firstIndex(where: {$0.id == message.id}) else { return }
+        messages.remove(at: index)
+        collectionView.deleteItems(at: [IndexPath(item: index, section: 0)])
+        switch message.type {
+        case .text  : delegate.deleteTextMessage(with: message.id)
+        case .image : delegate.deleteImageMessage(with: message.id)
+        case .video : delegate.deleteVideoMessage(with: message.id)
+        }
     }
 }
 
@@ -144,7 +156,8 @@ extension ChatCollectionViewManager: UICollectionViewDataSource, UICollectionVie
     func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
         let context = UIContextMenuConfiguration(identifier: "\(indexPath.item)" as NSString, previewProvider: nil) { action -> UIMenu? in
             let delete = UIAction(title: "Delete", image: UIImage(systemName: "trash.fill"), identifier: nil, discoverabilityTitle: nil, state: .off) { _ in
-                self.deleteMessage(with: self.messages[indexPath.item].id)
+                let message = self.messages[indexPath.item]
+                self.deleteMessage(message)
             }
             return UIMenu(title: "Options", image: nil, identifier: nil, options: .displayInline, children: [delete])
         }
@@ -152,16 +165,6 @@ extension ChatCollectionViewManager: UICollectionViewDataSource, UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, previewForHighlightingContextMenuWithConfiguration configuration: UIContextMenuConfiguration) -> UITargetedPreview? {
-        guard
-            let identifier = configuration.identifier as? String,
-            let index = Int(identifier)
-        else { return nil }
-        
-        let messageType = messages[index].type
-        return messageType == .text ? previewForText(from: configuration, index: index) : previewForImage(from: configuration, index: index)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, previewForDismissingContextMenuWithConfiguration configuration: UIContextMenuConfiguration) -> UITargetedPreview? {
         guard
             let identifier = configuration.identifier as? String,
             let index = Int(identifier)
@@ -229,12 +232,5 @@ extension ChatCollectionViewManager: MessageActivitiesDelegate {
     func openVideo(with stringURL: String, completion: @escaping () -> Void) {
         guard let url = URL(string: stringURL) else { return }
         self.delegate.openVideo(with: url)
-    }
-    
-    func deleteMessage(with id: String) {
-        guard let index = messages.firstIndex(where: {$0.id == id}) else { return }
-        messages.remove(at: index)
-        collectionView.deleteItems(at: [IndexPath(item: index, section: 0)])
-        delegate.deleteMessage(with: id)
     }
 }

@@ -93,11 +93,11 @@ extension ChatInteractor: ChatInteractorInput {
     }
     
     func cacheOriginalData(_ data: Data, id: String) -> String? {
-        return dataCacher.cacheOriginalData(data, id: id)
+        dataCacher.cacheOriginalData(data, id: id)
     }
     
     func cachePreviewData(_ data: Data, id: String) -> String? {
-        return dataCacher.cacheDataPreview(data, id: id)
+        dataCacher.cacheDataPreview(data, id: id)
     }
     
     func deleteMessage(with id: String) -> Single<String>? {
@@ -111,5 +111,33 @@ extension ChatInteractor: ChatInteractorInput {
     
     func obtainStoredMessage(with id: String) -> MessageStorageAdapter? {
         storageService.obtainMessageBy(messageId: id)
+    }
+    
+    func deleteFileFromCache(fileId: String) {
+        let fileURL = dataCacher.obtainFileURL(fileId: fileId)
+        do {
+            try dataCacher.deleteFileAt(url: fileURL)
+        } catch let error {
+            print(error.localizedDescription)
+        }
+    }
+    
+    func deleteFilePreviewFromCache(fileId: String) {
+        let fileURL = dataCacher.obtainFilePreviewURL(fileId: fileId)
+        do {
+            try dataCacher.deleteFileAt(url: fileURL)
+        } catch let error {
+            print(error.localizedDescription)
+        }
+    }
+    
+    func deleteFile(with id: String) -> Single<String>? {
+        firebaseService.deleteFile(at: "chat/\(id)")
+            .subscribe(on: SerialDispatchQueueScheduler(qos: .background))
+    }
+    
+    func deleteFilePreview(with id: String) -> Single<String>? {
+        firebaseService.deleteFile(at: "chat/preview\(id)")
+            .subscribe(on: SerialDispatchQueueScheduler(qos: .background))
     }
 }

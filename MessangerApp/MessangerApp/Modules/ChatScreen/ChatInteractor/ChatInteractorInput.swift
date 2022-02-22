@@ -28,4 +28,8 @@ protocol ChatInteractorInput {
     func deleteMessage(with id: String) -> Single<String>?
     func deleteStoredMessage(with id: String)
     func obtainStoredMessage(with id: String) -> MessageStorageAdapter?
+    func deleteFileFromCache(fileId: String)
+    func deleteFilePreviewFromCache(fileId: String)
+    func deleteFile(with id: String) -> Single<String>?
+    func deleteFilePreview(with id: String) -> Single<String>?
 }

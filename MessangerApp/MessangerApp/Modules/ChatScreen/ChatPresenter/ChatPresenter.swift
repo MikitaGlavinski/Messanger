@@ -256,9 +256,10 @@ extension ChatPresenter: ChatCollectionViewManagerDelegate {
         router.playVideo(with: url)
     }
     
-    func deleteMessage(with id: String) {
-        guard let messageDeleter = interactor.deleteMessage(with: id),
-              let storedMessage = interactor.obtainStoredMessage(with: id)
+    func deleteTextMessage(with id: String) {
+        guard
+            let messageDeleter = interactor.deleteMessage(with: id),
+            let storedMessage = interactor.obtainStoredMessage(with: id)
         else { return }
         
         self.interactor.deleteStoredMessage(with: id)
@@ -267,6 +268,48 @@ extension ChatPresenter: ChatCollectionViewManagerDelegate {
             .observe(on: MainScheduler.instance)
             .subscribe(onSuccess: { complete in
                 print(complete)
+            }, onFailure: { [weak self] error in
+                self?.interactor.storeMessages(messageAdapters: [storedMessage])
+                self?.updateMessages(messages: [])
+                self?.view.showError(error: error)
+            }).disposed(by: disposeBag)
+    }
+    
+    func deleteImageMessage(with id: String) {
+        guard
+            let messageDeleter = interactor.deleteMessage(with: id),
+            let imageDeleter = interactor.deleteFile(with: id),
+            let storedMessage = interactor.obtainStoredMessage(with: id)
+        else { return }
+        
+        self.interactor.deleteStoredMessage(with: id)
+        
+        Single.zip(messageDeleter, imageDeleter)
+            .observe(on: MainScheduler.instance)
+            .subscribe(onSuccess: { [weak self] _ in
+                self?.interactor.deleteFileFromCache(fileId: id)
+            }, onFailure: { [weak self] error in
+                self?.interactor.storeMessages(messageAdapters: [storedMessage])
+                self?.updateMessages(messages: [])
+                self?.view.showError(error: error)
+            }).disposed(by: disposeBag)
+    }
+    
+    func deleteVideoMessage(with id: String) {
+        guard
+            let messageDeleter = interactor.deleteMessage(with: id),
+            let videoDeleter = interactor.deleteFile(with: id),
+            let previewDeleter = interactor.deleteFilePreview(with: id),
+            let storedMessage = interactor.obtainStoredMessage(with: id)
+        else { return }
+        
+        self.interactor.deleteStoredMessage(with: id)
+        
+        Single.zip(messageDeleter, videoDeleter, previewDeleter)
+            .observe(on: MainScheduler.instance)
+            .subscribe(onSuccess: { [weak self] _ in
+                self?.interactor.deleteFileFromCache(fileId: id)
+                self?.interactor.deleteFilePreviewFromCache(fileId: id)
             }, onFailure: { [weak self] error in
                 self?.interactor.storeMessages(messageAdapters: [storedMessage])
                 self?.updateMessages(messages: [])

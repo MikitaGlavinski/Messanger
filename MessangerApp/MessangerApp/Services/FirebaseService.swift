@@ -11,6 +11,7 @@ import Firebase
 
 protocol FirebaseServiceProtocol {
     func uploadFile(path: String, data: Data, mimeType: String) -> Single<String>
+    func deleteFile(at path: String) -> Single<String>
     func addMessagesListener(chatId: String, date: Double, updateClosure: @escaping (Result<[MessageModel], Error>) -> ())
     func addAllMessagesListener(date: Double, updateClosure: @escaping (Result<[MessageModel], Error>) -> ())
     func createUser(user: UserModel) -> Single<UserModel>
@@ -184,6 +185,24 @@ extension FirebaseService: FirebaseServiceProtocol {
                     observer(.success(stringURL))
                 }
             })
+            return Disposables.create()
+        }
+    }
+    
+    func deleteFile(at path: String) -> Single<String> {
+        Single<String>.create { [weak self] observer -> Disposable in
+            guard let deleteRef = self?.storageRef.child(path) else {
+                observer(.failure(NetworkError.noData))
+                return Disposables.create()
+            }
+            
+            deleteRef.delete { error in
+                if let error = error {
+                    observer(.failure(error))
+                    return
+                }
+                observer(.success("Ok"))
+            }
             return Disposables.create()
         }
     }
