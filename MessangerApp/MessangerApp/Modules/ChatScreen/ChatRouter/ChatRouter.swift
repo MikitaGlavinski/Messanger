@@ -44,4 +44,9 @@ class ChatRouter {
             playerController.player?.play()
         }
     }
+    
+    func routeToForwardChatList(messsageId: String) {
+        let forwardChatList = ForwardChatListAssembly.assemble(messageId: messsageId)
+        view.present(forwardChatList, animated: true, completion: nil)
+    }
 }

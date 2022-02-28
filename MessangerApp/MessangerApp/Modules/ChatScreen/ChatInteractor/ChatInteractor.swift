@@ -47,11 +47,6 @@ extension ChatInteractor: ChatInteractorInput {
             .subscribe(on: SerialDispatchQueueScheduler(qos: .background))
     }
     
-    func sendMessage(message: MessageModel) -> Single<MessageModel>? {
-        firebaseService.addMessage(message: message)
-            .subscribe(on: SerialDispatchQueueScheduler(qos: .background))
-    }
-    
     func obtainStoredChat(chatId: String) -> Single<ChatsStorageResponse>? {
         storageService.obtainChat(chatId: chatId)
             .subscribe(on: SerialDispatchQueueScheduler(qos: .background))

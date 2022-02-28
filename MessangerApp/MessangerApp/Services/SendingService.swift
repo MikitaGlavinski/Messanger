@@ -49,6 +49,11 @@ class SendingService: SendingServiceProtocol {
                 messageAdapter = message
             }
             
+            if !messageAdapter.fileURL.isEmpty {
+                self.resendMediaMessage(messageAdapter: messageAdapter)
+                return
+            }
+            
             switch messageAdapter.type {
             case 0:
                 self.sendTextMessage(messageAdapter: messageAdapter)
@@ -132,6 +137,21 @@ class SendingService: SendingServiceProtocol {
                 } catch let error {
                     print(error.localizedDescription)
                 }
+                self?.storageService.storeMessages(messageAdapters: [MessageStorageAdapter(message: message)])
+                self?.chatSignalService.signalChatToUpdate(messageModel: message)
+                self?.start()
+            }, onFailure: { error in
+                print(error.localizedDescription)
+            }).disposed(by: disposeBag)
+    }
+    
+    private func resendMediaMessage(messageAdapter: MessageStorageAdapter) {
+        var messageModel = MessageModel(messageAdapter: messageAdapter)
+        messageModel.isSent = true
+        let messageSender = self.firebaseService.addMessage(message: messageModel)
+        
+        messageSender
+            .subscribe(onSuccess: { [weak self] message in
                 self?.storageService.storeMessages(messageAdapters: [MessageStorageAdapter(message: message)])
                 self?.chatSignalService.signalChatToUpdate(messageModel: message)
                 self?.start()

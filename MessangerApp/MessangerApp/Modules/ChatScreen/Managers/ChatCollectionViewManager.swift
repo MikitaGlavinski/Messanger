@@ -35,6 +35,7 @@ protocol MessageActivitiesDelegate: AnyObject {
     func openImage(with image: UIImage, of imageView: UIImageView)
     func loadImage(with stringURL: String, for message: MessageViewModel)
     func openVideo(with stringURL: String, completion: @escaping () -> Void)
+    func deleteMessage(_ message: MessageViewModel)
 }
 
 protocol ChatCollectionViewManagerDelegate: AnyObject {
@@ -43,6 +44,7 @@ protocol ChatCollectionViewManagerDelegate: AnyObject {
     func deleteTextMessage(with id: String)
     func deleteImageMessage(with id: String)
     func deleteVideoMessage(with id: String)
+    func forwardMessage(messageId: String)
 }
 
 class ChatCollectionViewManager: NSObject {
@@ -55,17 +57,6 @@ class ChatCollectionViewManager: NSObject {
     init(delegate: ChatCollectionViewManagerDelegate, fileLoader: FileLoader? = ServiceLocator.shared.getService()) {
         self.delegate = delegate
         self.fileLoader = fileLoader
-    }
-    
-    private func deleteMessage(_ message: MessageViewModel) {
-        guard let index = messages.firstIndex(where: {$0.id == message.id}) else { return }
-        messages.remove(at: index)
-        collectionView.deleteItems(at: [IndexPath(item: index, section: 0)])
-        switch message.type {
-        case .text  : delegate.deleteTextMessage(with: message.id)
-        case .image : delegate.deleteImageMessage(with: message.id)
-        case .video : delegate.deleteVideoMessage(with: message.id)
-        }
     }
 }
 
@@ -87,6 +78,7 @@ extension ChatCollectionViewManager: ChatCollectionViewManagerProtocol {
     func setupMessages(messages: [MessageViewModel]) {
         let changeNumber = messages.count - self.messages.count
         let oldMessages = self.messages
+        
         calculateManager.handleMessages(messages) { handledMessages in
             self.messages = handledMessages
             if changeNumber > 0 {
@@ -153,46 +145,51 @@ extension ChatCollectionViewManager: UICollectionViewDataSource, UICollectionVie
         return CGSize(width: collectionView.bounds.width, height: messages[indexPath.item].cellData?.cellHeight ?? 350)
     }
     
-    func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
-        let context = UIContextMenuConfiguration(identifier: "\(indexPath.item)" as NSString, previewProvider: nil) { action -> UIMenu? in
-            let delete = UIAction(title: "Delete", image: UIImage(systemName: "trash.fill"), identifier: nil, discoverabilityTitle: nil, state: .off) { _ in
-                let message = self.messages[indexPath.item]
-                self.deleteMessage(message)
-            }
-            return UIMenu(title: "Options", image: nil, identifier: nil, options: .displayInline, children: [delete])
-        }
-        return context
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, previewForHighlightingContextMenuWithConfiguration configuration: UIContextMenuConfiguration) -> UITargetedPreview? {
-        guard
-            let identifier = configuration.identifier as? String,
-            let index = Int(identifier)
-        else { return nil }
-        
-        let messageType = messages[index].type
-        return messageType == .text ? previewForText(from: configuration, index: index) : previewForImage(from: configuration, index: index)
-    }
-    
-    private func previewForText(from configuration: UIContextMenuConfiguration, index: Int) -> UITargetedPreview? {
-        guard let cell = collectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? TextMessageCollectionViewCell else { return nil }
-        
-        let parameters = UIPreviewParameters()
-        parameters.backgroundColor = .clear
-        parameters.visiblePath = UIBezierPath(roundedRect: cell.messageView.bounds, cornerRadius: 15)
-        let targetView = UITargetedPreview(view: cell.messageView, parameters: parameters)
-        return targetView
-    }
-    
-    private func previewForImage(from configuration: UIContextMenuConfiguration, index: Int) -> UITargetedPreview? {
-        guard let cell = collectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? MediaMessageCollectionViewCell else { return nil }
-        
-        let parameters = UIPreviewParameters()
-        parameters.backgroundColor = .clear
-        parameters.visiblePath = UIBezierPath(roundedRect: cell.imageView.bounds, cornerRadius: 15)
-        let targetView = UITargetedPreview(view: cell.imageView, parameters: parameters)
-        return targetView
-    }
+//    func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+//        let context = UIContextMenuConfiguration(identifier: "\(indexPath.item)" as NSString, previewProvider: nil) { action -> UIMenu? in
+//            let delete = UIAction(title: "Delete", image: UIImage(systemName: "trash.fill"), identifier: nil, discoverabilityTitle: nil, state: .off) { _ in
+//                let message = self.messages[indexPath.item]
+//                self.deleteMessage(message)
+//            }
+//            
+//            let forward = UIAction(title: "Forward", image: UIImage(systemName: "arrowshape.turn.up.forward.fill"), identifier: nil, discoverabilityTitle: nil, state: .off) { _ in
+//                let message = self.messages[indexPath.item]
+//                self.delegate.forwardMessage(messageId: message.id)
+//            }
+//            return UIMenu(title: "Options", image: nil, identifier: nil, options: .displayInline, children: [delete, forward])
+//        }
+//        return context
+//    }
+//    
+//    func collectionView(_ collectionView: UICollectionView, previewForHighlightingContextMenuWithConfiguration configuration: UIContextMenuConfiguration) -> UITargetedPreview? {
+//        guard
+//            let identifier = configuration.identifier as? String,
+//            let index = Int(identifier)
+//        else { return nil }
+//        
+//        let messageType = messages[index].type
+//        return messageType == .text ? previewForText(from: configuration, index: index) : previewForImage(from: configuration, index: index)
+//    }
+//    
+//    private func previewForText(from configuration: UIContextMenuConfiguration, index: Int) -> UITargetedPreview? {
+//        guard let cell = collectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? TextMessageCollectionViewCell else { return nil }
+//        
+//        let parameters = UIPreviewParameters()
+//        parameters.backgroundColor = .clear
+//        parameters.visiblePath = UIBezierPath(roundedRect: cell.messageView.bounds, cornerRadius: 15)
+//        let targetView = UITargetedPreview(view: cell.messageView, parameters: parameters)
+//        return targetView
+//    }
+//    
+//    private func previewForImage(from configuration: UIContextMenuConfiguration, index: Int) -> UITargetedPreview? {
+//        guard let cell = collectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? MediaMessageCollectionViewCell else { return nil }
+//        
+//        let parameters = UIPreviewParameters()
+//        parameters.backgroundColor = .clear
+//        parameters.visiblePath = UIBezierPath(roundedRect: cell.imageView.bounds, cornerRadius: 15)
+//        let targetView = UITargetedPreview(view: cell.imageView, parameters: parameters)
+//        return targetView
+//    }
 }
 
 extension ChatCollectionViewManager: MessageActivitiesDelegate {
@@ -232,5 +229,16 @@ extension ChatCollectionViewManager: MessageActivitiesDelegate {
     func openVideo(with stringURL: String, completion: @escaping () -> Void) {
         guard let url = URL(string: stringURL) else { return }
         self.delegate.openVideo(with: url)
+    }
+    
+    func deleteMessage(_ message: MessageViewModel) {
+        guard let index = messages.firstIndex(where: {$0.id == message.id}) else { return }
+        messages.remove(at: index)
+        collectionView.deleteItems(at: [IndexPath(item: index, section: 0)])
+        switch message.type {
+        case .text  : delegate.deleteTextMessage(with: message.id)
+        case .image : delegate.deleteImageMessage(with: message.id)
+        case .video : delegate.deleteVideoMessage(with: message.id)
+        }
     }
 }

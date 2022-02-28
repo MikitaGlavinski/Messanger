@@ -65,6 +65,7 @@ class MediaMessageCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
+        addInteraction()
     }
     
     required init?(coder: NSCoder) {
@@ -122,6 +123,11 @@ class MediaMessageCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(timeLabel)
     }
     
+    private func addInteraction() {
+        let interaction = UIContextMenuInteraction(delegate: self)
+        imageView.addInteraction(interaction)
+    }
+    
     private func setupGestures() {
         let videoTap = UITapGestureRecognizer()
         videoTap.rx.event.bind { [weak self] _ in
@@ -152,5 +158,37 @@ class MediaMessageCollectionViewCell: UICollectionViewCell {
         self.sendStateView.layer.borderColor = UIColor.systemRed.cgColor
         self.imageView.image = nil
         sendStateView.isHidden = false
+    }
+}
+
+extension MediaMessageCollectionViewCell: UIContextMenuInteractionDelegate {
+    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
+        let context = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { action -> UIMenu? in
+            let delete = UIAction(title: "Delete", image: UIImage(systemName: "trash.fill"), identifier: nil, discoverabilityTitle: nil, state: .off) { _ in
+                self.delegate.deleteMessage(self.messageModel)
+            }
+            
+            let forward = UIAction(title: "Forward", image: UIImage(systemName: "arrowshape.turn.up.forward.fill"), identifier: nil, discoverabilityTitle: nil, state: .off) { _ in
+                
+            }
+            return UIMenu(title: "Options", image: nil, identifier: nil, options: .displayInline, children: [delete, forward])
+        }
+        return context
+    }
+    
+    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, previewForHighlightingMenuWithConfiguration configuration: UIContextMenuConfiguration) -> UITargetedPreview? {
+        let parameters = UIPreviewParameters()
+        parameters.backgroundColor = .clear
+        parameters.visiblePath = UIBezierPath(roundedRect: imageView.bounds, cornerRadius: 15)
+        let targetView = UITargetedPreview(view: imageView, parameters: parameters)
+        return targetView
+    }
+    
+    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, previewForDismissingMenuWithConfiguration configuration: UIContextMenuConfiguration) -> UITargetedPreview? {
+        let parameters = UIPreviewParameters()
+        parameters.backgroundColor = .clear
+        parameters.visiblePath = UIBezierPath(roundedRect: imageView.bounds, cornerRadius: 15)
+        let targetView = UITargetedPreview(view: imageView, parameters: parameters)
+        return targetView
     }
 }

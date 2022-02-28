@@ -372,6 +372,91 @@
             </objects>
             <point key="canvasLocation" x="1682.608695652174" y="93.75"/>
         </scene>
+        <!--Forward Chat List View Controller-->
+        <scene sceneID="5PW-zX-ncJ">
+            <objects>
+                <viewController storyboardIdentifier="ForwardChatListViewController" id="8ND-FS-McO" customClass="ForwardChatListViewController" customModule="MessangerApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="b0R-Ul-qtp">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DOH-Cv-OsQ">
+                                <rect key="frame" x="20" y="20" width="53" height="35"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="35" id="V5R-xd-EYX"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="Cancel"/>
+                                <connections>
+                                    <action selector="cancelForward:" destination="8ND-FS-McO" eventType="touchUpInside" id="TBk-N6-XH6"/>
+                                </connections>
+                            </button>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="jfn-f1-OdL">
+                                <rect key="frame" x="0.0" y="63" width="414" height="779"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ForwardChatListTableViewCell" rowHeight="72" id="rMR-he-9Rz" customClass="ForwardChatListTableViewCell" customModule="MessangerApp" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="44.5" width="414" height="72"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="rMR-he-9Rz" id="rlI-M1-aR5">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="72"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="JYN-Gd-Ivn">
+                                                    <rect key="frame" x="20" y="11" width="50" height="50"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="50" id="03r-ki-D93"/>
+                                                        <constraint firstAttribute="height" constant="50" id="XU5-9J-Mo6"/>
+                                                    </constraints>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                            <integer key="value" value="25"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wm4-Db-j6Z">
+                                                    <rect key="frame" x="90" y="23" width="314" height="26"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="21"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="JYN-Gd-Ivn" firstAttribute="centerY" secondItem="rlI-M1-aR5" secondAttribute="centerY" id="18a-5y-3Rs"/>
+                                                <constraint firstItem="wm4-Db-j6Z" firstAttribute="leading" secondItem="JYN-Gd-Ivn" secondAttribute="trailing" constant="20" id="OEr-rI-5xG"/>
+                                                <constraint firstAttribute="trailing" secondItem="wm4-Db-j6Z" secondAttribute="trailing" constant="10" id="RsT-nL-vvJ"/>
+                                                <constraint firstItem="JYN-Gd-Ivn" firstAttribute="leading" secondItem="rlI-M1-aR5" secondAttribute="leading" constant="20" symbolic="YES" id="onc-hl-7jk"/>
+                                                <constraint firstItem="wm4-Db-j6Z" firstAttribute="centerY" secondItem="rlI-M1-aR5" secondAttribute="centerY" id="oyE-GF-yvb"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="chatImageView" destination="JYN-Gd-Ivn" id="1CI-ew-HkC"/>
+                                            <outlet property="chatTitlelabel" destination="wm4-Db-j6Z" id="c1O-yE-bD0"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="55S-7M-VBe"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="jfn-f1-OdL" firstAttribute="leading" secondItem="55S-7M-VBe" secondAttribute="leading" id="2Hw-HZ-zB4"/>
+                            <constraint firstItem="jfn-f1-OdL" firstAttribute="bottom" secondItem="b0R-Ul-qtp" secondAttribute="bottom" id="Ihj-wt-xpc"/>
+                            <constraint firstItem="55S-7M-VBe" firstAttribute="trailing" secondItem="jfn-f1-OdL" secondAttribute="trailing" id="R3o-1z-rVX"/>
+                            <constraint firstItem="DOH-Cv-OsQ" firstAttribute="top" secondItem="55S-7M-VBe" secondAttribute="top" constant="20" id="Rju-dD-fnS"/>
+                            <constraint firstItem="DOH-Cv-OsQ" firstAttribute="leading" secondItem="55S-7M-VBe" secondAttribute="leading" constant="20" id="bav-kk-Jjz"/>
+                            <constraint firstItem="jfn-f1-OdL" firstAttribute="top" secondItem="DOH-Cv-OsQ" secondAttribute="bottom" constant="8" symbolic="YES" id="mBd-mY-nk7"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="tableView" destination="jfn-f1-OdL" id="eyn-NA-3Yw"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9ZW-W8-spI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2442.0289855072465" y="1177.2321428571429"/>
+        </scene>
         <!--Chat View Controller-->
         <scene sceneID="MQo-iY-mOW">
             <objects>
@@ -528,6 +613,7 @@
                         <outlet property="placeholderLabel" destination="fcm-m7-u7a" id="iFG-0S-kKW"/>
                         <outlet property="textBackViewHeightConstraint" destination="NMu-S7-rke" id="LfA-tX-EU7"/>
                         <outlet property="updatingLabel" destination="wZW-qA-l4u" id="PJf-14-MZd"/>
+                        <segue destination="8ND-FS-McO" kind="presentation" id="cJz-JX-dHy"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WnI-YE-Y44" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

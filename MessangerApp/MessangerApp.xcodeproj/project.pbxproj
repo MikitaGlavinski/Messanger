@@ -43,6 +43,7 @@
 		FA0ADBDC27A6CE0300B87E6F /* ChatInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0ADBDB27A6CE0300B87E6F /* ChatInteractor.swift */; };
 		FA0ADBDE27A6CE1A00B87E6F /* ChatRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0ADBDD27A6CE1A00B87E6F /* ChatRouter.swift */; };
 		FA0ADBE027A6CE8500B87E6F /* ChatAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0ADBDF27A6CE8500B87E6F /* ChatAssembly.swift */; };
+		FA0F5A2C27C7B9C000700AD1 /* ForwardChatListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0F5A2B27C7B9C000700AD1 /* ForwardChatListTableViewCell.swift */; };
 		FA13F81327B13DC900A242C3 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = FA13F81227B13DC900A242C3 /* Alamofire */; };
 		FA13F81527B13DE200A242C3 /* FileLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA13F81427B13DE200A242C3 /* FileLoader.swift */; };
 		FA13F81927B1573300A242C3 /* DataCacher.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA13F81827B1573300A242C3 /* DataCacher.swift */; };
@@ -102,6 +103,14 @@
 		FAB032E6279F2E58006F9C48 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB032E5279F2E58006F9C48 /* UIViewController+Extension.swift */; };
 		FAB032E8279F2FF7006F9C48 /* Storyboard+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB032E7279F2FF7006F9C48 /* Storyboard+Extension.swift */; };
 		FAB7E2A327BBB66D00B582AA /* MediaMessageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB7E2A227BBB66D00B582AA /* MediaMessageCollectionViewCell.swift */; };
+		FADF25A727C678D500D6526E /* ForwardChatListViewInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADF25A627C678D500D6526E /* ForwardChatListViewInput.swift */; };
+		FADF25A927C678F500D6526E /* ForwardChatListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADF25A827C678F500D6526E /* ForwardChatListViewController.swift */; };
+		FADF25AB27C6791900D6526E /* ForwardChatListPresenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADF25AA27C6791900D6526E /* ForwardChatListPresenterProtocol.swift */; };
+		FADF25AD27C6791F00D6526E /* ForwardChatListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADF25AC27C6791F00D6526E /* ForwardChatListPresenter.swift */; };
+		FADF25AF27C6795E00D6526E /* ForwardChatListInteractorInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADF25AE27C6795E00D6526E /* ForwardChatListInteractorInput.swift */; };
+		FADF25B127C6796E00D6526E /* ForwardChatListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADF25B027C6796E00D6526E /* ForwardChatListInteractor.swift */; };
+		FADF25B327C6798800D6526E /* ForwardChatListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADF25B227C6798800D6526E /* ForwardChatListRouter.swift */; };
+		FADF25B527C679E800D6526E /* ForwardChatListAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADF25B427C679E800D6526E /* ForwardChatListAssembly.swift */; };
 		FAFDF45627A7F88D00509779 /* TextMessageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFDF45427A7F88D00509779 /* TextMessageCollectionViewCell.swift */; };
 		FAFDF45927A7F90B00509779 /* UICollectionViewCell+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFDF45827A7F90B00509779 /* UICollectionViewCell+Extension.swift */; };
 		FAFDF45C27A7FDA500509779 /* MessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFDF45B27A7FDA500509779 /* MessageViewModel.swift */; };
@@ -141,6 +150,7 @@
 		FA0ADBDB27A6CE0300B87E6F /* ChatInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInteractor.swift; sourceTree = "<group>"; };
 		FA0ADBDD27A6CE1A00B87E6F /* ChatRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRouter.swift; sourceTree = "<group>"; };
 		FA0ADBDF27A6CE8500B87E6F /* ChatAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatAssembly.swift; sourceTree = "<group>"; };
+		FA0F5A2B27C7B9C000700AD1 /* ForwardChatListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForwardChatListTableViewCell.swift; sourceTree = "<group>"; };
 		FA13F81427B13DE200A242C3 /* FileLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileLoader.swift; sourceTree = "<group>"; };
 		FA13F81827B1573300A242C3 /* DataCacher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataCacher.swift; sourceTree = "<group>"; };
 		FA26080327A1FD8700093F66 /* ScaledButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaledButton.swift; sourceTree = "<group>"; };
@@ -197,6 +207,14 @@
 		FAB032E5279F2E58006F9C48 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		FAB032E7279F2FF7006F9C48 /* Storyboard+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Storyboard+Extension.swift"; sourceTree = "<group>"; };
 		FAB7E2A227BBB66D00B582AA /* MediaMessageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaMessageCollectionViewCell.swift; sourceTree = "<group>"; };
+		FADF25A627C678D500D6526E /* ForwardChatListViewInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForwardChatListViewInput.swift; sourceTree = "<group>"; };
+		FADF25A827C678F500D6526E /* ForwardChatListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForwardChatListViewController.swift; sourceTree = "<group>"; };
+		FADF25AA27C6791900D6526E /* ForwardChatListPresenterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForwardChatListPresenterProtocol.swift; sourceTree = "<group>"; };
+		FADF25AC27C6791F00D6526E /* ForwardChatListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForwardChatListPresenter.swift; sourceTree = "<group>"; };
+		FADF25AE27C6795E00D6526E /* ForwardChatListInteractorInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForwardChatListInteractorInput.swift; sourceTree = "<group>"; };
+		FADF25B027C6796E00D6526E /* ForwardChatListInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForwardChatListInteractor.swift; sourceTree = "<group>"; };
+		FADF25B227C6798800D6526E /* ForwardChatListRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForwardChatListRouter.swift; sourceTree = "<group>"; };
+		FADF25B427C679E800D6526E /* ForwardChatListAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForwardChatListAssembly.swift; sourceTree = "<group>"; };
 		FAFDF45427A7F88D00509779 /* TextMessageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextMessageCollectionViewCell.swift; sourceTree = "<group>"; };
 		FAFDF45827A7F90B00509779 /* UICollectionViewCell+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionViewCell+Extension.swift"; sourceTree = "<group>"; };
 		FAFDF45B27A7FDA500509779 /* MessageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageViewModel.swift; sourceTree = "<group>"; };
@@ -286,6 +304,7 @@
 		FA04941327959D4B003C3050 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				FADF25A027C6788700D6526E /* ForwardChatList */,
 				FAA48F7227B28D690050884F /* ImageScreen */,
 				FA0ADBCB27A6CCC000B87E6F /* ChatScreen */,
 				FAB032CF279F2C49006F9C48 /* CreateChatScreen */,
@@ -444,6 +463,14 @@
 				FA0ADBDF27A6CE8500B87E6F /* ChatAssembly.swift */,
 			);
 			path = ChatAssembly;
+			sourceTree = "<group>";
+		};
+		FA0F5A2827C7B80F00700AD1 /* ForwardChatListTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				FA0F5A2B27C7B9C000700AD1 /* ForwardChatListTableViewCell.swift */,
+			);
+			path = ForwardChatListTableViewCell;
 			sourceTree = "<group>";
 		};
 		FA26080227A1FD6C00093F66 /* Views */ = {
@@ -735,6 +762,62 @@
 			path = CreateChatAssembly;
 			sourceTree = "<group>";
 		};
+		FADF25A027C6788700D6526E /* ForwardChatList */ = {
+			isa = PBXGroup;
+			children = (
+				FADF25A527C678BF00D6526E /* ForwardChatListAssembly */,
+				FADF25A427C678B600D6526E /* ForwardChatListRouter */,
+				FADF25A327C678AC00D6526E /* ForwardChatListInteractor */,
+				FADF25A227C6789D00D6526E /* ForwardChatListPresenter */,
+				FADF25A127C6789000D6526E /* ForwardChatListView */,
+			);
+			path = ForwardChatList;
+			sourceTree = "<group>";
+		};
+		FADF25A127C6789000D6526E /* ForwardChatListView */ = {
+			isa = PBXGroup;
+			children = (
+				FA0F5A2827C7B80F00700AD1 /* ForwardChatListTableViewCell */,
+				FADF25A627C678D500D6526E /* ForwardChatListViewInput.swift */,
+				FADF25A827C678F500D6526E /* ForwardChatListViewController.swift */,
+			);
+			path = ForwardChatListView;
+			sourceTree = "<group>";
+		};
+		FADF25A227C6789D00D6526E /* ForwardChatListPresenter */ = {
+			isa = PBXGroup;
+			children = (
+				FADF25AA27C6791900D6526E /* ForwardChatListPresenterProtocol.swift */,
+				FADF25AC27C6791F00D6526E /* ForwardChatListPresenter.swift */,
+			);
+			path = ForwardChatListPresenter;
+			sourceTree = "<group>";
+		};
+		FADF25A327C678AC00D6526E /* ForwardChatListInteractor */ = {
+			isa = PBXGroup;
+			children = (
+				FADF25AE27C6795E00D6526E /* ForwardChatListInteractorInput.swift */,
+				FADF25B027C6796E00D6526E /* ForwardChatListInteractor.swift */,
+			);
+			path = ForwardChatListInteractor;
+			sourceTree = "<group>";
+		};
+		FADF25A427C678B600D6526E /* ForwardChatListRouter */ = {
+			isa = PBXGroup;
+			children = (
+				FADF25B227C6798800D6526E /* ForwardChatListRouter.swift */,
+			);
+			path = ForwardChatListRouter;
+			sourceTree = "<group>";
+		};
+		FADF25A527C678BF00D6526E /* ForwardChatListAssembly */ = {
+			isa = PBXGroup;
+			children = (
+				FADF25B427C679E800D6526E /* ForwardChatListAssembly.swift */,
+			);
+			path = ForwardChatListAssembly;
+			sourceTree = "<group>";
+		};
 		FAFDF45327A7F87B00509779 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -846,6 +929,7 @@
 			files = (
 				FA0493F22795970C003C3050 /* AppDelegate.swift in Sources */,
 				FAA48F8727B295070050884F /* ImageAssembly.swift in Sources */,
+				FADF25AF27C6795E00D6526E /* ForwardChatListInteractorInput.swift in Sources */,
 				FA0494382795AFB7003C3050 /* NetworkError.swift in Sources */,
 				FAA48F8127B28E2C0050884F /* ImageInteractorInput.swift in Sources */,
 				FAB7E2A327BBB66D00B582AA /* MediaMessageCollectionViewCell.swift in Sources */,
@@ -865,6 +949,7 @@
 				FAB032E4279F2DF9006F9C48 /* CreateChatAssembly.swift in Sources */,
 				FAB032DE279F2D68006F9C48 /* CreateChatInteractorInput.swift in Sources */,
 				FA671C6F27C3DA6C00304026 /* ReachabilityService.swift in Sources */,
+				FADF25A727C678D500D6526E /* ForwardChatListViewInput.swift in Sources */,
 				FA8BDAA32796A8860095EB5B /* RegisterPresenterProtocol.swift in Sources */,
 				FA0ADBDA27A6CDF200B87E6F /* ChatInteractorInput.swift in Sources */,
 				FA8BDAB82796FB020095EB5B /* UserModel.swift in Sources */,
@@ -897,14 +982,18 @@
 				FA8BDAA72796A8C70095EB5B /* RegisterInteractorInput.swift in Sources */,
 				FA8BDAB62796F8B20095EB5B /* ChatModel.swift in Sources */,
 				FA8BDA932796A61E0095EB5B /* ChatListInteractorInput.swift in Sources */,
+				FADF25B327C6798800D6526E /* ForwardChatListRouter.swift in Sources */,
+				FADF25A927C678F500D6526E /* ForwardChatListViewController.swift in Sources */,
 				FA7D253B27983FC2004F29D4 /* FirebaseService.swift in Sources */,
 				FA8BDAB02796CF440095EB5B /* ChatListTableViewCell.swift in Sources */,
 				FAA48F7D27B28E000050884F /* ImagePresenterProtocol.swift in Sources */,
 				FAA48F8527B28E4E0050884F /* ImageRouter.swift in Sources */,
 				FAA48F8327B28E380050884F /* ImageInteractor.swift in Sources */,
 				FA0494242795A0CF003C3050 /* AuthPresenter.swift in Sources */,
+				FADF25B527C679E800D6526E /* ForwardChatListAssembly.swift in Sources */,
 				FA8BDAA12796A8690095EB5B /* RegisterViewController.swift in Sources */,
 				FA8BDA8B2796A5B00095EB5B /* ChatListViewController.swift in Sources */,
+				FADF25AB27C6791900D6526E /* ForwardChatListPresenterProtocol.swift in Sources */,
 				FA7D253227982F82004F29D4 /* DictionaryHelpper.swift in Sources */,
 				FA0ADBD827A6CD8D00B87E6F /* ChatPresenter.swift in Sources */,
 				FA68B8F527A1869E004A5655 /* UserStorageAdapter.swift in Sources */,
@@ -917,10 +1006,13 @@
 				FA7D2537279833E6004F29D4 /* MessageModel.swift in Sources */,
 				FAB032DC279F2D3E006F9C48 /* CreateChatPresenter.swift in Sources */,
 				FAA48F7927B28DC50050884F /* ImageViewInput.swift in Sources */,
+				FA0F5A2C27C7B9C000700AD1 /* ForwardChatListTableViewCell.swift in Sources */,
 				FAB032E2279F2D94006F9C48 /* CreateChatRouter.swift in Sources */,
 				FA8BDA9F2796A8530095EB5B /* RegisterViewInput.swift in Sources */,
 				FA04942A2795A121003C3050 /* AuthRouter.swift in Sources */,
 				FAB032E0279F2D78006F9C48 /* CreateChatInteractor.swift in Sources */,
+				FADF25AD27C6791F00D6526E /* ForwardChatListPresenter.swift in Sources */,
+				FADF25B127C6796E00D6526E /* ForwardChatListInteractor.swift in Sources */,
 				FA8BDA952796A6430095EB5B /* ChatListRouter.swift in Sources */,
 				FA0ADBD627A6CD7B00B87E6F /* ChatPresenterProtocol.swift in Sources */,
 				FA8BDA8F2796A5E00095EB5B /* ChatListPresenter.swift in Sources */,

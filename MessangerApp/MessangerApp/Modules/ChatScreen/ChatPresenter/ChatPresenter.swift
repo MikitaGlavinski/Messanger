@@ -316,6 +316,10 @@ extension ChatPresenter: ChatCollectionViewManagerDelegate {
                 self?.view.showError(error: error)
             }).disposed(by: disposeBag)
     }
+    
+    func forwardMessage(messageId: String) {
+        router.routeToForwardChatList(messsageId: messageId)
+    }
 }
 
 extension ChatPresenter: ChatPresenterInput {
