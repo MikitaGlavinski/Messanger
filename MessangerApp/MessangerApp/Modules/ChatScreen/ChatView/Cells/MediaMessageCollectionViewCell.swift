@@ -164,14 +164,14 @@ class MediaMessageCollectionViewCell: UICollectionViewCell {
 extension MediaMessageCollectionViewCell: UIContextMenuInteractionDelegate {
     func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
         let context = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { action -> UIMenu? in
-            let delete = UIAction(title: "Delete", image: UIImage(systemName: "trash.fill"), identifier: nil, discoverabilityTitle: nil, state: .off) { _ in
+            let delete = UIAction(title: String.Titles.delete, image: UIImage(systemName: "trash.fill"), identifier: nil, discoverabilityTitle: nil, state: .off) { _ in
                 self.delegate.deleteMessage(self.messageModel)
             }
             
-            let forward = UIAction(title: "Forward", image: UIImage(systemName: "arrowshape.turn.up.forward.fill"), identifier: nil, discoverabilityTitle: nil, state: .off) { _ in
-                
+            let forward = UIAction(title: String.Titles.forward, image: UIImage(systemName: "arrowshape.turn.up.forward.fill"), identifier: nil, discoverabilityTitle: nil, state: .off) { _ in
+                self.delegate.forwardMessage(messageId: self.messageModel.id)
             }
-            return UIMenu(title: "Options", image: nil, identifier: nil, options: .displayInline, children: [delete, forward])
+            return UIMenu(title: String.Titles.options, image: nil, identifier: nil, options: .displayInline, children: [delete, forward])
         }
         return context
     }

@@ -11,6 +11,7 @@ class TextMessageCollectionViewCell: UICollectionViewCell {
 
     private var messageModel: MessageViewModel!
     var configureWithDate: Bool!
+    weak var delegate: MessageActivitiesDelegate!
     
     lazy var messageView: UIView = {
         let view = UIView()
@@ -62,6 +63,7 @@ class TextMessageCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
+        setupInteraction()
     }
     
     required init?(coder: NSCoder) {
@@ -95,10 +97,15 @@ class TextMessageCollectionViewCell: UICollectionViewCell {
     }
     
     private func setupUI() {
+        messageView.addSubview(textView)
         contentView.addSubview(messageView)
-        contentView.addSubview(textView)
         contentView.addSubview(sendStateView)
         contentView.addSubview(timeLabel)
+    }
+    
+    private func setupInteraction() {
+        let interaction = UIContextMenuInteraction(delegate: self)
+        messageView.addInteraction(interaction)
     }
     
     override func layoutSubviews() {
@@ -111,5 +118,37 @@ class TextMessageCollectionViewCell: UICollectionViewCell {
         self.sendStateView.backgroundColor = .clear
         self.sendStateView.layer.borderColor = UIColor.systemRed.cgColor
         sendStateView.isHidden = false
+    }
+}
+
+extension TextMessageCollectionViewCell: UIContextMenuInteractionDelegate {
+    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
+        let context = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { action -> UIMenu? in
+            let delete = UIAction(title: String.Titles.delete, image: UIImage(systemName: "trash.fill"), identifier: nil, discoverabilityTitle: nil, state: .off) { _ in
+                self.delegate.deleteMessage(self.messageModel)
+            }
+            
+            let forward = UIAction(title: String.Titles.forward, image: UIImage(systemName: "arrowshape.turn.up.forward.fill"), identifier: nil, discoverabilityTitle: nil, state: .off) { _ in
+                self.delegate.forwardMessage(messageId: self.messageModel.id)
+            }
+            return UIMenu(title: String.Titles.options, image: nil, identifier: nil, options: .displayInline, children: [delete, forward])
+        }
+        return context
+    }
+    
+    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, previewForHighlightingMenuWithConfiguration configuration: UIContextMenuConfiguration) -> UITargetedPreview? {
+        let parameters = UIPreviewParameters()
+        parameters.backgroundColor = .clear
+        parameters.visiblePath = UIBezierPath(roundedRect: messageView.bounds, cornerRadius: 15)
+        let targetView = UITargetedPreview(view: messageView, parameters: parameters)
+        return targetView
+    }
+    
+    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, previewForDismissingMenuWithConfiguration configuration: UIContextMenuConfiguration) -> UITargetedPreview? {
+        let parameters = UIPreviewParameters()
+        parameters.backgroundColor = .clear
+        parameters.visiblePath = UIBezierPath(roundedRect: messageView.bounds, cornerRadius: 15)
+        let targetView = UITargetedPreview(view: messageView, parameters: parameters)
+        return targetView
     }
 }

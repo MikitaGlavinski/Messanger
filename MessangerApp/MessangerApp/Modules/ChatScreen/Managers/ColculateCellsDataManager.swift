@@ -159,8 +159,8 @@ class ColculateCellsDataManager {
                     height: textRect.height + self.appearance.textMessageAdditionalHeight
                 )
                 data.textViewFrame = CGRect(
-                    x: self.appearance.padding + self.appearance.textViewXOffset,
-                    y: self.appearance.dateYOffset + self.appearance.dateHeight + self.appearance.messageBackViewYOffset + self.appearance.textViewYOffset,
+                    x: self.appearance.textViewXOffset,
+                    y: self.appearance.textViewYOffset,
                     width: textRect.width + self.appearance.textViewAdditionalWidth,
                     height: textRect.height + self.appearance.textMessageAdditionalHeight
                 )
@@ -172,8 +172,8 @@ class ColculateCellsDataManager {
                     height: textRect.height + self.appearance.textMessageAdditionalHeight
                 )
                 data.textViewFrame = CGRect(
-                    x: self.appearance.padding + self.appearance.textViewXOffset,
-                    y: self.appearance.messageBackViewYOffset + self.appearance.textViewYOffset,
+                    x: self.appearance.textViewXOffset,
+                    y: self.appearance.textViewYOffset,
                     width: textRect.width + self.appearance.textViewAdditionalWidth,
                     height: textRect.height + self.appearance.textMessageAdditionalHeight
                 )
@@ -203,8 +203,8 @@ class ColculateCellsDataManager {
                     height: textRect.height + self.appearance.textMessageAdditionalHeight
                 )
                 data.textViewFrame = CGRect(
-                    x: UIScreen.main.bounds.width - textRect.width - self.appearance.padding - self.appearance.textViewAdditionalWidth,
-                    y: self.appearance.dateYOffset + self.appearance.dateHeight + self.appearance.messageBackViewYOffset + self.appearance.textViewYOffset,
+                    x: self.appearance.textViewXOffset,
+                    y: self.appearance.textViewYOffset,
                     width: textRect.width + self.appearance.textViewAdditionalWidth,
                     height: textRect.height + self.appearance.textMessageAdditionalHeight
                 )
@@ -216,8 +216,8 @@ class ColculateCellsDataManager {
                     height: textRect.height + self.appearance.textMessageAdditionalHeight
                 )
                 data.textViewFrame = CGRect(
-                    x: UIScreen.main.bounds.width - textRect.width - self.appearance.padding - self.appearance.textViewAdditionalWidth,
-                    y: self.appearance.messageBackViewYOffset + self.appearance.textViewYOffset,
+                    x: self.appearance.textViewXOffset,
+                    y: self.appearance.textViewYOffset,
                     width: textRect.width + self.appearance.textViewAdditionalWidth,
                     height: textRect.height + self.appearance.textMessageAdditionalHeight
                 )

@@ -67,6 +67,7 @@ struct MessageViewModel {
         case .text:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TextMessageCollectionViewCell.reuseIdentifier, for: indexPath) as! TextMessageCollectionViewCell
             cell.configureWithDate = showDate
+            cell.delegate = delegate
             cell.configureCell(with: self)
             return cell
         default:

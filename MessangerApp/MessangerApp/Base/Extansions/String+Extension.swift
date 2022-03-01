@@ -45,6 +45,7 @@ extension String {
         static var ok: String { "Ok" }
         static var delete: String { "Delete" }
         static var options: String { "Options" }
+        static var forward: String { "Forward" }
     }
 }
 
