@@ -108,10 +108,6 @@ class TextMessageCollectionViewCell: UICollectionViewCell {
         messageView.addInteraction(interaction)
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-    }
-    
     override func prepareForReuse() {
         super.prepareForReuse()
         dateLabel.removeFromSuperview()

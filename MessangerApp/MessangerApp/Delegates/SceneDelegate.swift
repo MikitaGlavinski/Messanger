@@ -25,7 +25,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
         appearance.backgroundColor = UIColor.MessengerColors.navBarColor
-        let navigationController = UINavigationController(rootViewController: rootViewController)
+        let navigationController = NavigationController(rootViewController: rootViewController)
         navigationController.navigationBar.standardAppearance = appearance
         navigationController.navigationBar.scrollEdgeAppearance = appearance
         window?.rootViewController = navigationController

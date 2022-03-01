@@ -103,6 +103,9 @@
 		FAB032E6279F2E58006F9C48 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB032E5279F2E58006F9C48 /* UIViewController+Extension.swift */; };
 		FAB032E8279F2FF7006F9C48 /* Storyboard+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB032E7279F2FF7006F9C48 /* Storyboard+Extension.swift */; };
 		FAB7E2A327BBB66D00B582AA /* MediaMessageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB7E2A227BBB66D00B582AA /* MediaMessageCollectionViewCell.swift */; };
+		FAD879CA27CE7D2500C37DBB /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD879C927CE7D2500C37DBB /* NavigationController.swift */; };
+		FAD879CC27CE7DCB00C37DBB /* NavigationAnimatedTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD879CB27CE7DCB00C37DBB /* NavigationAnimatedTransition.swift */; };
+		FAD879CE27CE82F500C37DBB /* NavigationTransitionInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD879CD27CE82F500C37DBB /* NavigationTransitionInteractor.swift */; };
 		FADF25A727C678D500D6526E /* ForwardChatListViewInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADF25A627C678D500D6526E /* ForwardChatListViewInput.swift */; };
 		FADF25A927C678F500D6526E /* ForwardChatListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADF25A827C678F500D6526E /* ForwardChatListViewController.swift */; };
 		FADF25AB27C6791900D6526E /* ForwardChatListPresenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADF25AA27C6791900D6526E /* ForwardChatListPresenterProtocol.swift */; };
@@ -207,6 +210,9 @@
 		FAB032E5279F2E58006F9C48 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		FAB032E7279F2FF7006F9C48 /* Storyboard+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Storyboard+Extension.swift"; sourceTree = "<group>"; };
 		FAB7E2A227BBB66D00B582AA /* MediaMessageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaMessageCollectionViewCell.swift; sourceTree = "<group>"; };
+		FAD879C927CE7D2500C37DBB /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
+		FAD879CB27CE7DCB00C37DBB /* NavigationAnimatedTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationAnimatedTransition.swift; sourceTree = "<group>"; };
+		FAD879CD27CE82F500C37DBB /* NavigationTransitionInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationTransitionInteractor.swift; sourceTree = "<group>"; };
 		FADF25A627C678D500D6526E /* ForwardChatListViewInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForwardChatListViewInput.swift; sourceTree = "<group>"; };
 		FADF25A827C678F500D6526E /* ForwardChatListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForwardChatListViewController.swift; sourceTree = "<group>"; };
 		FADF25AA27C6791900D6526E /* ForwardChatListPresenterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForwardChatListPresenterProtocol.swift; sourceTree = "<group>"; };
@@ -398,6 +404,7 @@
 		FA0494362795AFA7003C3050 /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				FAD879CF27CE87C100C37DBB /* NavigationController */,
 				FA26080227A1FD6C00093F66 /* Views */,
 				FA8BDAB12796D32E0095EB5B /* Extansions */,
 				FA0494372795AFB7003C3050 /* NetworkError.swift */,
@@ -762,6 +769,16 @@
 			path = CreateChatAssembly;
 			sourceTree = "<group>";
 		};
+		FAD879CF27CE87C100C37DBB /* NavigationController */ = {
+			isa = PBXGroup;
+			children = (
+				FAD879C927CE7D2500C37DBB /* NavigationController.swift */,
+				FAD879CB27CE7DCB00C37DBB /* NavigationAnimatedTransition.swift */,
+				FAD879CD27CE82F500C37DBB /* NavigationTransitionInteractor.swift */,
+			);
+			path = NavigationController;
+			sourceTree = "<group>";
+		};
 		FADF25A027C6788700D6526E /* ForwardChatList */ = {
 			isa = PBXGroup;
 			children = (
@@ -929,6 +946,7 @@
 			files = (
 				FA0493F22795970C003C3050 /* AppDelegate.swift in Sources */,
 				FAA48F8727B295070050884F /* ImageAssembly.swift in Sources */,
+				FAD879CC27CE7DCB00C37DBB /* NavigationAnimatedTransition.swift in Sources */,
 				FADF25AF27C6795E00D6526E /* ForwardChatListInteractorInput.swift in Sources */,
 				FA0494382795AFB7003C3050 /* NetworkError.swift in Sources */,
 				FAA48F8127B28E2C0050884F /* ImageInteractorInput.swift in Sources */,
@@ -963,6 +981,7 @@
 				FA0ADBCD27A6CCDC00B87E6F /* ChatViewInput.swift in Sources */,
 				FA7D253927983A7C004F29D4 /* DateFormatterService.swift in Sources */,
 				FA0493F42795970C003C3050 /* SceneDelegate.swift in Sources */,
+				FAD879CE27CE82F500C37DBB /* NavigationTransitionInteractor.swift in Sources */,
 				FAB032E8279F2FF7006F9C48 /* Storyboard+Extension.swift in Sources */,
 				FA8BDAA92796A8DA0095EB5B /* RegisterInteractor.swift in Sources */,
 				FA0494352795AE5E003C3050 /* AuthService.swift in Sources */,
@@ -1000,6 +1019,7 @@
 				FAB032D1279F2C61006F9C48 /* CreateChatViewInput.swift in Sources */,
 				FA04941E2795A061003C3050 /* AuthViewInput.swift in Sources */,
 				FA08AAAD27A055010056BE29 /* UIImage+Extension.swift in Sources */,
+				FAD879CA27CE7D2500C37DBB /* NavigationController.swift in Sources */,
 				FAA48F7B27B28DE60050884F /* ImageViewController.swift in Sources */,
 				FAFDF45627A7F88D00509779 /* TextMessageCollectionViewCell.swift in Sources */,
 				FA91C71127ABF11500353739 /* SendingService.swift in Sources */,
