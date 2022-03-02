@@ -34,6 +34,7 @@ class ChatListViewController: BaseViewController {
     private var chatModels = [ChatViewModel]() {
         didSet {
             tableView.reloadData()
+            blurVisibleCells()
         }
     }
     
@@ -52,6 +53,20 @@ class ChatListViewController: BaseViewController {
         titleStackView.distribution = .equalSpacing
         titleStackView.spacing = 7
         navigationItem.titleView = titleStackView
+    }
+    
+    private func blurVisibleCells() {
+        let cells = tableView.visibleCells
+        for cell in cells {
+            let cellX = tableView.convert(cell.frame, to: view)
+            if cellX.origin.y > UIScreen.main.bounds.height - 300 {
+                let startBlurX = cellX.origin.y - (UIScreen.main.bounds.height - 300)
+                let changeAlphaNumber = startBlurX / 300
+                cell.alpha = 1 - changeAlphaNumber
+            } else {
+                cell.alpha = 1.0
+            }
+        }
     }
     
     @IBAction func addChat(_ sender: Any) {
@@ -91,5 +106,9 @@ extension ChatListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         presenter.openChat(with: chatModels[indexPath.row].chatId)
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        blurVisibleCells()
     }
 }

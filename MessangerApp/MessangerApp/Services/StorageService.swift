@@ -56,7 +56,7 @@ class StorageService {
                 t.column("email", .text).notNull()
                 t.column("imageURL", .text)
                 t.column("chatId", .text).notNull().indexed()
-                t.uniqueKey(["id", "email"], onConflict: .replace)
+//                t.uniqueKey(["id"], onConflict: .ignore)
             }
         }
 
