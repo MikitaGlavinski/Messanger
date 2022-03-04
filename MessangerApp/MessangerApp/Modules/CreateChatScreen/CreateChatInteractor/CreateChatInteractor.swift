@@ -43,4 +43,9 @@ extension CreateChatInteractor: CreateChatInteractorInput {
     func storeChat(chatAdapter: ChatStorageAdapter, userAdapters: [UserStorageAdapter]) {
         storageService.storeChats(chatAdapters: [chatAdapter], userAdapters: userAdapters)
     }
+    
+    func getAlreadyCreatedChat(membersIds: [String]) -> Single<[ChatModel]>? {
+        firebaseService.getChatByMembersIds(membersIds)
+            .subscribe(on: SerialDispatchQueueScheduler(qos: .background))
+    }
 }

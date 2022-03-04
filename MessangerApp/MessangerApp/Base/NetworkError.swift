@@ -13,5 +13,6 @@ enum NetworkError: String, Error {
     case requestError = "Request Error"
     case decodeError = "Can't decode"
     case invalidEmail = "Invalid Email"
+    case chatAlreadyCreated = "Chat is already created"
     case unrecognized = "UNRECOGNIZED"
 }

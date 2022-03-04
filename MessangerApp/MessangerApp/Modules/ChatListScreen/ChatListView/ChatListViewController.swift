@@ -58,9 +58,9 @@ class ChatListViewController: BaseViewController {
     private func blurVisibleCells() {
         let cells = tableView.visibleCells
         for cell in cells {
-            let cellX = tableView.convert(cell.frame, to: view)
-            if cellX.origin.y > UIScreen.main.bounds.height - 300 {
-                let startBlurX = cellX.origin.y - (UIScreen.main.bounds.height - 300)
+            let cellFrame = tableView.convert(cell.frame, to: view)
+            if cellFrame.origin.y > UIScreen.main.bounds.height - 300 {
+                let startBlurX = cellFrame.origin.y - (UIScreen.main.bounds.height - 300)
                 let changeAlphaNumber = startBlurX / 300
                 cell.alpha = 1 - changeAlphaNumber
             } else {

@@ -24,6 +24,7 @@ protocol FirebaseServiceProtocol {
     func getChat(by chatId: String) -> Single<ChatModel>
     func readAllMessages(chatId: String, peerId: String) -> Single<String>
     func deleteMessage(with id: String) -> Single<String>
+    func getChatByMembersIds(_ memberIds: [String]) -> Single<[ChatModel]>
 }
 
 class FirebaseService {
@@ -139,6 +140,25 @@ class FirebaseService {
     private func getListWithFilterContains<T: Decodable>(at path: String, field: String, filter: Any, decodeType: T.Type) -> Single<[T]> {
         Single<[T]>.create { [weak self] observer -> Disposable in
             self?.db.collection(path).whereField(field, arrayContains: filter).getDocuments(completion: { snapshot, error in
+                if let error = error {
+                    observer(.failure(error))
+                    return
+                }
+                guard
+                    let models = snapshot?.documents.compactMap({try? DictionaryDecoder().decode(dictionary: $0.data(), decodeType: decodeType)})
+                else {
+                        observer(.failure(NetworkError.decodeError))
+                        return
+                    }
+                observer(.success(models))
+            })
+            return Disposables.create()
+        }
+    }
+    
+    private func getListValueInArray<T: Decodable>(at path: String, field: String, filter: [Any], decodeType: T.Type) -> Single<[T]> {
+        Single<[T]>.create { [weak self] observer -> Disposable in
+            self?.db.collection(path).whereField(field, in: filter).getDocuments(completion: { snapshot, error in
                 if let error = error {
                     observer(.failure(error))
                     return
@@ -311,5 +331,10 @@ extension FirebaseService: FirebaseServiceProtocol {
     
     func deleteMessage(with id: String) -> Single<String> {
         deleteData(at: "messages/\(id)")
+    }
+    
+    func getChatByMembersIds(_ memberIds: [String]) -> Single<[ChatModel]> {
+        let reversed = Array(memberIds.reversed())
+        return getListValueInArray(at: "chats", field: "membersIds", filter: [memberIds, reversed], decodeType: ChatModel.self)
     }
 }

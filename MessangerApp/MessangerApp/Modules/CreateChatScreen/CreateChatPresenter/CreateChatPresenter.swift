@@ -34,12 +34,28 @@ extension CreateChatPresenter: CreateChatPresenterProtocol {
                 peerUser = models.first
                 return currentUserObtainer
             }
-            .flatMap { [weak self] user -> Single<ChatModel> in
+            .flatMap { [weak self] user -> Single<[ChatModel]> in
                 senderUser = user
-                guard let peerUser = peerUser else {
-                    return Single<ChatModel>.error(NetworkError.invalidEmail)
+                guard
+                    let peerUser = peerUser,
+                    let createdChatObtainer = self?.interactor.getAlreadyCreatedChat(membersIds: [peerUser.id, user.id])
+                else {
+                    return Single<[ChatModel]>.error(NetworkError.requestError)
                 }
-                let chatModel = ChatModel(id: UUID().uuidString, members: [user, peerUser], membersIds: [user.id, peerUser.id])
+                return createdChatObtainer
+            }
+            .flatMap { [weak self] chats -> Single<ChatModel> in
+                if !chats.isEmpty {
+                    return Single<ChatModel>.error(NetworkError.chatAlreadyCreated)
+                } 
+                guard
+                    let senderUser = senderUser,
+                    let peerUser = peerUser
+                else {
+                    return Single<ChatModel>.error(NetworkError.requestError)
+                }
+                
+                let chatModel = ChatModel(id: UUID().uuidString, members: [senderUser, peerUser], membersIds: [senderUser.id, peerUser.id])
                 guard let chatCreator = self?.interactor.createChat(chat: chatModel) else {
                     return Single<ChatModel>.error(NetworkError.requestError)
                 }

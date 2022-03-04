@@ -15,4 +15,5 @@ protocol CreateChatInteractorInput {
     func createChat(chat: ChatModel) -> Single<ChatModel>?
     func signalChatListToUpdate()
     func storeChat(chatAdapter: ChatStorageAdapter, userAdapters: [UserStorageAdapter])
+    func getAlreadyCreatedChat(membersIds: [String]) -> Single<[ChatModel]>?
 }
